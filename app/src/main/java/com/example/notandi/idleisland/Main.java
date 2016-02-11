@@ -5,9 +5,13 @@ import android.os.Bundle;
 
 public class Main extends AppCompatActivity {
 
+    private DatabaseHelper DB;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.DB = new DatabaseHelper(this);
+        System.out.print("The main activity has finish!");
     }
 }
