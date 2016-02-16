@@ -10,6 +10,7 @@ public class Main extends AppCompatActivity {
 
     private Button mLogInButton;
     private Button mRegisterButton;
+    private DatabaseHelper DB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,5 +25,8 @@ public class Main extends AppCompatActivity {
             }
         });
         mRegisterButton = (Button) findViewById(R.id.Register_button);
+
+        this.DB = new DatabaseHelper(this);
+        System.out.print("The main activity has finish!");
     }
 }
