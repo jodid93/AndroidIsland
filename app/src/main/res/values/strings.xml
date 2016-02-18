@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">IdleIsland</string>
+    <string name="LogIn_button">Log In</string>
+    <string name="Register_button">Register</string>
+    <string name="message">Veiiii skilabod</string>
+    <string name="Play_button">Play</string>
 </resources>

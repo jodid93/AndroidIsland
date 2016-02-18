@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.notandi.idleisland.Main">
+    tools:context="com.example.notandi.idleisland.MenuActivity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -19,16 +19,10 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/LogIn_button"
+            android:id="@+id/Play_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/LogIn_button"/>
-
-        <Button
-            android:id="@+id/Register_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Register_button"/>
+            android:text="@string/Play_button"/>
     </LinearLayout>
 
 </RelativeLayout>
