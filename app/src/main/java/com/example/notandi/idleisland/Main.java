@@ -1,17 +1,20 @@
 package com.example.notandi.idleisland;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
 
 public class Main extends AppCompatActivity {
 
     private Button mLogInButton;
     private Button mRegisterButton;
-    private DatabaseHelper DB;
+    //private DatabaseHelper DB;
     private static final int ENTER_GAME = 0;
 
     @Override
@@ -31,6 +34,12 @@ public class Main extends AppCompatActivity {
         mRegisterButton = (Button) findViewById(R.id.Register_button);
 
         //this.DB = new DatabaseHelper(this);
+        //UserData a = new UserData("name");
+        Log.d("HALLO: ", "hallo1");
+
+        User hannes = new User(this);
+
+
 
         System.out.print("The main activity has finish!");
     }

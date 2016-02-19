@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 /**
  * Created by Lenovo on 11.2.2016.
@@ -28,7 +29,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context context/*, String name, SQLiteDatabase.CursorFactory factory, int version*/) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        Log.d("HALLO: ", "hallo2");
+        //SQLiteDatabase db = this.getWritableDatabase();
+        //db.close();
+    }
+
+    public void Read() throws android.database.SQLException {
+        SQLiteDatabase db = this.getReadableDatabase();
+    }
+
+    public void Write() throws android.database.SQLException {
         SQLiteDatabase db = this.getWritableDatabase();
+    }
+
+    public void close(){
+        this.close();
     }
 
     public void insert(SQLiteDatabase db){
@@ -48,7 +63,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL( query.getCreateTable() );
+        //Log.d("QUERY STRING: ", this.query.getCreateTable());
+        //write()
+        db.execSQL(this.query.getCreateTable());
+        //close()
     }
 
     @Override
