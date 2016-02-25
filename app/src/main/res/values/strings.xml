@@ -4,4 +4,6 @@
     <string name="Register_button">Register</string>
     <string name="message">Veiiii skilabod</string>
     <string name="Play_button">Play</string>
+    <string name="Highscore_button">High Scores</string>
+    <string name="Friends_button">Friends</string>
 </resources>
