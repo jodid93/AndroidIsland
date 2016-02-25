@@ -40,6 +40,7 @@ public class MainThread extends Thread
 
             newTime = System.nanoTime();
             deltaTime = newTime - oldTime;
+            double DoubleDeltaTime = deltaTime/1000000;
 
             startTime = System.nanoTime();
             canvas = null;
@@ -48,7 +49,7 @@ public class MainThread extends Thread
             try {
                 canvas = this.surfaceHolder.lockCanvas();
                 synchronized (surfaceHolder) {
-                    this.gameEngine.update(deltaTime);
+                    this.gameEngine.update(DoubleDeltaTime);
                     this.gameEngine.draw(canvas);
                 }
             } catch (Exception e) {

@@ -13,8 +13,8 @@ public class DefaultUserData {
     public Integer[][] upgradesLVL_1;
     public Integer currency;
     public JSONObject settings;
-    public Double currFactor;
-    public Double treeFactor;
+    public int currFactor;
+    public int treeFactor;
 
     //Upgrades states
     public Integer boughtID;
@@ -26,8 +26,8 @@ public class DefaultUserData {
         this.yGrid = 4;
 
         this.currency = 10000;
-        this.currFactor = 0.5;
-        this.treeFactor = 0.5;
+        this.currFactor = 1;
+        this.treeFactor = 1;
 
         this.boughtID = 2;
         this.availableID = 1;

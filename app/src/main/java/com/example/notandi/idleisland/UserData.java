@@ -18,8 +18,8 @@ public class UserData {
     private Integer currency;
     private JSONObject settings;
     private Timestamp timestamp;
-    private Double currFactor;
-    private Double treeFactor;
+    private int currFactor;
+    private int treeFactor;
     private Integer numBoughtItems;
     private Integer numItems;
     private Integer bought;
@@ -148,11 +148,11 @@ public class UserData {
         return timestamp;
     }
 
-    public Double getCurrFactor() {
+    public int getCurrFactor() {
         return currFactor;
     }
 
-    public Double getTreeFactor() {
+    public int getTreeFactor() {
         return treeFactor;
     }
 
@@ -166,7 +166,7 @@ public class UserData {
         this.timestamp = timestamp;
     }
 
-    public void setCurrFactor(Double currFactor) {
+    public void setCurrFactor(int currFactor) {
         this.currFactor = currFactor;
     }
 
@@ -174,7 +174,7 @@ public class UserData {
         this.settings = settings;
     }
 
-    public void setTreeFactor(Double treeFactor) {
+    public void setTreeFactor(int treeFactor) {
         this.treeFactor = treeFactor;
     }
 

@@ -17,9 +17,10 @@ import android.view.WindowManager;
 public class GameEngine extends AppCompatActivity {
 
     private String s_UserData;
-    private IdleIsland idleIsland;
+    private IdleIsland[] idleIsland;
     private Calculator calculator;
     private UserData userData;
+    private int level = 0;
 
     private static final String UsrDat = "idleisland.userdata";
 
@@ -43,15 +44,15 @@ public class GameEngine extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);*/
         this.userData = new UserData(s_UserData);
         this.calculator = new Calculator();
-        this.idleIsland = new IdleIsland(this, this);
-        setContentView(this.idleIsland);
+        this.idleIsland = new IdleIsland[]{new IdleIsland(this, this, this.calculator, this.userData, 0),new IdleIsland(this, this, this.calculator, this.userData, 1)};
+        setContentView(this.idleIsland[this.level]);
     }
 
     public void draw(Canvas canvas){
-
+        //this.idleIsland[this.level].draw(canvas);
     }
 
-    public void update(long dt){
-        this.idleIsland.update(dt);
+    public void update(double dt){
+        this.idleIsland[this.level].update(dt);
     }
 }

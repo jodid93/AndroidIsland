@@ -5,6 +5,7 @@ package com.example.notandi.idleisland;
  */
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -13,11 +14,15 @@ import android.view.SurfaceView;
 public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
 {
     private MainThread thread;
-    public IdleIsland(Context context, GameEngine engine)
+    private Calculator calculator;
+    private UserData userData;
+    private int level;
+    public IdleIsland(Context context, GameEngine engine, Calculator calculator, UserData userData, int level)
     {
         super(context);
-
-
+        this.level = level;
+        this.calculator = calculator;
+        this.userData = userData;
         //add the callback to the surfaceholder to intercept events
         getHolder().addCallback(this);
 
@@ -62,9 +67,15 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
 
 
 
-    public void update(long dt)
+    public void update(double dt)
     {
         System.out.println(dt);
+
+        int currentCurrency = this.userData.getCurrency();
+        int currency = this.calculator.calculateCurrency(dt, this.userData.getCurrency(), this.userData.getCurrFactor());
+        int gained = currency - currentCurrency;
+
+
 
     }
 
