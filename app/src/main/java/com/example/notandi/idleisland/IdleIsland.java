@@ -10,10 +10,10 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 
-public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
+public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
 {
     private MainThread thread;
-    public GamePanel(Context context)
+    public IdleIsland(Context context, GameEngine engine)
     {
         super(context);
 
@@ -21,7 +21,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
         //add the callback to the surfaceholder to intercept events
         getHolder().addCallback(this);
 
-        thread = new MainThread(getHolder(), this);
+        thread = new MainThread(getHolder(),engine);
 
         //make gamePanel focusable so it can handle events
         setFocusable(true);
@@ -52,16 +52,21 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
         thread.start();
 
     }
+
+
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
         return super.onTouchEvent(event);
     }
 
-    public void update()
+
+
+    public void update(long dt)
     {
-
-
+        System.out.println(dt);
 
     }
+
+
 }
