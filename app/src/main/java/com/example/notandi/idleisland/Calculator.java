@@ -14,15 +14,16 @@ public class Calculator {
     public int[][] prices2 = {{300000,1000000,8000000},{700000,2000000,25000000},{1500000,10000000,100000000}};
     private int[][] factors2 = {{1*2,5*2,10*20},{2*2,7*2,15*2},{3*2,9*2,20*2}};
 
-    private int difference = 0;
+    private double difference = 0.0;
 
     public int calculateCurrency(double time, int currency, int currFactor){
-        double tala = (time/1000)*currFactor;
+        double tala = (time/1000.0)*(double)currFactor;
         int intTala = (int)(tala);
-        double difference = tala - intTala;
+
+        double difference = tala - (double)intTala;
         this.difference += difference;
-        if(this.difference >= 1){
-            this.difference -= 1;
+        if(this.difference >= 1.0){
+            this.difference -= 1.0;
             intTala += 1;
         }
 

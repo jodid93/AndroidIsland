@@ -40,7 +40,7 @@ public class MainThread extends Thread
 
             newTime = System.nanoTime();
             deltaTime = newTime - oldTime;
-            double DoubleDeltaTime = deltaTime/1000000;
+            double DoubleDeltaTime = (double)deltaTime/(double)1000.0;
 
             startTime = System.nanoTime();
             canvas = null;
@@ -69,7 +69,7 @@ public class MainThread extends Thread
 
 
 
-            timeMillis = (System.nanoTime() - startTime) / 1000000;
+            /*timeMillis = (System.nanoTime() - startTime) / 1000000;
             waitTime = targetTime-timeMillis;
 
             try{
@@ -84,7 +84,7 @@ public class MainThread extends Thread
                 frameCount =0;
                 totalTime = 0;
                 System.out.println(averageFPS);
-            }
+            }*/
         }
     }
     public void setRunning(boolean b)

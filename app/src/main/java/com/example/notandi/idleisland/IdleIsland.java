@@ -75,8 +75,7 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
         int currency = this.calculator.calculateCurrency(dt, this.userData.getCurrency(), this.userData.getCurrFactor());
         int gained = currency - currentCurrency;
 
-
-
+        this.userData.setCurrency(gained);
     }
 
 
