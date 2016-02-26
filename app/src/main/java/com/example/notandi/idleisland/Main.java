@@ -2,6 +2,8 @@ package com.example.notandi.idleisland;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,15 +35,20 @@ public class Main extends AppCompatActivity {
         });
         mRegisterButton = (Button) findViewById(R.id.Register_button);
 
-        //this.DB = new DatabaseHelper(this);
-        //UserData a = new UserData("name");
-        Log.d("HALLO: ", "hallo1");
 
-        User hannes = new User(this);
+        //
+        // TEST USER AND DATABASE
+        //
 
-
-
-        System.out.print("The main activity has finish!");
+        //String userName = "hannes";
+        //INITILIZE USER "hannes"
+        //User hannes = new User( userName );
+        //Get the database
+        //DatabaseHelper DB = DatabaseHelper.getInstance(this);
+        //We insert the user and
+        //Integer rowID = DB.insertUserData( hannes );
+        //Log.d("ROW_ID ->>>",rowID.toString());
+        //String[] JSONUserData = DB.getUserData();
     }
 
     public static String getUserdata(){

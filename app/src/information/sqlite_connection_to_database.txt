@@ -1,0 +1,11 @@
+Tengjast android studio / genymotion database:
+
+1. fara í cmd í á þessa slóð: D:\Program Files (Megas)\Genymotion\tools
+2. skrifa -> "adb devices"
+3. copera addressið og skrifa "adb -s <address> shell"
+4. ég gerði allavega þessi skref næst:
+	- "cd .."
+	- "cd data\data\com.example.notandi.idleisland"
+5. "sqlite3 databases/idlIsland.db
+ 
+þá er hægt að leika sér að gagnagrunninum

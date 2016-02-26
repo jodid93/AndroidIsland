@@ -10,7 +10,7 @@ public class DefaultUserData {
 
     public Integer xGrid;
     public Integer yGrid;
-    public Integer[][] upgradesLVL_1;
+    public Integer[][] upgrades;
     public Integer currency;
     public JSONObject settings;
     public Double currFactor;
@@ -52,9 +52,9 @@ public class DefaultUserData {
         // upgrade = 2 -> the item has been bought
         // upgrade = 1 -> the item is aviable
         // upgrade = 0 -> the item is unreachable
-        this.upgradesLVL_1 = new Integer[this.xGrid][this.yGrid];
-        this.upgradesLVL_1[0][0] = this.availableID;
-        //the rest is unreachableID (=0)
+        this.upgrades = new Integer[this.xGrid][this.yGrid];
+        this.upgrades[0][0] = this.availableID;
+        //the rest is unreachableID (=0 or null)
 
     }
 }
