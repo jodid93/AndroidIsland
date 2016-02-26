@@ -11,15 +11,16 @@ public class MainThread extends Thread
     private int FPS = 30;
     private double averageFPS;
     private SurfaceHolder surfaceHolder;
-    private GamePanel gamePanel;
+    //private IdleIsland idleIsland;
     private boolean running;
     public static Canvas canvas;
+    private GameEngine gameEngine;
 
-    public MainThread(SurfaceHolder surfaceHolder, GamePanel gamePanel)
+    public MainThread(SurfaceHolder surfaceHolder, GameEngine gameEngine)
     {
         super();
         this.surfaceHolder = surfaceHolder;
-        this.gamePanel = gamePanel;
+        this.gameEngine = gameEngine;
     }
     @Override
     public void run()
@@ -31,7 +32,16 @@ public class MainThread extends Thread
         int frameCount =0;
         long targetTime = 1000/FPS;
 
+        long deltaTime;
+        long newTime;
+        long oldTime = System.nanoTime();
+
         while(running) {
+
+            newTime = System.nanoTime();
+            deltaTime = newTime - oldTime;
+            double DoubleDeltaTime = (double)deltaTime/(double)1000.0;
+
             startTime = System.nanoTime();
             canvas = null;
 
@@ -39,8 +49,8 @@ public class MainThread extends Thread
             try {
                 canvas = this.surfaceHolder.lockCanvas();
                 synchronized (surfaceHolder) {
-                    this.gamePanel.update();
-                    this.gamePanel.draw(canvas);
+                    this.gameEngine.update(DoubleDeltaTime);
+                    this.gameEngine.draw(canvas);
                 }
             } catch (Exception e) {
             }
@@ -54,10 +64,12 @@ public class MainThread extends Thread
                 }
             }
 
+            oldTime = System.nanoTime();
 
 
 
-            timeMillis = (System.nanoTime() - startTime) / 1000000;
+
+            /*timeMillis = (System.nanoTime() - startTime) / 1000000;
             waitTime = targetTime-timeMillis;
 
             try{
@@ -72,7 +84,7 @@ public class MainThread extends Thread
                 frameCount =0;
                 totalTime = 0;
                 System.out.println(averageFPS);
-            }
+            }*/
         }
     }
     public void setRunning(boolean b)

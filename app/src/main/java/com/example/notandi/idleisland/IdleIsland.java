@@ -5,23 +5,28 @@ package com.example.notandi.idleisland;
  */
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 
-public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
+public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
 {
     private MainThread thread;
-    public GamePanel(Context context)
+    private Calculator calculator;
+    private UserData userData;
+    private int level;
+    public IdleIsland(Context context, GameEngine engine, Calculator calculator, UserData userData, int level)
     {
         super(context);
-
-
+        this.level = level;
+        this.calculator = calculator;
+        this.userData = userData;
         //add the callback to the surfaceholder to intercept events
         getHolder().addCallback(this);
 
-        thread = new MainThread(getHolder(), this);
+        thread = new MainThread(getHolder(),engine);
 
         //make gamePanel focusable so it can handle events
         setFocusable(true);
@@ -52,16 +57,26 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
         thread.start();
 
     }
+
+
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
         return super.onTouchEvent(event);
     }
 
-    public void update()
+
+
+    public void update(double dt)
     {
+        System.out.println(dt);
 
+        int currentCurrency = this.userData.getCurrency();
+        int currency = this.calculator.calculateCurrency(dt, this.userData.getCurrency(), this.userData.getCurrFactor());
+        int gained = currency - currentCurrency;
 
-
+        this.userData.setCurrency(gained);
     }
+
+
 }

@@ -14,12 +14,13 @@ import android.widget.Toast;
 public class MenuActivity extends AppCompatActivity {
 
     private Button mPlayButton;
-    private Button Highscore;
+    private Button mHighscoreButton;
     private Button Friends;
     private Button LogOut;
     private String UserData;
 
     private static final int PLAY_GAME = 666;
+    private static final int HIGHSCORE = 1337;
     private static final String UsrDat = "idleisland.userdata";
 
     @Override
@@ -38,6 +39,17 @@ public class MenuActivity extends AppCompatActivity {
 
 
                 //Toast.makeText(MenuActivity.this, R.string.message, Toast.LENGTH_SHORT ).show();
+            }
+        });
+
+        mHighscoreButton = (Button) findViewById(R.id.Highscore_button);
+        mHighscoreButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+
+                Intent i = HighscoreActivity.newIntent(MenuActivity.this, UserData);
+                startActivityForResult(i, HIGHSCORE);
             }
         });
 

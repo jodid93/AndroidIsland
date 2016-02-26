@@ -26,8 +26,8 @@ public class DefaultUserData {
         this.yGrid = 4;
 
         this.currency = 10000;
-        this.currFactor = 0.5;
-        this.treeFactor = 0.5;
+        this.currFactor = 1.0;
+        this.treeFactor = 1.0;
 
         this.boughtID = 2;
         this.availableID = 1;
