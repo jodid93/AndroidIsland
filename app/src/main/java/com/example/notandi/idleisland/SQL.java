@@ -15,26 +15,33 @@ public class SQL {
     public static abstract class entry implements BaseColumns {
         public static final String TABLE_NAME = "user";
         public static final String USER_NAME = "username";
-        public static final String GAMESTATE = "gamestate";
+        public static final String USERDATA = "gamestate";
     }
 
-    private static final String TEXT_TYPE = " TEXT";
+    private static final String TEXT_TYPE = " TEXT ";
     private static final String COMMA_SEP = ",";
     private static final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE " + entry.TABLE_NAME + " (" +
-                    entry.USER_NAME + TEXT_TYPE+" PRIMARY KEY," +
-                    entry.GAMESTATE + TEXT_TYPE + COMMA_SEP +
-            " )";
+            "CREATE TABLE " + entry.TABLE_NAME + " ( " +
+                    entry.USER_NAME + TEXT_TYPE+" PRIMARY KEY, " +
+                    entry.USERDATA + TEXT_TYPE +
+            " );";
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + entry.TABLE_NAME;
 
+
+    private static final String SQL_GET_USERNAME = "SELECT * FROM " + entry.TABLE_NAME;
+
     public String getCreateTable(){
-        return  SQL_CREATE_ENTRIES;
+        return SQL_CREATE_ENTRIES;
     }
 
     public String getDropTable(){
         return  SQL_DELETE_ENTRIES;
+    }
+
+    public String getUserName() {
+        return SQL_GET_USERNAME;
     }
 
     public void insertValueIn(String col,String val,ContentValues cont){

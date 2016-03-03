@@ -16,7 +16,7 @@ public class Calculator {
 
     private double difference = 0.0;
 
-    public int calculateCurrency(double time, int currency, int currFactor){
+    public int calculateCurrency(double time, int currency, Double currFactor){
         double tala = (time/1000.0)*(double)currFactor;
         int intTala = (int)(tala);
 
@@ -32,7 +32,7 @@ public class Calculator {
 
     };
 
-    public int calculateCurrencyOffline(double time, int currency, int currFactor){
+    public int calculateCurrencyOffline(double time, int currency, Double currFactor){
         double tala = (time/1000)*currFactor;
         int intTala = (int)(tala);
         double difference = tala - intTala;
@@ -68,7 +68,7 @@ public class Calculator {
         return factor;
     };
 
-    public double calculateOfflineCurrency(long date, int currency, int factor){
+    public double calculateOfflineCurrency(long date, int currency, Double factor){
         double timeElapsedInSecs = (System.nanoTime() - date);
         double curr = this.calculateCurrency(timeElapsedInSecs,currency, factor);
 
@@ -77,7 +77,7 @@ public class Calculator {
 
     };
 
-    public double calculateOfflineScore(long date, int currency, int factor){
+    public double calculateOfflineScore(long date, int currency, Double factor){
         double timeElapsedInSecs = (System.nanoTime() - date);
         double curr = this.calculateCurrencyOffline(timeElapsedInSecs,currency, factor);
 

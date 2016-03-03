@@ -8,6 +8,7 @@ public class Upgrades {
     private Integer numBoughtItems;
     private Integer[][] upgrades;
 
+    //true if this upgrades are available for the user
     private Boolean available;
 
     public Upgrades( Integer level, Integer xGrid, Integer yGrid, Boolean available ) {

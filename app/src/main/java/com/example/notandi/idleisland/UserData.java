@@ -11,36 +11,33 @@ import java.security.Timestamp;
  */
 public class UserData {
 
-    private DefaultUserData dUserData;
+    public Integer numItems;
+    public Integer numBoughtItems;
 
     private String userName;
-    private Integer[][] upgradesLVL_1;
     private Integer currency;
     private JSONObject settings;
     private Timestamp timestamp;
-    private int currFactor;
-    private int treeFactor;
-    private Integer numBoughtItems;
-    private Integer numItems;
+    private Double currFactor;
+    private Double treeFactor;
     private Integer bought;
     private Integer available;
     private Integer unreachable;
     private Integer level;
     private Upgrades[] upgrades;
 
-    //BRETYR SEM ÞURFA AÐ FARA EINHVER ANNAÐ HELD ÉG.
     private Integer numLevel;
 
     public UserData(String userName) {
 
-        dUserData = new DefaultUserData();
+        DefaultUserData dUserData = new DefaultUserData();
 
         this.userName = userName;
         this.numLevel = 2;
         this.level = 1;
-        this.numBoughtItems = 0;
+        numBoughtItems = 0;
 
-        fetchFromDefaultUserData();
+        fetchFromDefaultUserData(dUserData);
 
         //Initialize upgrade grid for every level
         this.upgrades = new Upgrades[this.numLevel];
@@ -64,7 +61,7 @@ public class UserData {
     }
 
 
-    private void fetchFromDefaultUserData(){
+    private void fetchFromDefaultUserData(DefaultUserData dUserData){
         this.numItems = dUserData.xGrid + dUserData.xGrid;
         this.unreachable = dUserData.unreachableID;
         this.currFactor = dUserData.currFactor;
@@ -74,26 +71,92 @@ public class UserData {
         this.settings = dUserData.settings;
         this.bought = dUserData.boughtID;
     }
-    // Updates the upgrade grid on the current level
-    // for a giving coordinate position.
-    // more detail...
-    // mark [x][y] as baugth item also
-    // mark new available items around the bought item.
-    public void buyUpgrades(Integer x, Integer y) {
 
-        //ÞARF KANNSKI AÐ TILGREINA HVAÐA LEVEL-I við erum í
 
-        numBoughtItems++;
-
-        //If user tries to buy item when he
-        // has already bought every item
-        if( numBoughtItems == numItems+1 ){
-            System.out.print( "Somthing going wrong!" );
-            return;
-        } else{
-            updateUpgrades(x,y);
-        }
+    public Upgrades[] getUpgrades( ){
+        return this.upgrades;
     }
+
+    //
+    // GETTERS AND SETTERS (straight forward)
+    //      |
+    //      v
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public Integer getCurrency() {
+        return currency;
+    }
+
+    public JSONObject getSettings() {
+        return settings;
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public Double getCurrFactor() {
+        return currFactor;
+    }
+
+    public Double getTreeFactor() {
+        return treeFactor;
+    }
+
+    public Integer getLevel() {
+        return this.level;
+    }
+
+    public Integer getNumBoughtItems() {
+        return this.numBoughtItems;
+    }
+
+
+
+
+    public void setCurrency(Integer currency) {
+        this.currency = currency;
+    }
+
+
+
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public void setNumBoughtItems(Integer numBoughtItems) {
+        this.numBoughtItems = numBoughtItems;
+    }
+
+    public void setCurrFactor(Double currFactor) {
+        this.currFactor = currFactor;
+    }
+
+    public void setSettings(JSONObject settings) {
+        this.settings = settings;
+    }
+
+    public void setTreeFactor(Double treeFactor) {
+        this.treeFactor = treeFactor;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setUpgrades(Upgrades[] newUpgrades) {
+        this.upgrades = newUpgrades;
+    }
+}
+/*
+
 
 
     // change the items around [x][y] from to be
@@ -127,58 +190,25 @@ public class UserData {
         }
     }
 
-    //
-    // GETTERS AND SETTERS (straight forward)
-    //      |
-    //      v
+    // Updates the upgrade grid on the current level
+    // for a giving coordinate position.
+    // more detail...
+    // mark [x][y] as baugth item also
+    // mark new available items around the bought item.
+    public void buyUpgrades(Integer x, Integer y) {
 
-    public String getUserName() {
-        return userName;
+        //ÞARF KANNSKI AÐ TILGREINA HVAÐA LEVEL-I við erum í
+
+        numBoughtItems++;
+
+        //If user tries to buy item when he
+        // has already bought every item
+        if( numBoughtItems == numItems+1 ){
+            System.out.print( "Somthing going wrong!" );
+            return;
+        } else{
+            updateUpgrades(x,y);
+        }
     }
 
-    public Integer getCurrency() {
-        return currency;
-    }
-
-    public JSONObject getSettings() {
-        return settings;
-    }
-
-    public Timestamp getTimestamp() {
-        return timestamp;
-    }
-
-    public int getCurrFactor() {
-        return currFactor;
-    }
-
-    public int getTreeFactor() {
-        return treeFactor;
-    }
-
-
-
-    public void setCurrency(Integer currency) {
-        this.currency = currency;
-    }
-
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public void setCurrFactor(int currFactor) {
-        this.currFactor = currFactor;
-    }
-
-    public void setSettings(JSONObject settings) {
-        this.settings = settings;
-    }
-
-    public void setTreeFactor(int treeFactor) {
-        this.treeFactor = treeFactor;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-}
+*/
