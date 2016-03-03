@@ -42,6 +42,16 @@ public class User {
         }*/
         this.userD = new UserData( name );
         this.dUserD = new DefaultUserData();
+        this.query = new SQL(); //TODO: think this variable is unnecessary
+    }
+
+    public User( String name, String JSONUserData ) {
+        /*if( nameOrUserData.length() > 30 ){
+            //this.userD = this.getUserDataFromJSON(nameOrUserData);
+        } else {
+        }*/
+        this.userD = getUserDataFromJSON( JSONUserData );
+        this.dUserD = new DefaultUserData();
         this.query = new SQL();
     }
 
@@ -120,6 +130,13 @@ public class User {
         }
 
         userD.setLevel( currentLevel );
+    }
+
+
+    public UserData getUserDataFromJSON(String json){
+        Log.d("CONVERT JSON TO USERDATA","Taking the string \""+json+"\"");
+        UserData newData = this.gson.fromJson(json , UserData.class);
+        return newData;
     }
 
 
