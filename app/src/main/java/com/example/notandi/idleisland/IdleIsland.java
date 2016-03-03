@@ -5,6 +5,8 @@ package com.example.notandi.idleisland;
  */
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -17,9 +19,16 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
     private Calculator calculator;
     private UserData userData;
     private int level;
+
+    private Background background;
+    private Sprite[][] sprites;
+
     public IdleIsland(Context context, GameEngine engine, Calculator calculator, UserData userData, int level)
     {
         super(context);
+
+
+
         this.level = level;
         this.calculator = calculator;
         this.userData = userData;
@@ -52,6 +61,12 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public void surfaceCreated(SurfaceHolder holder){
 
+        background = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.game_coconut_tree));
+
+        sprites = new Sprite[3][3];
+        sprites[0][0] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.kall_animation),
+                                   5, 247, 242, 50, 50, 5000 );
+
         //we can safely start the game loop
         thread.setRunning(true);
         thread.start();
@@ -62,6 +77,7 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
+        System.out.print("snerting");
         return super.onTouchEvent(event);
     }
 
@@ -69,13 +85,28 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
 
     public void update(double dt)
     {
-        System.out.println(dt);
-
         int currentCurrency = this.userData.getCurrency();
         int currency = this.calculator.calculateCurrency(dt, this.userData.getCurrency(), this.userData.getCurrFactor());
         int gained = currency - currentCurrency;
 
         this.userData.setCurrency(gained);
+
+        this.sprites[0][0].update(dt);
+    }
+
+    @Override
+    public void draw(Canvas canvas){
+
+        super.draw(canvas);
+        final float scaleFactorX = getWidth()/383;
+        final float scaleFactorY = getHeight()/396;
+        if(canvas!=null) {
+            final int savedState = canvas.save();
+            canvas.scale(scaleFactorX, scaleFactorY);
+            background.draw(canvas);
+            sprites[0][0].draw(canvas);
+            canvas.restoreToCount(savedState);
+        }
     }
 
 
