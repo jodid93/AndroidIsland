@@ -7,7 +7,7 @@
     <string name="Highscore_button">High Scores</string>
     <string name="Friends_button">Friends</string>
     <string name="friends_message">ADD FRIENDS</string>
-    <string name="add_friend">Enter friend's username</string>
+    <string name="add_friend">Enter friend\'s username</string>
     <string name="add_friend_button">+</string>
     <string name="add_pending">+</string>
     <string name="ph_pending">Jósúa</string>

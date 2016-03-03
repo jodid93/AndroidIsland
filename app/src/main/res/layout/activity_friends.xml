@@ -20,7 +20,7 @@
             android:layout_width="287dp"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="@string/add_friend"
+            android:hint="@string/add_friend"
             android:ems="10"
             android:id="@+id/add_friend"
             android:layout_gravity="start|top" />
