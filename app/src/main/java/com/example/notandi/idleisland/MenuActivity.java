@@ -15,12 +15,14 @@ public class MenuActivity extends AppCompatActivity {
 
     private Button mPlayButton;
     private Button mHighscoreButton;
-    private Button Friends;
+    private Button mFriendsButton;
     private Button LogOut;
     private String UserData;
 
     private static final int PLAY_GAME = 666;
     private static final int HIGHSCORE = 1337;
+    private static final int FRIENDS = 4;
+
     private static final String UsrDat = "idleisland.userdata";
 
     @Override
@@ -50,6 +52,17 @@ public class MenuActivity extends AppCompatActivity {
 
                 Intent i = HighscoreActivity.newIntent(MenuActivity.this, UserData);
                 startActivityForResult(i, HIGHSCORE);
+            }
+        });
+
+        mFriendsButton = (Button) findViewById(R.id.Friends_button);
+        mFriendsButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+
+                Intent i = FriendsActivity.newIntent(MenuActivity.this, UserData);
+                startActivityForResult(i, FRIENDS);
             }
         });
 

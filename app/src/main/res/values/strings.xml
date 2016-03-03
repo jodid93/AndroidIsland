@@ -6,4 +6,13 @@
     <string name="Play_button">Play</string>
     <string name="Highscore_button">High Scores</string>
     <string name="Friends_button">Friends</string>
+    <string name="friends_message">ADD FRIENDS</string>
+    <string name="add_friend">Enter friend's username</string>
+    <string name="add_friend_button">+</string>
+    <string name="add_pending">+</string>
+    <string name="ph_pending">Jósúa</string>
+    <string name="ph_pending2">Þorgeir</string>
+    <string name="high_scores">High Scores</string>
+    <string name="high_friends">Top Friends</string>
+    <string name="high_global">Top Globally</string>
 </resources>
