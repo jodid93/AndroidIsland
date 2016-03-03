@@ -10,4 +10,50 @@
         android:text="@string/friends_message"
         android:id="@+id/friends_message"
         android:layout_gravity="center_horizontal" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.02">
+
+        <EditText
+            android:layout_width="287dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="@string/add_friend"
+            android:ems="10"
+            android:id="@+id/add_friend"
+            android:layout_gravity="start|top" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="36dp"
+            android:layout_height="33dp"
+            android:text="@string/add_friend_button"
+            android:id="@+id/add_friend_button"
+            android:layout_gravity="end|center_vertical"
+            android:layout_weight="0.00" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="240dp">
+
+        <ListView
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/listView" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></LinearLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="479dp"
+        android:id="@+id/listView2" />
+
 </LinearLayout>
