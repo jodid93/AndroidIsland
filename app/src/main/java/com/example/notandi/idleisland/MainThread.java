@@ -8,10 +8,8 @@ import android.view.SurfaceHolder;
 
 public class MainThread extends Thread
 {
-    private int FPS = 30;
-    private double averageFPS;
+
     private SurfaceHolder surfaceHolder;
-    //private IdleIsland idleIsland;
     private boolean running;
     public static Canvas canvas;
     private GameEngine gameEngine;
@@ -30,7 +28,6 @@ public class MainThread extends Thread
         long waitTime;
         long totalTime = 0;
         int frameCount =0;
-        long targetTime = 1000/FPS;
 
         long deltaTime;
         long newTime;
@@ -65,26 +62,6 @@ public class MainThread extends Thread
             }
 
             oldTime = System.nanoTime();
-
-
-
-
-            /*timeMillis = (System.nanoTime() - startTime) / 1000000;
-            waitTime = targetTime-timeMillis;
-
-            try{
-                this.sleep(waitTime);
-            }catch(Exception e){}
-
-            totalTime += System.nanoTime()-startTime;
-            frameCount++;
-            if(frameCount == FPS)
-            {
-                averageFPS = 1000/((totalTime/frameCount)/1000000);
-                frameCount =0;
-                totalTime = 0;
-                System.out.println(averageFPS);
-            }*/
         }
     }
     public void setRunning(boolean b)

@@ -20,6 +20,7 @@
         <activity android:name=".MenuActivity"></activity>
         <activity android:name=".GameEngine"></activity>
         <activity android:name=".HighscoreActivity"></activity>
+        <activity android:name=".FriendsActivity"></activity>
     </application>
 
 </manifest>

@@ -33,15 +33,17 @@ public class GameEngine extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         super.onCreate(savedInstanceState);
         s_UserData = getIntent().getStringExtra(UsrDat);
 
         //turn title off
-        /*requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        //set to full screen
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);*/
+
+        /*/set to full screen*/
+
         this.userData = new UserData(s_UserData);
         this.calculator = new Calculator();
         this.idleIsland = new IdleIsland[]{new IdleIsland(this, this, this.calculator, this.userData, 0),new IdleIsland(this, this, this.calculator, this.userData, 1)};
@@ -49,10 +51,11 @@ public class GameEngine extends AppCompatActivity {
     }
 
     public void draw(Canvas canvas){
-        //this.idleIsland[this.level].draw(canvas);
+        this.idleIsland[this.level].draw(canvas);
     }
 
     public void update(double dt){
+
         this.idleIsland[this.level].update(dt);
     }
 }
