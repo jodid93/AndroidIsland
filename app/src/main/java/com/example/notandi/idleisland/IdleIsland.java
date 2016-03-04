@@ -23,12 +23,12 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
     private Background background;
     private Sprite[][] sprites;
 
-    public IdleIsland(Context context, GameEngine engine, Calculator calculator, UserData userData, int level)
+    public IdleIsland(Context context, GameEngine engine, Calculator calculator, UserData userData, int level, Sprite[][] sprites)
     {
         super(context);
 
 
-
+        this.sprites = sprites;
         this.level = level;
         this.calculator = calculator;
         this.userData = userData;
