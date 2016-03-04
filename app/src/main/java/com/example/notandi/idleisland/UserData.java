@@ -4,7 +4,9 @@ package com.example.notandi.idleisland;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by thorgeir on 18.2.2016.
@@ -17,6 +19,7 @@ public class UserData {
     private String userName;
     private Integer currency;
     private JSONObject settings;
+    //private java.sql.Timestamp timestamp;
     private Timestamp timestamp;
     private Double currFactor;
     private Double treeFactor;
@@ -31,6 +34,8 @@ public class UserData {
     public UserData(String userName) {
 
         DefaultUserData dUserData = new DefaultUserData();
+
+        updateTime();
 
         this.userName = userName;
         this.numLevel = 2;
@@ -72,6 +77,11 @@ public class UserData {
         this.bought = dUserData.boughtID;
     }
 
+    public void updateTime(){
+        Calendar calendar = Calendar.getInstance();
+        Date now = calendar.getTime();
+        this.timestamp = new Timestamp(now.getTime());
+    }
 
     public Upgrades[] getUpgrades( ){
         return this.upgrades;

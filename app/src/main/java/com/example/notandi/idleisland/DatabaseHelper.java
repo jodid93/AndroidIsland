@@ -76,8 +76,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String whereClause   = SQL.entry.USER_NAME +" = ?";
         String[] whereArgs    =  new String[]{ userName };
 
-        //start database
-
 
         if( userNameExists(userName) ){
             SQLiteDatabase db = this.getWritableDatabase();
@@ -140,8 +138,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 whereArgs,       // The values for the WHERE clause
                 null, null, null
         );
-
-        Boolean result = (cursor != null);
+        //if result is true, then the user name exists otherwise not
+        Boolean result = !(!(cursor.moveToFirst()) || cursor.getCount() == 0);
+        Log.d("CHECK USERNAME EXISTS","result -> " + result);
         cursor.close();
         db.close();
 
@@ -161,7 +160,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 projection,       // The columns to return (if null -> all columns)
                 whereClause,       // The columns for the WHERE clause
                 whereArgs,       // The values for the WHERE clause
-                null,null,null
+                null, null, null
         );
 
         Boolean result = (cursor != null);
@@ -171,41 +170,104 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    public String[] getUserData(){
-        SQLiteDatabase db = this.getReadableDatabase();
+    public UserData getUserData(User user){
 
         String[] projection =  new String[]{
                 SQL.entry.USERDATA
         };
+        String whereClause   = SQL.entry.USER_NAME +" = ?";
+        String[] whereArgs   = new String[]{ user.getUserName() };
 
-        Cursor cursor = db.query(SQL.entry.TABLE_NAME,
-                projection,       // The columns to return (if null -> all columns)
-                null,       // The columns for the WHERE clause
-                null,       // The values for the WHERE clause
-                null,       // don't group the rows
-                null,       // don't filter by row groups
-                null        // The sort order
-        );
+
+        if( userNameExists(user.getUserName()) ){
+            SQLiteDatabase db = this.getReadableDatabase();
+
+
+            Cursor cursor = db.query(SQL.entry.TABLE_NAME,
+                    projection,       // The columns to return (if null -> all columns)
+                    whereClause,       // The columns for the WHERE clause
+                    whereArgs,       // The values for the WHERE clause
+                    null,       // don't group the rows
+                    null,       // don't filter by row groups
+                    null        // The sort order
+            );
+
+            String[] data = retriveDataFromCursor(cursor, projection);
+
+            cursor.close();
+            this.close();
+
+            return getUserDataFromJSON(data[0]);
+        }else{
+            Log.d("GET USERDATA", "User doen't exists, name-> "+user.getUserName());
+            return new UserData("Villumadurinn");
+        }
+    }
+
+
+    public void clearTable(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Integer rowsEffected = db.delete(SQL.entry.TABLE_NAME, null, null);
+        String message="clearing table \""+SQL.entry.TABLE_NAME+"\" and "+rowsEffected+" rows was effected.";
+        Log.d("DATABASE CLEAR TALBE",message);
+        db.close();
+    }
+
+    private String[] retriveDataFromCursor( Cursor cursor, String[] columns ){
+        String[] data = new String[ columns.length ];
 
         //Get data from
-        String[] data = new String[ projection.length ];
         if (cursor.moveToFirst()){
-            for(int i=0;i<projection.length;i++){
+            for(int i=0;i<columns.length;i++){
                 do{
-                    data[i] = cursor.getString(cursor.getColumnIndex(projection[i]));
+                    data[i] = cursor.getString(cursor.getColumnIndex(columns[i]));
+                    Log.d("RETRIEVE DATA FROM CURSOR",data[i]);
                     // do what ever you want here
                 }while(cursor.moveToNext());
             }
         }
-
-        cursor.close();
-        this.close();
-
-
-        Log.d("Get data from user....", data[0]);
         return data;
     }
-        //
+
+
+    // If this userName exists in database, that User is returned
+    // otherwise it will return and store a new user in the database
+    public User getUser( String userName ){
+
+        if( userNameExists(userName) ) {
+            SQLiteDatabase db = this.getReadableDatabase();
+
+            //query variables
+            String[] projection = new String[]{SQL.entry.USER_NAME, SQL.entry.USERDATA};
+            String whereClause = SQL.entry.USER_NAME + " = ?";
+            String[] whereArgs = new String[]{userName};
+
+            //Check if user exist in the table
+            Cursor cursor = db.query(SQL.entry.TABLE_NAME,
+                    projection,       // The columns to return (if null -> all columns)
+                    whereClause,       // The columns for the WHERE clause
+                    whereArgs,       // The values for the WHERE clause
+                    null, null, null
+            );
+
+            String[] data = retriveDataFromCursor(cursor, projection);
+            cursor.close();
+            db.close();
+
+            return createUser( data );
+        } else {
+            User newUser = new User(userName);
+            insertUser( newUser );
+            return newUser;
+        }
+    }
+
+    // data contains user name and UserData
+    private User createUser(String[] data){
+        Log.d("CREATE USER","data[0]->"+data[0]+" and data[1]->"+data[1]);
+        return new User(data[0], data[1]);
+    }
+
 
     // Converts UserData userD to JSON String
     // and returns it
@@ -215,6 +277,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public UserData getUserDataFromJSON(String json){
+        Log.d("CONVERT JSON TO USERDATA","Taking the string \""+json+"\"");
         UserData newData = this.gson.fromJson(json , UserData.class);
         return newData;
     }
