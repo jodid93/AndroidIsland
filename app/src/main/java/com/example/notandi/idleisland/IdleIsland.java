@@ -65,7 +65,7 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
 
         sprites = new Sprite[3][3];
         sprites[0][0] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.kall_animation),
-                                   5, 247, 242, 50, 50, 5000 );
+                                   5, 247, 242, 50, 50, 1000 );
 
         //we can safely start the game loop
         thread.setRunning(true);
