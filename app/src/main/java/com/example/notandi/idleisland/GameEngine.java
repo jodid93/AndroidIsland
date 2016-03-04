@@ -63,20 +63,20 @@ public class GameEngine extends AppCompatActivity {
 
             //item 1
             sprites[0][0] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.kall_animation_upgrade_1),
-                    5, 247, 242, 50, 50, 1000 );
+                    5, 246, 244, 50, 50, 1000 );
 
             sprites[0][1] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.kall_animation_upgrade_2),
-                    5, 247, 242, 50, 50, 800 );
+                    5, 246, 244, 50, 50, 800 );
 
             sprites[0][2] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.kall_animation_upgrade_3),
-                    5, 247, 242, 50, 50, 600 );
+                    5, 246, 244, 50, 50, 600 );
 
-            //item 2
+            /*item 2
             sprites[1][0] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.kall_animation),
-                    5, 247, 242, 50, 50, 5000 );
+                    5, 246, 244, 50, 50, 5000 );
 
             sprites[3][0] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.kall_animation),
-                    5, 247, 242, 50, 50, 5000 );
+                    5, 246, 244, 50, 50, 5000 );*/
 
 
 
