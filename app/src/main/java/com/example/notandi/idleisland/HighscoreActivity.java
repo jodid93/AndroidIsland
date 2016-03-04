@@ -25,7 +25,7 @@ public class HighscoreActivity extends ListActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_highscore);
-        //setListAdapter(new highScoreAdapter());
+        setListAdapter(new highScoreAdapter());
 
         UserData = getIntent().getStringExtra(UsrDat);
     }
@@ -33,7 +33,7 @@ public class HighscoreActivity extends ListActivity{
     /**
      * Array adapter for the high scores
      */
-   /* private class highScoreAdapter extends BaseAdapter {
+    private class highScoreAdapter extends BaseAdapter {
         @Override
         public int getCount() {
             return DummiHS.USERS.length;
@@ -59,7 +59,7 @@ public class HighscoreActivity extends ListActivity{
                     .setText(getItem(position));
             return convertView;
         }
-    }*/
+    }
 
     public static Intent newIntent(Context packageContext, String usrData){
         Intent i = new Intent(packageContext, HighscoreActivity.class);

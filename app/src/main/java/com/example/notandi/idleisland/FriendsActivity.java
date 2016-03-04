@@ -26,12 +26,12 @@ public class FriendsActivity extends ListActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
-        setListAdapter(new friendsAdapter());
+        //setListAdapter(new friendsAdapter());
 
         UserData = getIntent().getStringExtra(UsrDat);
     }
 
-    private class friendsAdapter extends BaseAdapter {
+    /*private class friendsAdapter extends BaseAdapter {
         @Override
         public int getCount() {
             return DummiHS.USERS.length;
@@ -57,7 +57,7 @@ public class FriendsActivity extends ListActivity{
                     .setText(getItem(position));
             return convertView;
         }
-    }
+    }*/
 
     public static Intent newIntent(Context packageContext, String usrData){
         Intent i = new Intent(packageContext, FriendsActivity.class);
