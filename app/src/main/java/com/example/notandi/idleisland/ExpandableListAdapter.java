@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
@@ -49,12 +50,33 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             LayoutInflater JInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
             convertView = JInflater.inflate(R.layout.friend_list_item, null);
         }
+
+        /*convertView.setClickable(true);
+        convertView.setFocusable(true);*/
 
         TextView txtListChild = (TextView) convertView
                 .findViewById(R.id.fListItem);
         txtListChild.setText(childText);
+
+        Button firstButton = (Button) convertView.findViewById(R.id.button);
+        Button secondButton = (Button) convertView.findViewById(R.id.button2);
+
+        if (groupPosition == 0) {
+            firstButton.setText(this.context.getResources().getString(R.string.accept_button));
+            secondButton.setText(this.context.getResources().getString(R.string.reject_button));
+        }
+        else {
+            firstButton.setText(this.context.getResources().getString(R.string.gift_button));
+            secondButton.setText(this.context.getResources().getString(R.string.delete_button));
+        }
+
+        convertView.setClickable(true);
+        convertView.setFocusable(true);
+        convertView.setBackgroundResource(android.R.drawable.menuitem_background);
+
         return convertView;
     }
 
@@ -93,6 +115,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.friend_header);
         fListHeader.setTypeface(null, Typeface.BOLD);
         fListHeader.setText(headerTitle);
+
 
         return convertView;
     }

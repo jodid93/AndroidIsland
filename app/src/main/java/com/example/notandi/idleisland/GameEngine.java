@@ -154,13 +154,15 @@ public class GameEngine extends AppCompatActivity {
 
             //base animation
             sprites[3][0] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.kall_animation),
-                    5, 247, 242, 50, 50, 20, false);
+
+                    5, 247, 242, 50, 50, 200, false );
 
             sprites[3][1] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.kall_animation),
-                    5, 247, 242, 50, 50, 20, false);
+                    5, 247, 242, 50, 50, 200 , false);
 
             sprites[3][2] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.kall_animation),
-                    5, 247, 242, 50, 50, 20, false);
+                    5, 247, 242, 50, 50, 200 , false);
+
 
         } else if (level == 1) {
 

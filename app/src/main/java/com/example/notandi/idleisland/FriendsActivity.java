@@ -43,7 +43,7 @@ public class FriendsActivity extends AppCompatActivity{
         UserData = getIntent().getStringExtra(UsrDat);
 
         mGiftButton = (Button) findViewById(R.id.add_friend_button);
-        mGiftButton.setOnClickListener(new View.OnClickListener(){
+        mGiftButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -78,6 +78,8 @@ public class FriendsActivity extends AppCompatActivity{
                                 listDataHeader.get(groupPosition)).get(
                                 childPosition), Toast.LENGTH_SHORT)
                         .show();
+                System.out.println("af hverju virkar þetta ekki?");
+                parent.setItemsCanFocus(true);
                 return false;
             }
         });
@@ -87,9 +89,7 @@ public class FriendsActivity extends AppCompatActivity{
 
             @Override
             public void onGroupExpand(int groupPosition) {
-                Toast.makeText(getApplicationContext(),
-                        "Jósúa er Faget",
-                        Toast.LENGTH_SHORT).show();
+                System.out.println("groupPosition er " + groupPosition);
             }
         });
 
@@ -98,10 +98,6 @@ public class FriendsActivity extends AppCompatActivity{
 
             @Override
             public void onGroupCollapse(int groupPosition) {
-                Toast.makeText(getApplicationContext(),
-                        "Þorgeir er Faget",
-                        Toast.LENGTH_SHORT).show();
-
             }
         });
     }
