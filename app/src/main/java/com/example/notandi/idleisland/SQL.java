@@ -15,6 +15,7 @@ public class SQL {
     public static abstract class entry implements BaseColumns {
         public static final String TABLE_NAME = "user";
         public static final String USER_NAME = "username";
+        public static final String PASSWORD = "password";
         public static final String USERDATA = "gamestate";
     }
 
@@ -23,6 +24,7 @@ public class SQL {
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + entry.TABLE_NAME + " ( " +
                     entry.USER_NAME + TEXT_TYPE+" PRIMARY KEY, " +
+                    entry.PASSWORD + TEXT_TYPE +
                     entry.USERDATA + TEXT_TYPE +
             " );";
 
@@ -32,9 +34,7 @@ public class SQL {
 
     private static final String SQL_GET_USERNAME = "SELECT * FROM " + entry.TABLE_NAME;
 
-    public String getCreateTable(){
-        return SQL_CREATE_ENTRIES;
-    }
+    public String getCreateUserDataTable(){ return SQL_CREATE_ENTRIES; }
 
     public String getDropTable(){
         return  SQL_DELETE_ENTRIES;

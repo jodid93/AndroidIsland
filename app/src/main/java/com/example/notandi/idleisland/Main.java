@@ -86,7 +86,7 @@ public class Main extends AppCompatActivity {
         if( isOnline() ){
             Log.d("INTENET CONNECTION", "CONNECTION: TRUE");
 
-            localUserData = DB.getUserData(user);
+            localUserData = user.getUserData();
 
             //TODO: get UserData from the server.
             UserData onlineUserData = new UserData("Mani");
