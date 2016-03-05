@@ -134,7 +134,7 @@ public class User {
 
 
     public UserData getUserDataFromJSON(String json){
-        Log.d("CONVERT JSON TO USERDATA","Taking the string \""+json+"\"");
+        Log.d("CONVERT JSON USERDATA","Taking the string \""+json+"\"");
         UserData newData = this.gson.fromJson(json , UserData.class);
         return newData;
     }

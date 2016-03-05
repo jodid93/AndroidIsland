@@ -5,7 +5,6 @@ package com.example.notandi.idleisland;
  */
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
@@ -19,6 +18,7 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
     private Calculator calculator;
     private UserData userData;
     private int level;
+    private int [][] upgrades;
 
     private Background background;
     private Sprite[][] sprites;
@@ -63,9 +63,9 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
 
         background = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.game_coconut_tree));
 
-        sprites = new Sprite[3][3];
-        sprites[0][0] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.kall_animation),
-                                   5, 247, 242, 50, 50, 1000 );
+        Upgrades[] upgradesT = this.userData.getUpgrades();
+        upgradesT[0].setUpgrades(new int[][]{{1,0,0},{0,0,0},{0,0,0}});
+        this.upgrades = upgradesT[this.level].getUpgrades();
 
         //we can safely start the game loop
         thread.setRunning(true);
@@ -77,8 +77,18 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-        System.out.print("snerting");
-        return super.onTouchEvent(event);
+        if(event.getAction() == 0){ //ACTION DOWN
+            System.out.println("turn on animation");
+            sprites[3][0].loopOnce();
+
+
+            userData.setCurrency( this.userData.getCurrency() + (int)(1 * this.userData.getTreeFactor()));
+
+            System.out.println("currency:  "+userData.getCurrency());
+        }
+
+        return true;
+
     }
 
 
@@ -89,9 +99,22 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
         int currency = this.calculator.calculateCurrency(dt, this.userData.getCurrency(), this.userData.getCurrFactor());
         int gained = currency - currentCurrency;
 
-        this.userData.setCurrency(gained);
+        this.userData.setCurrency(gained+currentCurrency);
 
-        this.sprites[0][0].update(dt);
+        if(upgrades[0][0] == 1){
+            sprites[3][0].update(dt);
+        }else{
+
+            for(int i = 0; i<3; i++){
+                for(int j = 0; j < 3; j++ ){
+                    if(upgrades[i][j] == 2 ){
+                        sprites[i][j].update(dt);
+                    }
+                }
+            }
+        }
+
+        this.sprites[3][0].update(dt);
     }
 
     @Override
@@ -104,7 +127,20 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
             final int savedState = canvas.save();
             canvas.scale(scaleFactorX, scaleFactorY);
             background.draw(canvas);
-            sprites[0][0].draw(canvas);
+
+
+            if(upgrades[0][0] == 1){
+                sprites[3][0].draw(canvas);
+            }else{
+
+                for(int i = 0; i<3; i++){
+                    for(int j = 0; j < 3; j++ ){
+                        if(upgrades[i][j] == 2 ){
+                            sprites[i][j].draw(canvas);
+                        }
+                    }
+                }
+            }
             canvas.restoreToCount(savedState);
         }
     }

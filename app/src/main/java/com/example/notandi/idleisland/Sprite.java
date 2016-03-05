@@ -16,8 +16,10 @@ public class Sprite {
     private double animationSpeed;
     private double currentAnimationTime = 0.0;
     private int displayFrame;
+    private boolean shouldAnimate;
+    private boolean animateOnce;
 
-    public Sprite(Bitmap spriteSheet, int numFrames, int frameWidth, int frameHeight, int x, int y, int animationSpeed){
+    public Sprite(Bitmap spriteSheet, int numFrames, int frameWidth, int frameHeight, int x, int y, int animationSpeed, boolean shouldAnimate){
 
         //this.animationSpeed er tími í millisec hvað hver rammi á að vera lengi
         numberOfFrames = numFrames;
@@ -26,6 +28,7 @@ public class Sprite {
         this.x = x;
         this.y = y;
         this.animationSpeed = ((double)animationSpeed)/((double)numFrames);
+        this.shouldAnimate = shouldAnimate;
         frames = new Bitmap[numFrames];
 
         for (int i = 0; i < frames.length; i++)
@@ -35,18 +38,37 @@ public class Sprite {
     }
 
     public void update(double dt){
-        this.currentAnimationTime += dt;
-        if(this.currentAnimationTime > (this.animationSpeed * this.numberOfFrames)){
-            this.currentAnimationTime = 0;
+        if(this.shouldAnimate){
+
+            this.currentAnimationTime += dt;
+            if(this.currentAnimationTime > (this.animationSpeed * this.numberOfFrames)){
+                this.currentAnimationTime = 0;
+            }
+
+            double percentageDone = (this.currentAnimationTime/(this.animationSpeed*this.numberOfFrames));
+            this.displayFrame = (int)( percentageDone * this.numberOfFrames);
+            System.out.println("% = "+percentageDone);
+            if(percentageDone >= 0.95 && animateOnce){
+                System.out.println("slokkva");
+                this.displayFrame = 0;
+                this.currentAnimationTime = 0.0;
+                this.shouldAnimate = false;
+                animateOnce = false;
+            }
         }
-
-        double percentageDone = (this.currentAnimationTime/(this.animationSpeed*this.numberOfFrames));
-        this.displayFrame = (int)( percentageDone * this.numberOfFrames);
-
 
     }
 
     public void draw(Canvas canvas){
+
         canvas.drawBitmap(frames[this.displayFrame], this.x, this.y,null);
     }
+
+    public void loopOnce(){
+
+        this.shouldAnimate = true;
+        this.animateOnce = true;
+
+    }
+
 }
