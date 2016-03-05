@@ -61,6 +61,7 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public void surfaceCreated(SurfaceHolder holder){
 
+        System.out.println("nu mattu yta a takka");
         background = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.game_coconut_tree));
 
         Upgrades[] upgradesT = this.userData.getUpgrades();
@@ -70,6 +71,7 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
         //we can safely start the game loop
         thread.setRunning(true);
         thread.start();
+        System.out.println("thradur startadur");
 
     }
 
@@ -84,7 +86,7 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
 
             userData.setCurrency( this.userData.getCurrency() + (int)(1 * this.userData.getTreeFactor()));
 
-            System.out.println("currency:  "+userData.getCurrency());
+            System.out.println("currency:  " + userData.getCurrency());
         }
 
         return true;

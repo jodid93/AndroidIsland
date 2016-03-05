@@ -47,7 +47,6 @@ public class Sprite {
 
             double percentageDone = (this.currentAnimationTime/(this.animationSpeed*this.numberOfFrames));
             this.displayFrame = (int)( percentageDone * this.numberOfFrames);
-            System.out.println("% = "+percentageDone);
             if(percentageDone >= 0.95 && animateOnce){
                 System.out.println("slokkva");
                 this.displayFrame = 0;
