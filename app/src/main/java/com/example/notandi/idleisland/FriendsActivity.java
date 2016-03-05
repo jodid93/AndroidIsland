@@ -11,6 +11,7 @@ import java.util.List;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
@@ -26,11 +27,13 @@ public class FriendsActivity extends AppCompatActivity{
     private String UserData;
 
     private static final String UsrDat = "fokkJósúa";
+    private static final int GIFT = 69;
 
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
+    Button mGiftButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,17 @@ public class FriendsActivity extends AppCompatActivity{
         setContentView(R.layout.activity_friends);
 
         UserData = getIntent().getStringExtra(UsrDat);
+
+        mGiftButton = (Button) findViewById(R.id.add_friend_button);
+        mGiftButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+
+                Intent i = GiftActivity.newIntent(FriendsActivity.this, UserData);
+                startActivityForResult(i, GIFT);
+            }
+        });
 
         // get the listview
         expListView = (ExpandableListView) findViewById(R.id.friendExp);

@@ -45,7 +45,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
         final String childText = (String) getChild(groupPosition, childPosition);
-        System.out.println(childText);
 
         if (convertView == null) {
             LayoutInflater JInflater = (LayoutInflater) this.context

@@ -15,5 +15,9 @@
     <string name="high_scores">High Scores</string>
     <string name="high_friends">Top Friends</string>
     <string name="high_global">Top Globally</string>
+    <string name="gift_header">GIFT TO</string>
+    <string name="radio_button1">10%</string>
+    <string name="radio_button2">25%</string>
+    <string name="radio_button3">50%</string>
 
 </resources>

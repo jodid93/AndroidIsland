@@ -21,6 +21,7 @@
         <activity android:name=".GameEngine"></activity>
         <activity android:name=".HighscoreActivity"></activity>
         <activity android:name=".FriendsActivity"></activity>
+        <activity android:name=".GiftActivity"></activity>
     </application>
 
 </manifest>
