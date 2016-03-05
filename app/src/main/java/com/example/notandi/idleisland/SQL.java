@@ -24,7 +24,7 @@ public class SQL {
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + entry.TABLE_NAME + " ( " +
                     entry.USER_NAME + TEXT_TYPE+" PRIMARY KEY, " +
-                    entry.PASSWORD + TEXT_TYPE +
+                    entry.PASSWORD + TEXT_TYPE + COMMA_SEP +
                     entry.USERDATA + TEXT_TYPE +
             " );";
 

@@ -6,13 +6,19 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.renderscript.ScriptGroup;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
+import java.io.IOException;
 import java.sql.Time;
 import java.sql.Timestamp;
 
@@ -20,37 +26,65 @@ import java.sql.Timestamp;
 public class Main extends AppCompatActivity {
 
     private Button mLogInButton;
+    private TextView mLogInInputName;
+    private TextView mLogInInputPassword;
     private Button mRegisterButton;
     //private DatabaseHelper DB;
     private static final int ENTER_GAME = 0;
+
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final DatabaseHelper DB = DatabaseHelper.getInstance(this);
 
         //Create temporarily user named "hannes"
         String userName = "hannes";
         final User tmpUser = new User( userName );
 
+        mLogInInputName = (EditText) findViewById(R.id.log_in_name);
+        mLogInInputPassword = (EditText) findViewById(R.id.log_in_password);
         mLogInButton = (Button) findViewById(R.id.LogIn_button);
+        mRegisterButton = (Button) findViewById(R.id.Register_button);
+
         mLogInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                User oldUser = null;
+
+                String userName = mLogInInputName.getText().toString();
+                String password = mLogInInputPassword.getText().toString();
+
+                if( DB.isValid( userName, password ) ){
+                    try {
+                        oldUser = DB.getUser( userName );
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(Main.this, R.string.login_error_message_1, Toast.LENGTH_SHORT ).show();
+                }
+
+                user = oldUser;
+
+                Log.d("INFO", "from name input -> " + userName);
+
                 String userdata = getUserdataString(tmpUser);
                 Intent i = MenuActivity.newIntent(Main.this, userdata);
                 startActivityForResult(i, ENTER_GAME);
             }
         });
-        mRegisterButton = (Button) findViewById(R.id.Register_button);
 
 
         //
         // TESTING USER AND DATABASE
         //
         //Get the database
-       // DatabaseHelper DB = DatabaseHelper.getInstance(this);
+        //DatabaseHelper DB = DatabaseHelper.getInstance(this);
         //DB.clearTable();
         //We insert the user and
         //Boolean b = DB.insertUser(tmpUser);
