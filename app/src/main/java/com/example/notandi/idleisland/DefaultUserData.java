@@ -22,8 +22,8 @@ public class DefaultUserData {
     public Integer unreachableID;
 
     public DefaultUserData() {
-        this.xGrid = 4;
-        this.yGrid = 4;
+        this.xGrid = 3;
+        this.yGrid = 3;
 
         this.currency = 10000;
         this.currFactor = 0.0;

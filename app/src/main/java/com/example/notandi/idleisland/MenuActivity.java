@@ -18,6 +18,7 @@ public class MenuActivity extends AppCompatActivity {
     private Button mFriendsButton;
     private Button LogOut;
     private String UserData;
+    private UserData dummyUD = new UserData( "hannes" );
 
     private static final int PLAY_GAME = 666;
     private static final int HIGHSCORE = 1337;
@@ -35,6 +36,7 @@ public class MenuActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+
 
                 Intent i = GameEngine.newIntent(MenuActivity.this, UserData);
                 startActivityForResult(i, PLAY_GAME);
