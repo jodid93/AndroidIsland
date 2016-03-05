@@ -109,7 +109,7 @@ public class FriendsActivity extends AppCompatActivity{
         Friends.add("Jósúa");
         Friends.add("Annar Pedo");
         Friends.add("Þunglyndi");
-
+        
         listDataChild.put(listDataHeader.get(0), Pending); // Header, Child data
         listDataChild.put(listDataHeader.get(1), Friends);
     }
