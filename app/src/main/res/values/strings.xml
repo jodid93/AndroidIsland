@@ -19,5 +19,9 @@
     <string name="radio_button1">10%</string>
     <string name="radio_button2">25%</string>
     <string name="radio_button3">50%</string>
+    <string name="accept_button">Accept</string>
+    <string name="reject_button">Reject</string>
+    <string name="gift_button">Gift</string>
+    <string name="delete_button">Delete</string>
 
 </resources>
