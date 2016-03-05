@@ -61,7 +61,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private Security security = new Security();
 
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 4;
     public static final String DATABASE_NAME = "idlIsland.db";
     private Gson gson = new Gson();
 
@@ -338,9 +338,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return (pw == hashedPassword);
     }
 
-    //precondition: the user have to exists.
-    //Recommended to user 'isValid(userName,password)' to check if user exists
-    public User getUser( String userName, String password ){
+
+    /*public User getUser( String userName ){
         SQLiteDatabase db = this.getReadableDatabase();
 
         //query variables
@@ -361,8 +360,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
 
         return createUser( data );
-    }
+    }*/
 
+    //precondition: the user have to exists.
+    //Recommended to user 'isValid(userName,password)' to check if user exists
     // If this userName exists in database, that User is returned
     // otherwise it will return and store a new user in the database
     public User getUser( String userName ) throws IOException {
