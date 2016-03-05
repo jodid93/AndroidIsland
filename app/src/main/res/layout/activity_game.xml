@@ -4,4 +4,14 @@
     android:layout_height="match_parent"
     android:weightSum="1">
 
+    <ImageButton
+        android:layout_width="93dp"
+        android:onClick="openUpgradeMenu"
+        android:layout_height="wrap_content"
+        android:id="@+id/upgradeButton"
+        android:layout_gravity="right"
+        android:layout_weight="0.12"
+        android:background="@drawable/game_button_upgrade"
+        android:nestedScrollingEnabled="false"
+        android:clickable="true" />
 </LinearLayout>

@@ -6,7 +6,7 @@ package com.example.notandi.idleisland;
 public class Upgrades {
     private Integer level;
     private Integer numBoughtItems;
-    private Integer[][] upgrades;
+    private int[][] upgrades;
 
     //true if this upgrades are available for the user
     private Boolean available;
@@ -15,7 +15,7 @@ public class Upgrades {
         this.level = level;
         this.available = available;
         this.numBoughtItems = 0;
-        this.upgrades = new Integer[xGrid][yGrid];
+        this.upgrades = new int[xGrid][yGrid];
     }
 
     public void add(int value, int x, int y){
@@ -37,7 +37,7 @@ public class Upgrades {
         return level;
     }
 
-    public Integer[][] getUpgrades() {
+    public int[][] getUpgrades() {
         return upgrades;
     }
 
@@ -46,7 +46,7 @@ public class Upgrades {
         this.level = level;
     }
 
-    public void setUpgrades(Integer[][] upgrades) {
+    public void setUpgrades(int[][] upgrades) {
         this.upgrades = upgrades;
     }
 
