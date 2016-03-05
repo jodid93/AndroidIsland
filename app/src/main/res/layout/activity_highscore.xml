@@ -41,5 +41,5 @@
         android:layout_weight="1"
         android:scrollbarStyle="outsideOverlay"
         android:choiceMode="multipleChoice"
-        android:id="@+id/android:list" />
+        android:id="@+id/listview1" />
 </LinearLayout>

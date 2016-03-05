@@ -79,7 +79,7 @@ public class FriendsActivity extends AppCompatActivity{
             }
         });
 
-        // Listview Group collasped listener
+        // Listview Group collapsed listener
         expListView.setOnGroupCollapseListener(new OnGroupCollapseListener() {
 
             @Override
@@ -97,8 +97,8 @@ public class FriendsActivity extends AppCompatActivity{
         listDataChild = new HashMap<String, List<String>>();
 
         // Adding child data
-        listDataHeader.add("Pending");
-        listDataHeader.add("Friends");
+        listDataHeader.add("Pending Friend Requests");
+        listDataHeader.add("Friend List");
 
         // Adding child data
         List<String> Pending = new ArrayList<String>();
@@ -109,7 +109,7 @@ public class FriendsActivity extends AppCompatActivity{
         Friends.add("Jósúa");
         Friends.add("Annar Pedo");
         Friends.add("Þunglyndi");
-        
+
         listDataChild.put(listDataHeader.get(0), Pending); // Header, Child data
         listDataChild.put(listDataHeader.get(1), Friends);
     }
