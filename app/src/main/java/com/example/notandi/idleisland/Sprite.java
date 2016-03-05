@@ -42,7 +42,7 @@ public class Sprite {
 
         double percentageDone = (this.currentAnimationTime/(this.animationSpeed*this.numberOfFrames));
         this.displayFrame = (int)( percentageDone * this.numberOfFrames);
-        System.out.println("currTime: "+this.currentAnimationTime+" percent: "+percentageDone+" frame: "+this.displayFrame+" dt: "+dt);
+
 
     }
 

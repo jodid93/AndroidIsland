@@ -5,6 +5,7 @@ package com.example.notandi.idleisland;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -46,8 +47,44 @@ public class GameEngine extends AppCompatActivity {
 
         this.userData = new UserData(s_UserData);
         this.calculator = new Calculator();
-        this.idleIsland = new IdleIsland[]{new IdleIsland(this, this, this.calculator, this.userData, 0),new IdleIsland(this, this, this.calculator, this.userData, 1)};
+
+
+
+        this.idleIsland = new IdleIsland[]{new IdleIsland(this, this, this.calculator, this.userData, 0, createSprites(0)),
+                                            new IdleIsland(this, this, this.calculator, this.userData, 1, createSprites(1))};
         setContentView(this.idleIsland[this.level]);
+    }
+
+
+    private Sprite[][] createSprites(int level){
+        Sprite[][] sprites = new Sprite[4][3];
+
+        if(level == 0){
+
+            //item 1
+            sprites[0][0] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.kall_animation_upgrade_1),
+                    5, 246, 244, 50, 50, 1000 );
+
+            sprites[0][1] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.kall_animation_upgrade_2),
+                    5, 246, 244, 50, 50, 800 );
+
+            sprites[0][2] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.kall_animation_upgrade_3),
+                    5, 246, 244, 50, 50, 600 );
+
+            /*item 2
+            sprites[1][0] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.kall_animation),
+                    5, 246, 244, 50, 50, 5000 );
+
+            sprites[3][0] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.kall_animation),
+                    5, 246, 244, 50, 50, 5000 );*/
+
+
+
+        }else if(level == 1){
+
+        }
+
+        return sprites;
     }
 
     public void draw(Canvas canvas){
