@@ -18,6 +18,7 @@ public class Sprite {
     private int displayFrame;
     private boolean shouldAnimate;
     private boolean animateOnce;
+    private boolean stopflag;
 
     public Sprite(Bitmap spriteSheet, int numFrames, int frameWidth, int frameHeight, int x, int y, int animationSpeed, boolean shouldAnimate){
 
@@ -47,12 +48,17 @@ public class Sprite {
 
             double percentageDone = (this.currentAnimationTime/(this.animationSpeed*this.numberOfFrames));
             this.displayFrame = (int)( percentageDone * this.numberOfFrames);
-            if(percentageDone >= 0.95 && animateOnce){
+            System.out.println("% = "+percentageDone);
+            if(displayFrame == numberOfFrames-1){
+                this.stopflag = true;
+            }
+            if( this.stopflag && displayFrame == 0 && animateOnce){
                 System.out.println("slokkva");
                 this.displayFrame = 0;
                 this.currentAnimationTime = 0.0;
                 this.shouldAnimate = false;
                 animateOnce = false;
+                this.stopflag = false;
             }
         }
 

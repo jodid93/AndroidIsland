@@ -4,31 +4,169 @@
     android:layout_height="match_parent"
     android:weightSum="1">
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageButton"
-        android:background="@drawable/item1upgrade1"
-        android:adjustViewBounds="true" />
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/item1upgrade3">
 
-    <ImageButton
-        android:layout_width="131dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageButton4"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/item2upgrade1"
-        android:layout_weight="0.26" />
+        <ImageButton
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/item1upgrade1"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_rowSpan="2"
+            android:layout_columnSpan="2"
+            android:background="@drawable/item1upgrade1" />
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageButton2"
-        android:background="@drawable/item1upgrade2" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/price11"
+            android:layout_row="2"
+            android:layout_column="1" />
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageButton3"
-        android:background="@drawable/item1upgrade3" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/price21"
+            android:layout_row="2"
+            android:layout_column="2" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/price31"
+            android:layout_row="2"
+            android:layout_column="3" />
+
+        <ImageButton
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/item1upgrade2"
+            android:layout_row="3"
+            android:layout_column="1"
+            android:background="@drawable/item1upgrade2" />
+
+        <ImageButton
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/item2upgrade2"
+            android:layout_row="3"
+            android:layout_column="2"
+            android:background="@drawable/item2upgrade2" />
+
+        <ImageButton
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/item3upgrade2"
+            android:layout_row="3"
+            android:layout_column="3"
+            android:background="@drawable/item3upgrade2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/price12"
+            android:layout_row="4"
+            android:layout_column="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/price22"
+            android:layout_row="4"
+            android:layout_column="2" />
+
+        <ImageButton
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/item1upgrade3"
+            android:layout_row="5"
+            android:layout_column="1"
+            android:background="@drawable/item1upgrade3" />
+
+        <ImageButton
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/item2upgrade3"
+            android:layout_row="5"
+            android:layout_column="2"
+            android:background="@drawable/item2upgrade3" />
+
+        <ImageButton
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/item2upgrade1"
+            android:layout_row="1"
+            android:layout_column="2"
+            android:background="@drawable/item2upgrade1" />
+
+        <ImageButton
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/item3upgrade1"
+            android:layout_row="1"
+            android:layout_column="3"
+            android:contextClickable="true"
+            android:cropToPadding="false"
+            android:focusable="true"
+            android:focusableInTouchMode="false"
+            android:background="@drawable/item3upgrade1" />
+
+        <ImageButton
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/item3upgrade3"
+            android:layout_row="5"
+            android:layout_column="3"
+            android:background="@drawable/item3upgrade3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/price13"
+            android:layout_row="6"
+            android:layout_column="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/price23"
+            android:layout_row="6"
+            android:layout_column="2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/price33"
+            android:layout_row="6"
+            android:layout_column="3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/price32"
+            android:layout_row="4"
+            android:layout_column="3" />
+
+    </GridLayout>
 </LinearLayout>

@@ -18,20 +18,15 @@ public class UpgradeMenu extends AppCompatActivity {
     private static final String UsrDat = "idleisland.userdata";
 
     public static Intent newIntent(Context packageContext, String usrData){
-        Intent i = new Intent(packageContext, GameEngine.class);
+        Intent i = new Intent(packageContext, UpgradeMenu.class);
         i.putExtra(UsrDat, usrData);
         return i;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
-
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_upgrademenu);
         s_UserData = getIntent().getStringExtra(UsrDat);
 
 

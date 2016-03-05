@@ -84,14 +84,15 @@ public class GameEngine extends AppCompatActivity {
         this.GameButtons = new RelativeLayout(this);
 
 
-        Button butOne = new Button(this);
-        butOne.setText("Upgrade menu");
-        butOne.setId(R.id.upgradeButton);
-        butOne.setOnClickListener(new View.OnClickListener() {
+        Button upgradeMenu = new Button(this);
+        upgradeMenu.setText("Upgrade menu");
+        upgradeMenu.setId(R.id.upgradeButton);
+        upgradeMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent i = MenuActivity.newIntent(GameEngine.this, "hannes");
+                idleIsland[level].kill();
+                Intent i = UpgradeMenu.newIntent(GameEngine.this, "hannes");
                 startActivityForResult(i, 0);
             }
         });
@@ -103,10 +104,35 @@ public class GameEngine extends AppCompatActivity {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT,RelativeLayout.LayoutParams.FILL_PARENT);
         GameButtons.setLayoutParams(params);
 
-        GameButtons.addView(butOne);
+        GameButtons.addView(upgradeMenu);
         b1.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
         b1.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-        butOne.setLayoutParams(b1);
+        upgradeMenu.setLayoutParams(b1);
+
+        Button exit = new Button(this);
+        exit.setText("Exit");
+        exit.setId(R.id.upgradeButton);
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                idleIsland[level].kill();
+                Intent i = MenuActivity.newIntent(GameEngine.this, "hannes");
+                startActivityForResult(i, 0);
+            }
+        });
+
+
+        //Define the layout parameter for the button to wrap the content for both width and height
+        RelativeLayout.LayoutParams b2 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+        RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT,RelativeLayout.LayoutParams.FILL_PARENT);
+        GameButtons.setLayoutParams(params2);
+
+        GameButtons.addView(exit);
+        b2.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+        b2.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+        exit.setLayoutParams(b2);
 
         game.addView(idleIsland[0]);
         game.addView(GameButtons);
@@ -122,7 +148,7 @@ public class GameEngine extends AppCompatActivity {
         if (level == 0) {
 
             //initialize sprites for level 1
-            //item 1
+            /*item 1
             sprites[0][0] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.kall_animation_upgrade_1),
                     5, 246, 244, 50, 50, 1000, true);
 
@@ -152,21 +178,21 @@ public class GameEngine extends AppCompatActivity {
             sprites[2][2] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.bird_animation_upgrade_3),
                     22, 200, 400, 50, 50, 600, true);
 
-            //base animation
+            //base animation*/
             sprites[3][0] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.kall_animation),
 
-                    5, 247, 242, 50, 50, 200, false );
+                    5, 247, 242, 50, 50, 1000, false );
 
             sprites[3][1] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.kall_animation),
-                    5, 247, 242, 50, 50, 200 , false);
+                    5, 247, 242, 50, 50, 1000 , false);
 
             sprites[3][2] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.kall_animation),
-                    5, 247, 242, 50, 50, 200 , false);
+                    5, 247, 242, 50, 50, 1000 , false);
 
 
         } else if (level == 1) {
 
-            //initialize sprites for level 2
+            /*initialize sprites for level 2
             //item 1
             sprites[0][0] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.molekall_animation_upgrade_1),
                     5, 246, 243, 50, 50, 1000, true);
@@ -202,7 +228,7 @@ public class GameEngine extends AppCompatActivity {
                     1, 449, 241, 50, 50, 1000, false);
 
             sprites[3][2] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.molekall_animation),
-                    1, 449, 241, 50, 50, 1000, false);
+                    1, 449, 241, 50, 50, 1000, false);*/
         }
 
         return sprites;
@@ -213,7 +239,6 @@ public class GameEngine extends AppCompatActivity {
     }
 
     public void update(double dt) {
-        System.out.print(".");
         this.idleIsland[this.level].update(dt);
     }
 
