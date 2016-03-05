@@ -35,25 +35,15 @@
             android:layout_weight="0.00" />
     </FrameLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="240dp">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <ListView
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/listView" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"></LinearLayout>
-
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="479dp"
-        android:id="@+id/listView2" />
+            <ExpandableListView
+                android:id="@+id/friendExp"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"/>
+        </LinearLayout>
 
 </LinearLayout>
