@@ -47,11 +47,6 @@ public class GameEngine extends AppCompatActivity {
         return i;
     }
 
-    public void openUpgradeMenu(View view){
-        Intent i = UpgradeMenu.newIntent(GameEngine.this, s_UserData);
-        startActivityForResult(i, BUY_UPGRADES);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -70,13 +65,18 @@ public class GameEngine extends AppCompatActivity {
             }
         });*/
 
-        //requestWindowFeature(Window.FEATURE_NO_TITLE);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         super.onCreate(savedInstanceState);
         s_UserData = getIntent().getStringExtra(UsrDat);
 
-        this.userData = new UserData(s_UserData);
+        this.userData = UserData.getInstance(s_UserData);
+        Upgrades[] x = this.userData.getUpgrades();
+        x[0].setUpgrades(new int[][] {{1,2,3},{1,2,3},{1,2,3}});
+        this.userData.printUpgrades();
+        this.userData.setUserName("abudabi");
+
         this.calculator = new Calculator();
         this.idleIsland = new IdleIsland[]{new IdleIsland(this, this, this.calculator, this.userData, 0, createSprites(0)),
                                            new IdleIsland(this, this, this.calculator, this.userData, 1, createSprites(1))};

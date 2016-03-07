@@ -15,6 +15,7 @@ import android.widget.Button;
 public class UpgradeMenu extends AppCompatActivity {
 
     private String s_UserData;
+    private UserData userData;
     private static final String UsrDat = "idleisland.userdata";
 
     public static Intent newIntent(Context packageContext, String usrData){
@@ -28,7 +29,8 @@ public class UpgradeMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upgrademenu);
         s_UserData = getIntent().getStringExtra(UsrDat);
-
-
+        this.userData = UserData.getInstance(s_UserData);
+        System.out.println(this.userData.getUserName());
+        this.userData.printUpgrades();
     }
 }

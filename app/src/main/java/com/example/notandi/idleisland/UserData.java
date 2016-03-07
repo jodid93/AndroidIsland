@@ -13,6 +13,7 @@ import java.util.Date;
  */
 public class UserData {
 
+    private static volatile UserData instance;
     public Integer numItems;
     public Integer numBoughtItems;
 
@@ -31,8 +32,7 @@ public class UserData {
 
     private Integer numLevel;
 
-    public UserData(String userName) {
-
+    private UserData(String userName){
         DefaultUserData dUserData = new DefaultUserData();
 
         updateTime();
@@ -56,15 +56,40 @@ public class UserData {
                 available = false;
 
             this.upgrades[i] =
-            new Upgrades(
-                this.level+i,
-                dUserData.xGrid,
-                dUserData.yGrid,
-                available
-            );
+                    Upgrades.getInstance(
+                            this.level+i,
+                            dUserData.xGrid,
+                            dUserData.yGrid,
+                            available
+                    );
         }
     }
 
+    public static UserData getInstance(String userName) {
+        System.out.println(instance);
+        if (instance == null) {
+            synchronized (UserData.class) {
+                if (instance == null)
+                    System.out.println(instance);
+                    instance = new UserData (userName);
+            }
+        }
+        return instance;
+    }
+
+
+    public void printUpgrades(){
+        Upgrades x = upgrades[0];
+        int [][] m_upgrades = x.getUpgrades();
+
+        for (int i = 0; i<3; i++){
+            for (int j = 0; j<3; j++){
+                System.out.print(m_upgrades[i][j]+", ");
+            }
+            System.out.println("");
+        }
+
+    }
 
     private void fetchFromDefaultUserData(DefaultUserData dUserData){
         this.numItems = dUserData.xGrid + dUserData.xGrid;

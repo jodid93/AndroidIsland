@@ -277,7 +277,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return getUserDataFromJSON(data[0]);
         }else{
             Log.d("GET USERDATA", "User doen't exists, name-> "+user.getUserName());
-            return new UserData("Villumadurinn");
+            return UserData.getInstance("Villumadurinn");
         }
     }
 
