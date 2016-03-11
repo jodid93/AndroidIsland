@@ -4,6 +4,7 @@ package com.example.notandi.idleisland;
  * Created by thorgeir on 18.2.2016.
  */
 public class Upgrades {
+    private static volatile Upgrades instance;
     private Integer level;
     private Integer numBoughtItems;
     private int[][] upgrades;
@@ -11,12 +12,24 @@ public class Upgrades {
     //true if this upgrades are available for the user
     private Boolean available;
 
-    public Upgrades( Integer level, Integer xGrid, Integer yGrid, Boolean available ) {
+    private Upgrades( Integer level, Integer xGrid, Integer yGrid, Boolean available ) {
         this.level = level;
         this.available = available;
         this.numBoughtItems = 0;
         this.upgrades = new int[xGrid][yGrid];
     }
+
+    public static Upgrades getInstance(Integer level, Integer xGrid, Integer yGrid, Boolean available) {
+        if (instance == null) {
+            synchronized (Upgrades.class) {
+                if (instance == null)
+                    System.out.println(instance);
+                instance = new Upgrades (level,  xGrid,  yGrid,  available);
+            }
+        }
+        return instance;
+    }
+
 
     public void add(int value, int x, int y){
         this.upgrades[x][y] = value;

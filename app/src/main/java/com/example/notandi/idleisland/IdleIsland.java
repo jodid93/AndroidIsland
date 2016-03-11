@@ -58,6 +58,18 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
 
     }
 
+    public void kill(){
+        boolean retry = true;
+        while(retry)
+        {
+            try{thread.setRunning(false);
+                thread.join();
+
+            }catch(InterruptedException e){e.printStackTrace();}
+            retry = false;
+        }
+    }
+
     @Override
     public void surfaceCreated(SurfaceHolder holder){
 

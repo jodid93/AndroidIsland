@@ -134,7 +134,7 @@ public class Main extends AppCompatActivity {
             localUserData = user.getUserData();
 
             //TODO: get UserData from the server.
-            UserData onlineUserData = new UserData("Mani");
+            UserData onlineUserData = UserData.getInstance("Mani");
 
             Timestamp localTimes = localUserData.getTimestamp();
             Timestamp onlineTimes = onlineUserData.getTimestamp();

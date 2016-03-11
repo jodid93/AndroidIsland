@@ -18,7 +18,7 @@ public class MenuActivity extends AppCompatActivity {
     private Button mFriendsButton;
     private Button LogOut;
     private String UserData;
-    private UserData dummyUD = new UserData( "hannes" );
+    private UserData dummyUD = com.example.notandi.idleisland.UserData.getInstance("hannes");
 
     private static final int PLAY_GAME = 666;
     private static final int HIGHSCORE = 1337;

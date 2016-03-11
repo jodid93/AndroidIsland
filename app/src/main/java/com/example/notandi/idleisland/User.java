@@ -40,7 +40,7 @@ public class User {
             //this.userD = this.getUserDataFromJSON(nameOrUserData);
         } else {
         }*/
-        this.userD = new UserData( name );
+        this.userD = UserData.getInstance( name );
         this.dUserD = new DefaultUserData();
         this.query = new SQL(); //TODO: think this variable is unnecessary
     }
