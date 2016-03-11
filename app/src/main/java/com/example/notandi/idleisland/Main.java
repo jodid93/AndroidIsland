@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.renderscript.ScriptGroup;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -59,14 +60,14 @@ public class Main extends AppCompatActivity {
                 String userName = mLogInInputName.getText().toString();
                 String password = mLogInInputPassword.getText().toString();
 
-                if( DB.isValid( userName, password ) ){
+                if (DB.isValid(userName, password)) {
                     try {
-                        oldUser = DB.getUser( userName );
+                        oldUser = DB.getUser(userName);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 } else {
-                    Toast.makeText(Main.this, R.string.login_error_message_1, Toast.LENGTH_SHORT ).show();
+                    Toast.makeText(Main.this, R.string.login_error_message_1, Toast.LENGTH_SHORT).show();
                 }
 
                 user = oldUser;
@@ -79,6 +80,15 @@ public class Main extends AppCompatActivity {
             }
         });
 
+
+
+        //
+        // Þorgeir's test area
+        //
+
+        //ServerDatabaseAccess onlineDB = new ServerDatabaseAccess();
+
+        //onlineDB.authorization("a", "b");
 
         //
         // TESTING USER AND DATABASE
@@ -94,6 +104,7 @@ public class Main extends AppCompatActivity {
         //UserData a = getUserdata(tmpUser);
         //Log.d("GET USERDATA"," from tmpUser -> " + getUserdataString(tmpUser));
     }
+
 
     public String getUserdataString(User user){
         return user.userDataToJSON();
