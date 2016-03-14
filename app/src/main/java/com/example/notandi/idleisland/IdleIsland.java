@@ -32,6 +32,7 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
         this.level = level;
         this.calculator = calculator;
         this.userData = userData;
+        this.upgrades = this.userData.getUpgrades(level).getUpgrades();
         //add the callback to the surfaceholder to intercept events
         getHolder().addCallback(this);
 
@@ -76,13 +77,15 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
         System.out.println("nu mattu yta a takka");
         background = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.game_coconut_tree));
 
-        Upgrades[] upgradesT = this.userData.getUpgrades();
-        upgradesT[0].setUpgrades(new int[][]{{1,0,0},{0,0,0},{0,0,0}});
-        this.upgrades = upgradesT[this.level].getUpgrades();
+        Upgrades upgradesT = this.userData.getUpgrades(this.level);
+        this.upgrades = upgradesT.getUpgrades();
 
         //we can safely start the game loop
         thread.setRunning(true);
-        thread.start();
+        if (thread.getState() == Thread.State.NEW)
+        {
+            thread.start();
+        }
         System.out.println("thradur startadur");
 
     }
@@ -93,7 +96,10 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
     {
         if(event.getAction() == 0){ //ACTION DOWN
             System.out.println("turn on animation");
-            sprites[3][0].loopOnce();
+            if(this.userData.getUpgrades(this.level).getUpgrades()[0][0] != 2){
+
+                sprites[3][0].loopOnce();
+            }
 
 
             userData.setCurrency( this.userData.getCurrency() + (int)(1 * this.userData.getTreeFactor()));
@@ -106,14 +112,15 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
     }
 
 
-
+    //TODO: lata update og render fara ofugt i gegnum updates til ad rendera
     public void update(double dt)
     {
         int currentCurrency = this.userData.getCurrency();
         int currency = this.calculator.calculateCurrency(dt, this.userData.getCurrency(), this.userData.getCurrFactor());
         int gained = currency - currentCurrency;
 
-        this.userData.setCurrency(gained+currentCurrency);
+        this.userData.setCurrency(gained + currentCurrency);
+        System.out.println("Currency: "+this.userData.getCurrency());
 
         if(upgrades[0][0] == 1){
             sprites[3][0].update(dt);
@@ -127,8 +134,6 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
                 }
             }
         }
-
-        this.sprites[3][0].update(dt);
     }
 
     @Override

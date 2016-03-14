@@ -55,22 +55,24 @@ public class UserData {
             else
                 available = false;
 
-            this.upgrades[i] =
-                    Upgrades.getInstance(
+            this.upgrades[i] = new
+                    Upgrades(
                             this.level+i,
                             dUserData.xGrid,
                             dUserData.yGrid,
                             available
                     );
         }
+        System.out.println("ad koma................");
+        printUpgrades();
     }
 
     public static UserData getInstance(String userName) {
-        System.out.println(instance);
         if (instance == null) {
+            System.out.println("userdata var null..........");
             synchronized (UserData.class) {
                 if (instance == null)
-                    System.out.println(instance);
+                    System.out.println("bua til nytt userdata thi thad var null..........");
                     instance = new UserData (userName);
             }
         }
@@ -108,8 +110,8 @@ public class UserData {
         this.timestamp = new Timestamp(now.getTime());
     }
 
-    public Upgrades[] getUpgrades( ){
-        return this.upgrades;
+    public Upgrades getUpgrades(int level ){
+        return this.upgrades[level];
     }
 
     //

@@ -61,7 +61,7 @@ public class User {
     // more detail...
     // mark [x][y] as baugth item also
     // mark new available items around the bought item.
-    public void buyUpgrades(Integer x, Integer y) {
+   /* public void buyUpgrades(Integer x, Integer y) {
 
         //ÞARF KANNSKI AÐ TILGREINA HVAÐA LEVEL-I við erum í
 
@@ -74,13 +74,13 @@ public class User {
         } else{
             updateUpgrades(x,y);
         }
-    }
+    }*/
 
 
 
     // change the items around [x][y] from to be
     // unreachable to be aviable for the user
-    private void updateUpgrades(Integer x, Integer y){
+    /*private void updateUpgrades(Integer x, Integer y){
         Integer xLimit = dUserD.xGrid - 1;
         Integer yLimit = dUserD.yGrid - 1;
 
@@ -130,7 +130,7 @@ public class User {
         }
 
         userD.setLevel( currentLevel );
-    }
+    }*/
 
 
     public UserData getUserDataFromJSON(String json){
