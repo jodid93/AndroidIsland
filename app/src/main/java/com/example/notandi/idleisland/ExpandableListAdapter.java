@@ -31,9 +31,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public Object getChild(int groupPosition, int childPosititon) {
+    public Object getChild(int groupPosition, int childPosition) {
         return this.listDataChild.get(this.listDataHeader.get(groupPosition))
-                .get(childPosititon);
+                .get(childPosition);
     }
 
     @Override
@@ -60,22 +60,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         TextView txtListChild = (TextView) convertView
                 .findViewById(R.id.fListItem);
         txtListChild.setText(childText);
-
-        Button firstButton = (Button) convertView.findViewById(R.id.button);
-        Button secondButton = (Button) convertView.findViewById(R.id.button2);
-
-        if (groupPosition == 0) {
-            firstButton.setText(this.context.getResources().getString(R.string.accept_button));
-            secondButton.setText(this.context.getResources().getString(R.string.reject_button));
-        }
-        else {
-            firstButton.setText(this.context.getResources().getString(R.string.gift_button));
-            secondButton.setText(this.context.getResources().getString(R.string.delete_button));
-        }
-
-        convertView.setClickable(true);
-        convertView.setFocusable(true);
-        convertView.setBackgroundResource(android.R.drawable.menuitem_background);
 
         return convertView;
     }

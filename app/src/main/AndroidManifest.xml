@@ -24,6 +24,7 @@
         <activity android:name=".FriendsActivity"></activity>
         <activity android:name=".GiftActivity"></activity>
         <activity android:name=".UpgradeMenu"></activity>
+        <activity android:name=".PendingActivity"></activity>
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
         <meta-data
