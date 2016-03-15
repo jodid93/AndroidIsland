@@ -32,7 +32,6 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
     {
         super(context);
 
-
         this.sprites = sprites;
         this.level = level;
         this.calculator = calculator;
@@ -87,6 +86,7 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
 
         //we can safely start the game loop
         thread.setRunning(true);
+
         if (thread.getState() == Thread.State.NEW)
         {
             thread.start();

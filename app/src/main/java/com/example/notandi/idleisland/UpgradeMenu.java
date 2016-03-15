@@ -88,8 +88,11 @@ public class UpgradeMenu extends AppCompatActivity {
             public void onClick(View v) {
 
 
+                UpgradeMenu.this.finish();
+                /*
                 Intent i = GameEngine.newIntent(UpgradeMenu.this, "hannes");
                 startActivityForResult(i, 666);
+                */
 
 
                 //Toast.makeText(MenuActivity.this, R.string.message, Toast.LENGTH_SHORT ).show();

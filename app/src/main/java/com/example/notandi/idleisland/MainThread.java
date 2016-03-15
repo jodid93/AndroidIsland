@@ -28,7 +28,6 @@ public class MainThread extends Thread
         long oldTime = System.nanoTime();
 
         while(running) {
-
             newTime = System.nanoTime();
             deltaTime = newTime - oldTime;
             double DoubleDeltaTime = (double)deltaTime/(double)1000000.0;
@@ -38,7 +37,7 @@ public class MainThread extends Thread
 
             //try locking the canvas for pixel editing
             try {
-                canvas = this.surfaceHolder.lockCanvas();
+                canvas = this.surfaceHolder.lockCanvas();;
                 synchronized (surfaceHolder) {
                     this.gameEngine.update(DoubleDeltaTime);
                     this.gameEngine.draw(canvas);

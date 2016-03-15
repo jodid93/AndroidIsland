@@ -50,6 +50,17 @@ public class GameEngine extends AppCompatActivity {
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        game.removeView(idleIsland[0]);
+        game.removeView(GameButtons);
+        idleIsland = new IdleIsland[]{new IdleIsland(this, this, this.calculator, this.userData, 0, createSprites(0)),
+                                      new IdleIsland(this, this, this.calculator, this.userData, 1, createSprites(1))};
+        game.addView(idleIsland[0]);
+        game.addView(GameButtons);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
 
 
@@ -83,7 +94,6 @@ public class GameEngine extends AppCompatActivity {
             }
         });
 
-
         //Define the layout parameter for the button to wrap the content for both width and height
         RelativeLayout.LayoutParams b1 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 
@@ -104,8 +114,13 @@ public class GameEngine extends AppCompatActivity {
 
                 idleIsland[level].kill();
                 idleIsland[level+1].kill();
+
+                GameEngine.this.finish();
+
+                /*
                 Intent i = MenuActivity.newIntent(GameEngine.this, "hannes");
                 startActivityForResult(i, 0);
+                */
             }
         });
 
@@ -123,6 +138,7 @@ public class GameEngine extends AppCompatActivity {
 
         game.addView(idleIsland[0]);
         game.addView(GameButtons);
+
         setContentView(game);
 
     }
@@ -140,7 +156,7 @@ public class GameEngine extends AppCompatActivity {
         final float scaleFactorX = width/540;
         final float scaleFactorY = height/584;
 
-        System.out.println(width+"   "+height+"    "+scaleFactorX+"      "+scaleFactorY +"    "+((int)(width/scaleFactorX)*xPos)+"      "+((int)(width/scaleFactorY)*yPos));
+        System.out.println(width + "   " + height + "    " + scaleFactorX + "      " + scaleFactorY + "    " + ((int) (width / scaleFactorX) * xPos) + "      " + ((int) (width / scaleFactorY) * yPos));
         return new int[] {(int)((width/scaleFactorX)*xPos) , (int)((width/scaleFactorY)*yPos)};
     }
 
