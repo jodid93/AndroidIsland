@@ -21,13 +21,7 @@ public class MainThread extends Thread
         this.gameEngine = gameEngine;
     }
     @Override
-    public void run()
-    {
-        long startTime;
-        long timeMillis;
-        long waitTime;
-        long totalTime = 0;
-        int frameCount =0;
+    public void run(){
 
         long deltaTime;
         long newTime;
@@ -37,10 +31,11 @@ public class MainThread extends Thread
 
             newTime = System.nanoTime();
             deltaTime = newTime - oldTime;
-            double DoubleDeltaTime = (double)deltaTime/(double)1000.0;
+            double DoubleDeltaTime = (double)deltaTime/(double)1000000.0;
+            //System.out.println("oldTime: "+oldTime+"   newTime: "+newTime+"   doubleDeltaTime: "+DoubleDeltaTime+"   deltaTime: "+deltaTime);
 
-            startTime = System.nanoTime();
             canvas = null;
+
             //try locking the canvas for pixel editing
             try {
                 canvas = this.surfaceHolder.lockCanvas();
@@ -60,7 +55,8 @@ public class MainThread extends Thread
                 }
             }
 
-            oldTime = System.nanoTime();
+            oldTime = newTime;
+
         }
     }
     public void setRunning(boolean b)

@@ -34,16 +34,20 @@ public class Upgrades {
         if( upgrades[y][x] == 0 || upgrades[y][x] == 2 ){
             return;
         }
-        //TODO:laga algrimid til ad upgrades komi rett inn
+
         //if user has bought the first item in the column x
-        else if( y == 0 && x < xLimit ){
+        else if( x == 0 && y < xLimit ){
             this.upgrades[y][x] = 2;
             this.upgrades[y][x+1] = 1;
             this.upgrades[y+1][x] = 1;
             return;
         }else if(y <= xLimit){
             this.upgrades[y][x] = 2;
-            this.upgrades[y][x+1] = 1;
+            if(x < xLimit){
+                this.upgrades[y][x+1] = 1;
+            }else{
+                return;
+            }
         }
     }
 

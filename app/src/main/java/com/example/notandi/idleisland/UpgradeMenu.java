@@ -9,6 +9,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.text.DecimalFormat;
 
 /**
  * Created by josua on 5.3.2016.
@@ -20,6 +24,7 @@ public class UpgradeMenu extends AppCompatActivity {
     private static final String UsrDat = "idleisland.userdata";
 
     private ImageButton[][] upgradeButtons = new ImageButton[3][3];
+    private TextView currency;
     private Button mBack;
 
     public static Intent newIntent(Context packageContext, String usrData){
@@ -39,6 +44,22 @@ public class UpgradeMenu extends AppCompatActivity {
     }
 
     private void intiButtons(){
+
+        currency = (TextView) findViewById(R.id.mCurrency2);
+        DecimalFormat df = new DecimalFormat("#.##");
+        String curr;
+        if(this.userData.getCurrency() >= 1000 && this.userData.getCurrency() < 1000000){
+            String currency = df.format(((double)this.userData.getCurrency() /(double) 1000) );
+            curr = currency+" K";
+
+        }else if(this.userData.getCurrency() >= 1000000){
+            String currency = df.format(((double)this.userData.getCurrency() /(double) 1000000) );
+            curr = currency+" M";
+        }else{
+            curr = this.userData.getCurrency()+"";
+        }
+
+        currency.setText(curr);
 
         upgradeButtons[0][0] = (ImageButton) findViewById(R.id.item1upgrade1);
         upgradeButtons[1][0] = (ImageButton) findViewById(R.id.item1upgrade2);
@@ -82,18 +103,38 @@ public class UpgradeMenu extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                System.out.println("-------------herna---------------");
                 Upgrades current = userData.getUpgrades(userData.getLevel() - 1);
-                if (userData.getCurrency() < current.getPrice(g, h)) {
-                    System.out.println("Currency: " + userData.getCurrency() + " price: " + current.getPrice(g, h));
+                int[][] upgr = current.getUpgrades();
+                if (userData.getCurrency() < current.getPrice(h, g)) {
+                    System.out.println("Currency: " + userData.getCurrency() + " price: " + current.getPrice(h, g));
+                    Toast.makeText(UpgradeMenu.this, R.string.no_money, Toast.LENGTH_SHORT).show();
                     return;
-                } else {
+                } else if(upgr[h][g] == 2) {
+                    Toast.makeText(UpgradeMenu.this, R.string.already_bought, Toast.LENGTH_SHORT).show();
+                }else if(upgr[h][g] == 0) {
+                    Toast.makeText(UpgradeMenu.this, R.string.upgrade_unavailable, Toast.LENGTH_SHORT).show();
+                }else{
+
                     current.buyUpgrade(g, h);
-                    userData.setCurrency(userData.getCurrency() - current.getPrice(g, h));
+                    userData.setCurrency(userData.getCurrency() - current.getPrice(h, g));
                     userData.setTreeFactor((double) Calculator.calculateTreeFactor(userData.getUpgrades(0).getUpgrades(), userData.getUpgrades(1).getUpgrades()));
                     userData.setCurrFactor((double) Calculator.createFactor(userData.getUpgrades(0).getUpgrades(), userData.getUpgrades(1).getUpgrades()));
+                    Toast.makeText(UpgradeMenu.this, R.string.upgrade_purchased, Toast.LENGTH_SHORT).show();
                 }
-                userData.printUpgrades();
+                DecimalFormat df = new DecimalFormat("#.##");
+                String curr;
+                if(userData.getCurrency() >= 1000 && userData.getCurrency() < 1000000){
+                    String currency = df.format(((double)userData.getCurrency() /(double) 1000) );
+                    curr = currency+" K";
+
+                }else if(userData.getCurrency() >= 1000000){
+                    String currency = df.format(((double)userData.getCurrency() /(double) 1000000) );
+                    curr = currency+" M";
+                }else{
+                    curr = userData.getCurrency()+"";
+                }
+
+                currency.setText(curr);
 
             }
         });

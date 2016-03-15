@@ -19,6 +19,7 @@ public class UserData {
 
     private String userName;
     private Integer currency;
+    private int score;
     private JSONObject settings;
     //private java.sql.Timestamp timestamp;
     private Timestamp timestamp;
@@ -102,6 +103,7 @@ public class UserData {
         this.currency = dUserData.currency;
         this.settings = dUserData.settings;
         this.bought = dUserData.boughtID;
+        this.score = dUserData.score;
     }
 
     public void updateTime(){
@@ -122,6 +124,8 @@ public class UserData {
     public String getUserName() {
         return userName;
     }
+
+    public int getScore(){ return score; }
 
     public Integer getCurrency() {
         return currency;
@@ -158,7 +162,7 @@ public class UserData {
         this.currency = currency;
     }
 
-
+    public void setScore(int score){ this.score = score; }
 
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;

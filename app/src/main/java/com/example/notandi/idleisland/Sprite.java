@@ -19,10 +19,16 @@ public class Sprite {
     private boolean shouldAnimate;
     private boolean animateOnce;
     private boolean stopflag;
+    private Bitmap map;
+
+    public Bitmap getBitmap(){
+        return this.map;
+    }
 
     public Sprite(Bitmap spriteSheet, int numFrames, int frameWidth, int frameHeight, int x, int y, int animationSpeed, boolean shouldAnimate){
 
         //this.animationSpeed er tími í millisec hvað hver rammi á að vera lengi
+        this.map = spriteSheet;
         numberOfFrames = numFrames;
         this.frameWidth = frameWidth;
         this.frameHeight = frameHeight;
@@ -34,7 +40,11 @@ public class Sprite {
 
         for (int i = 0; i < frames.length; i++)
         {
-            frames[i] = Bitmap.createBitmap(spriteSheet, i*frameWidth, 0, frameWidth, frameHeight);
+            if(i*frameWidth >= spriteSheet.getWidth()-frameWidth-1){
+                frames[i] = Bitmap.createBitmap(spriteSheet,spriteSheet.getWidth()-frameWidth-1 , 0, frameWidth, frameHeight);
+            }else{
+                frames[i] = Bitmap.createBitmap(spriteSheet, i*frameWidth, 0, frameWidth, frameHeight);
+            }
         }
     }
 
