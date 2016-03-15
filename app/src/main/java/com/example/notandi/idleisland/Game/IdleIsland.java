@@ -1,4 +1,4 @@
-package com.example.notandi.idleisland;
+package com.example.notandi.idleisland.Game;
 
 /**
  * Created by Notandi on 18.2.2016.
@@ -12,6 +12,9 @@ import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import com.example.notandi.idleisland.R;
+import com.example.notandi.idleisland.User.UserData;
 
 import java.text.DecimalFormat;
 import java.util.Vector;

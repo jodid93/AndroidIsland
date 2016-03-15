@@ -1,4 +1,4 @@
-package com.example.notandi.idleisland;
+package com.example.notandi.idleisland.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,10 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.notandi.idleisland.Utils.Security;
+import com.example.notandi.idleisland.User.User;
+import com.example.notandi.idleisland.User.UserData;
 import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.sql.PreparedStatement;
 
 
 //TODO: Create new table because 'user' table attributes has changes.

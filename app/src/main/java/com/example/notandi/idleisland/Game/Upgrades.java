@@ -1,4 +1,4 @@
-package com.example.notandi.idleisland;
+package com.example.notandi.idleisland.Game;
 
 /**
  * Created by thorgeir on 18.2.2016.

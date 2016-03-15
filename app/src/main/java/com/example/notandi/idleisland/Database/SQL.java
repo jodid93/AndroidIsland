@@ -1,4 +1,4 @@
-package com.example.notandi.idleisland;
+package com.example.notandi.idleisland.Database;
 
 import android.content.ContentValues;
 import android.provider.BaseColumns;

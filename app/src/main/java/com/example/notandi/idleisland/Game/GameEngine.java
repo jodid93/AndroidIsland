@@ -1,20 +1,15 @@
-package com.example.notandi.idleisland;
+package com.example.notandi.idleisland.Game;
 
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -22,6 +17,9 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+
+import com.example.notandi.idleisland.R;
+import com.example.notandi.idleisland.User.UserData;
 
 public class GameEngine extends AppCompatActivity {
 

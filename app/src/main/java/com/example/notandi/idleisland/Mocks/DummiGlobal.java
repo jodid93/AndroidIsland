@@ -1,4 +1,4 @@
-package com.example.notandi.idleisland;
+package com.example.notandi.idleisland.Mocks;
 
 /**
  * Created by thorkellmani on 05/03/16.

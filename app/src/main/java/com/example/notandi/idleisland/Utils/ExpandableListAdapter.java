@@ -1,4 +1,4 @@
-package com.example.notandi.idleisland;
+package com.example.notandi.idleisland.Utils;
 
 /**
  * Created by thorkellmani on 05/03/16.
@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.notandi.idleisland.R;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;

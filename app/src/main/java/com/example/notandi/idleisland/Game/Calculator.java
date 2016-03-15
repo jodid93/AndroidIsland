@@ -1,4 +1,4 @@
-package com.example.notandi.idleisland;
+package com.example.notandi.idleisland.Game;
 
 /**
  * Created by Notandi on 25.2.2016.

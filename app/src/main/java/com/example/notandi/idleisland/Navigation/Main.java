@@ -1,13 +1,9 @@
-package com.example.notandi.idleisland;
+package com.example.notandi.idleisland.Navigation;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
-import android.renderscript.ScriptGroup;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,10 +13,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
+import com.example.notandi.idleisland.Database.DatabaseHelper;
+import com.example.notandi.idleisland.R;
+import com.example.notandi.idleisland.User.User;
+import com.example.notandi.idleisland.User.UserData;
 
 import java.io.IOException;
-import java.sql.Time;
 import java.sql.Timestamp;
 
 

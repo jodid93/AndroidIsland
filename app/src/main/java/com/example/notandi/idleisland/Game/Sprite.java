@@ -1,4 +1,4 @@
-package com.example.notandi.idleisland;
+package com.example.notandi.idleisland.Game;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

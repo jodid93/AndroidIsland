@@ -1,16 +1,17 @@
-package com.example.notandi.idleisland;
+package com.example.notandi.idleisland.Game;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.notandi.idleisland.R;
+import com.example.notandi.idleisland.User.UserData;
 
 import java.text.DecimalFormat;
 
