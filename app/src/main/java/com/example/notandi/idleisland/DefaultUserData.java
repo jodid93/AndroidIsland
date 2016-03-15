@@ -28,7 +28,7 @@ public class DefaultUserData {
 
         this.score = 0;
 
-        this.currency = 10000;
+        this.currency = 10000000;
         this.currFactor = 0.0;
         this.treeFactor = 1.0;
 

@@ -61,6 +61,8 @@ public class UpgradeMenu extends AppCompatActivity {
 
         currency.setText(curr);
 
+
+
         upgradeButtons[0][0] = (ImageButton) findViewById(R.id.item1upgrade1);
         upgradeButtons[1][0] = (ImageButton) findViewById(R.id.item1upgrade2);
         upgradeButtons[2][0] = (ImageButton) findViewById(R.id.item1upgrade3);
@@ -99,44 +101,78 @@ public class UpgradeMenu extends AppCompatActivity {
         final int g,h;
         g = i;
         h = j;
-        upgradeButtons[i][j].setOnClickListener(new View.OnClickListener() {
+        int[][] upgrades = this.userData.getUpgrades(userData.getLevel()-1).getUpgrades();
 
-            @Override
-            public void onClick(View v) {
-                Upgrades current = userData.getUpgrades(userData.getLevel() - 1);
-                int[][] upgr = current.getUpgrades();
-                if (userData.getCurrency() < current.getPrice(h, g)) {
-                    System.out.println("Currency: " + userData.getCurrency() + " price: " + current.getPrice(h, g));
-                    Toast.makeText(UpgradeMenu.this, R.string.no_money, Toast.LENGTH_SHORT).show();
-                    return;
-                } else if(upgr[h][g] == 2) {
-                    Toast.makeText(UpgradeMenu.this, R.string.already_bought, Toast.LENGTH_SHORT).show();
-                }else if(upgr[h][g] == 0) {
-                    Toast.makeText(UpgradeMenu.this, R.string.upgrade_unavailable, Toast.LENGTH_SHORT).show();
-                }else{
 
-                    current.buyUpgrade(g, h);
-                    userData.setCurrency(userData.getCurrency() - current.getPrice(h, g));
-                    userData.setTreeFactor((double) Calculator.calculateTreeFactor(userData.getUpgrades(0).getUpgrades(), userData.getUpgrades(1).getUpgrades()));
-                    userData.setCurrFactor((double) Calculator.createFactor(userData.getUpgrades(0).getUpgrades(), userData.getUpgrades(1).getUpgrades()));
-                    Toast.makeText(UpgradeMenu.this, R.string.upgrade_purchased, Toast.LENGTH_SHORT).show();
+            upgradeButtons[i][j].setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    Upgrades current = userData.getUpgrades(userData.getLevel() - 1);
+                    int[][] upgr = current.getUpgrades();
+                    if (userData.getCurrency() < current.getPrice(h, g)) {
+                        System.out.println("Currency: " + userData.getCurrency() + " price: " + current.getPrice(h, g));
+                        Toast.makeText(UpgradeMenu.this, R.string.no_money, Toast.LENGTH_SHORT).show();
+                        return;
+                    } else if(upgr[h][g] == 2) {
+                        Toast.makeText(UpgradeMenu.this, R.string.already_bought, Toast.LENGTH_SHORT).show();
+                    }else if(upgr[h][g] == 0) {
+                        Toast.makeText(UpgradeMenu.this, R.string.upgrade_unavailable, Toast.LENGTH_SHORT).show();
+                    }else{
+
+                        current.buyUpgrade(g, h);
+                        userData.setCurrency(userData.getCurrency() - current.getPrice(h, g));
+                        userData.setTreeFactor((double) Calculator.calculateTreeFactor(userData.getUpgrades(0).getUpgrades(), userData.getUpgrades(1).getUpgrades()));
+                        userData.setCurrFactor((double) Calculator.createFactor(userData.getUpgrades(0).getUpgrades(), userData.getUpgrades(1).getUpgrades()));
+                        Toast.makeText(UpgradeMenu.this, R.string.upgrade_purchased, Toast.LENGTH_SHORT).show();
+                        unlockUpgrades();
+                    }
+                    DecimalFormat df = new DecimalFormat("#.##");
+                    String curr;
+                    if(userData.getCurrency() >= 1000 && userData.getCurrency() < 1000000){
+                        String currency = df.format(((double)userData.getCurrency() /(double) 1000) );
+                        curr = currency+" K";
+
+                    }else if(userData.getCurrency() >= 1000000){
+                        String currency = df.format(((double)userData.getCurrency() /(double) 1000000) );
+                        curr = currency+" M";
+                    }else{
+                        curr = userData.getCurrency()+"";
+                    }
+
+                    currency.setText(curr);
+
                 }
-                DecimalFormat df = new DecimalFormat("#.##");
-                String curr;
-                if(userData.getCurrency() >= 1000 && userData.getCurrency() < 1000000){
-                    String currency = df.format(((double)userData.getCurrency() /(double) 1000) );
-                    curr = currency+" K";
+            });
+        if(upgrades[i][j] != 1 && upgrades[i][j] != 2){
+            upgradeButtons[j][i].setBackgroundResource(R.drawable.game_upgrade_lock_02);
+        }
+    }
 
-                }else if(userData.getCurrency() >= 1000000){
-                    String currency = df.format(((double)userData.getCurrency() /(double) 1000000) );
-                    curr = currency+" M";
+    private void unlockUpgrades(){
+        System.out.println("herna inni i fuck sakanum");
+        upgradeButtons[0][0].setBackgroundResource(R.drawable.item1upgrade1);
+        upgradeButtons[1][0].setBackgroundResource(R.drawable.item1upgrade2);
+        upgradeButtons[2][0].setBackgroundResource(R.drawable.item1upgrade3);
+
+        upgradeButtons[0][1].setBackgroundResource(R.drawable.item2upgrade1);
+        upgradeButtons[1][1].setBackgroundResource(R.drawable.item2upgrade2);
+        upgradeButtons[2][1].setBackgroundResource(R.drawable.item2upgrade3);
+
+        upgradeButtons[0][2].setBackgroundResource(R.drawable.item3upgrade1);
+        upgradeButtons[1][2].setBackgroundResource(R.drawable.item3upgrade2);
+        upgradeButtons[2][2].setBackgroundResource(R.drawable.item3upgrade3);
+
+        int[][] upgrades = this.userData.getUpgrades(userData.getLevel()-1).getUpgrades();
+
+        for(int i= 0; i<3; i++){
+            for(int j = 0; j<3;j++){
+                if(upgrades[i][j] != 1 && upgrades[i][j] != 2){
+                    upgradeButtons[j][i].setBackgroundResource(R.drawable.game_upgrade_lock_02);
                 }else{
-                    curr = userData.getCurrency()+"";
+                    System.out.println("cool beans: "+i+"   "+j);
                 }
-
-                currency.setText(curr);
-
             }
-        });
+        }
     }
 }
