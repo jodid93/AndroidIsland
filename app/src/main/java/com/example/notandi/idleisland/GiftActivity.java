@@ -54,8 +54,7 @@ public class GiftActivity extends AppCompatActivity {
                         Toast.makeText(GiftActivity.this, "Gifted 50%", Toast.LENGTH_SHORT).show();
                         break;
                 }
-                Intent i = FriendsActivity.newIntent(GiftActivity.this, null);
-                startActivityForResult(i, FRIENDS);
+                GiftActivity.this.finish();
             }
         });
 
