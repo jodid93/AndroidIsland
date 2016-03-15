@@ -33,6 +33,7 @@ public class PendingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(PendingActivity.this, "Accepted friend request", Toast.LENGTH_SHORT ).show();
+                PendingActivity.this.finish();
             }
         });
 
@@ -41,6 +42,7 @@ public class PendingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(PendingActivity.this, "Rejected friend request", Toast.LENGTH_SHORT ).show();
+                PendingActivity.this.finish();
             }
         });
 
