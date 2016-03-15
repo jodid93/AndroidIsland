@@ -17,6 +17,7 @@ import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -28,12 +29,12 @@ public class FriendsActivity extends AppCompatActivity{
 
     private static final String UsrDat = "fokkJósúa";
     private static final int GIFT = 69;
+    private static final int PENDING = 70;
 
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
-    Button mGiftButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,17 +42,6 @@ public class FriendsActivity extends AppCompatActivity{
         setContentView(R.layout.activity_friends);
 
         UserData = getIntent().getStringExtra(UsrDat);
-
-        mGiftButton = (Button) findViewById(R.id.add_friend_button);
-        mGiftButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                Intent i = GiftActivity.newIntent(FriendsActivity.this, UserData);
-                startActivityForResult(i, GIFT);
-            }
-        });
 
         // get the listview
         expListView = (ExpandableListView) findViewById(R.id.friendExp);
@@ -70,16 +60,18 @@ public class FriendsActivity extends AppCompatActivity{
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
-                Toast.makeText(
-                        getApplicationContext(),
-                        listDataHeader.get(groupPosition)
-                                + " : "
-                                + listDataChild.get(
-                                listDataHeader.get(groupPosition)).get(
-                                childPosition), Toast.LENGTH_SHORT)
-                        .show();
-                System.out.println("af hverju virkar þetta ekki?");
-                parent.setItemsCanFocus(true);
+
+                String childText = (String) listAdapter.getChild(groupPosition, childPosition);
+                System.out.println(groupPosition);
+                if (groupPosition == 1 ) {
+                    Intent i = GiftActivity.newIntent(FriendsActivity.this, childText);
+                    startActivityForResult(i, GIFT);
+                }
+                else {
+                    Intent i = PendingActivity.newIntent(FriendsActivity.this, childText);
+                    startActivityForResult(i, PENDING);
+                }
+
                 return false;
             }
         });

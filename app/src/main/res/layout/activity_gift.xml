@@ -17,11 +17,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="RANDOM FUCKING USER"
         android:id="@+id/textView3"
         android:layout_gravity="center_horizontal" />
 
     <RadioGroup
+        android:id="@+id/radioGroup"
         android:layout_width="141dp"
         android:layout_height="150dp"
         android:layout_gravity="center_horizontal"
@@ -45,5 +45,12 @@
             android:text="@string/radio_button3"
             android:id="@+id/radioButton3" />
     </RadioGroup>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/confirm_gift"
+        android:id="@+id/gift_button"
+        android:layout_gravity="center_horizontal" />
 
 </LinearLayout>
