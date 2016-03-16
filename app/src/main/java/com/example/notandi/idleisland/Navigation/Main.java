@@ -13,13 +13,22 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.sql.Timestamp;
+
+//import com.google.gson.Gson;
+
+import org.w3c.dom.Text;
+
 import com.example.notandi.idleisland.Database.DatabaseHelper;
+import com.example.notandi.idleisland.Database.ServerDatabaseAccess;
 import com.example.notandi.idleisland.R;
 import com.example.notandi.idleisland.User.User;
 import com.example.notandi.idleisland.User.UserData;
+import com.example.notandi.idleisland.Util;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.concurrent.ExecutionException;
 
 
 public class Main extends AppCompatActivity {
@@ -30,19 +39,23 @@ public class Main extends AppCompatActivity {
     private Button mRegisterButton;
     //private DatabaseHelper DB;
     private static final int ENTER_GAME = 0;
+    private static final int ENTER_REGISTER = 1;
 
-    private User user;
+    //private ServerDatabaseAccess sDB = new ServerDatabaseAccess();
+    //private Gson gson = new Gson();
+
+    //private User user; //TODO:remove the user when it is possible
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final DatabaseHelper DB = DatabaseHelper.getInstance(this);
+        //final DatabaseHelper DB = DatabaseHelper.getInstance(this);
 
         //Create temporarily user named "hannes"
-        String userName = "hannes";
-        final User tmpUser = new User( userName );
+        //String userName = "hannes";
+        //final User tmpUser = new User( userName );
 
         mLogInInputName = (EditText) findViewById(R.id.log_in_name);
         mLogInInputPassword = (EditText) findViewById(R.id.log_in_password);
@@ -52,55 +65,69 @@ public class Main extends AppCompatActivity {
         mLogInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                User oldUser = null;
+                DatabaseHelper lDB = DatabaseHelper.getInstance(Main.this);
+                ServerDatabaseAccess sDB = ServerDatabaseAccess.getInstance();
+                //User oldUser = null;
 
                 String userName = mLogInInputName.getText().toString();
                 String password = mLogInInputPassword.getText().toString();
 
-                if (DB.isValid(userName, password)) {
-                    try {
-                        oldUser = DB.getUser(userName);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                UserData userData = null;
+
+                // Check if user exist in local database
+                if( lDB.isValid(userName, password) ){
+                    //userData = lDB.getUserData(userName);
+                    toMenu(userName);
+                } else if( Util.isOnline(Main.this) ){
+                    String validUser = sDB.authorizationSync(userName, password);
+                    if( validUser.equals("true") ) {
+                        //UserData userData = sDB.getUserData();
+                        String userdata = sDB.getUserDataSync(userName);
+                        Log.d("VALID USER","User data is -> "+userdata);
+
+                        toMenu(userName); //startMenu(userData);
+                    } else {
+                        Toast.makeText(Main.this, R.string.login_error_message_1, Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(Main.this, R.string.login_error_message_1, Toast.LENGTH_SHORT).show();
+                }  else {
+                    if( Util.offlineMode == false ){
+                        Toast.makeText(Main.this, R.string.login_error_message_2, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Main.this, R.string.login_error_message_1, Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(Main.this, R.string.login_error_message_1, Toast.LENGTH_SHORT).show();
+                        String message =
+                                "User doesn't exist in local database "+
+                                "and client is not connected to the Internet!";
+                        Log.i("LOGIN INFO",message);
+                    }
                 }
 
-                user = oldUser;
-
                 Log.d("INFO", "from name input -> " + userName);
-
-                String userdata = getUserdataString(tmpUser);
-                Intent i = MenuActivity.newIntent(Main.this, userdata);
-                startActivityForResult(i, ENTER_GAME);
             }
         });
 
+        mRegisterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //DatabaseHelper lDB = DatabaseHelper.getInstance(Main.this);
+                toRegister();
+                /*UserData userData = getUserdata(userName);
+                Intent i = MenuActivity.newIntent(Main.this, userData.toJSONString());
+                startActivityForResult(i, ENTER_GAME);*/
+            }
+        });
 
+    }
 
-        //
-        // Þorgeir's test area
-        //
+    private void toRegister(){
+        Intent i = RegisterActivity.newIntent(Main.this );
+        startActivityForResult(i, ENTER_REGISTER);
+    }
 
-        //ServerDatabaseAccess onlineDB = new ServerDatabaseAccess();
-
-        //onlineDB.authorization("a", "b");
-
-        //
-        // TESTING USER AND DATABASE
-        //
-        //Get the database
-        //DatabaseHelper DB = DatabaseHelper.getInstance(this);
-        //DB.clearTable();
-        //We insert the user and
-        //Boolean b = DB.insertUser(tmpUser);
-        //Log.d("INSERT USER RESULT", String.valueOf(b));
-        //Log.d("ROW_ID ->>>",rowID.toString());
-        //UserData userData = DB.getUserData();
-        //UserData a = getUserdata(tmpUser);
-        //Log.d("GET USERDATA"," from tmpUser -> " + getUserdataString(tmpUser));
+    private void toMenu(String userName){
+        UserData userData = getUserdata(userName);
+        Intent i = MenuActivity.newIntent(Main.this, userData.toJSONString() );
+        startActivityForResult(i, ENTER_GAME);
     }
 
 
@@ -108,7 +135,18 @@ public class Main extends AppCompatActivity {
         return user.userDataToJSON();
     }
 
-    public UserData getUserdata(User user){
+
+    public UserData getServerUserData( String userName ){
+        ServerDatabaseAccess sDB = ServerDatabaseAccess.getInstance();
+        String userData = sDB.getUserDataSync(userName);// UserData.getInstance("Mani");
+        Log.i("GET SERVER USER",userData);
+        UserData oUserData =  UserData.convertStringToUserData(userData); //getUserDataFromJSON(userData);
+        return oUserData;
+    }
+
+    public UserData getUserdata(String userName){
+        DatabaseHelper DB = DatabaseHelper.getInstance(this);
+
         //TODO implementa allt database dót
 
         //ef online
@@ -122,44 +160,66 @@ public class Main extends AppCompatActivity {
         // Sækja offline
         // skila user data
 
-        UserData localUserData;
+        UserData lUserData;
 
-        DatabaseHelper DB = DatabaseHelper.getInstance(this);
-
-        if( isOnline() ){
+        if( Util.isOnline(this) ){
             Log.d("INTENET CONNECTION", "CONNECTION: TRUE");
 
-            localUserData = user.getUserData();
+            lUserData = DB.getUserData(userName);
 
-            //TODO: get UserData from the server.
-            UserData onlineUserData = UserData.getInstance("Mani");
+            if( lUserData==null ){
+                return UserData.getInstance("Mani");
+            }else{
+                //TODO: get UserData from the server.
+                //UserData onlineUserData = UserData.getInstance("Mani");
 
-            Timestamp localTimes = localUserData.getTimestamp();
-            Timestamp onlineTimes = onlineUserData.getTimestamp();
+                UserData oUserData = getServerUserData( userName );
 
-            Log.d("TIMESTAMP COMPARE", String.valueOf(localTimes.getTime()) );
-            Log.d("TIMESTAMP COMPARE", String.valueOf(onlineTimes.getTime()));
+                Timestamp localTimes = lUserData.getTimestamp();
+                Timestamp onlineTimes = oUserData.getTimestamp();
 
-            if( localTimes.after(onlineTimes) ){
-                // If online timestamp is older than local timestamp
-                // TODO: replace the local userdata instead of online UserData
-                Log.d("TIMESTAMP COMPARE", "local time is after onlineTimes");
-            } else {
-                // If online timestamp is newer than local timestamp
-                // TODO: replace online userdata instead of local timestamp
-                Log.d("TIMESTAMP COMPARE", "local time is before onlineTimes");
+                Log.d("TIMESTAMP COMPARE", String.valueOf(localTimes.getTime()) );
+                Log.d("TIMESTAMP COMPARE", String.valueOf(onlineTimes.getTime()));
+
+                if( localTimes.after(onlineTimes) ){
+                    // If online timestamp is older than local timestamp
+                    // TODO: replace the local userdata instead of online UserData
+                    Log.d("TIMESTAMP COMPARE", "local time is after onlineTimes");
+                } else {
+                    // If online timestamp is newer than local timestamp
+                    // TODO: replace online userdata instead of local timestamp
+                    Log.d("TIMESTAMP COMPARE", "local time is before onlineTimes");
+                }
             }
         } else {
             Log.d("INTENET CONNECTION","CONNECTION:FALSE");
-            localUserData = DB.getUserData(user);
+            lUserData = DB.getUserData(userName);
         }
-        return localUserData;
+        return lUserData;
     }
 
-    public boolean isOnline() {
+    /*public boolean isOnline() {
         ConnectivityManager cm =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
+    }*/
+
+    // Converts UserData userD to JSON String
+    // and returns it
+    /*public String userDataToJSON(UserData userData){
+        Log.d("-- DFSJKLDSFKJL---",userData.getUserName());
+        return this.gson.toJson(userData);
+    }
+
+    public UserData getUserDataFromJSON(String json) {
+        Log.d("CONVERT","Taking the string \""+json+"\"");
+        UserData newData = this.gson.fromJson(json, UserData.class);
+        return newData;
+    }*/
+
+    public static Intent newIntent(Context packageContext) {
+        Intent i = new Intent(packageContext, Main.class);
+        return i;
     }
 }

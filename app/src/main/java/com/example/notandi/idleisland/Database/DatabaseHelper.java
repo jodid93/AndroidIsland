@@ -17,10 +17,25 @@ import java.io.IOException;
 
 //TODO: Create new table because 'user' table attributes has changes.
 
-////////
-// API//
-////////
-// FIRST get database
+//
+// IN GENERAL ...
+//  This class has access to local SQLite database
+
+
+//
+//  DRAWBACK =
+//
+
+//
+//  = implementation
+//      -   I think that is much more wiser to create
+//          a class that controls the online database
+//          alongside to the local database.
+
+//
+//  HOW TO USE:
+//
+// FIRST get a instance of the database
 //
 //      -  DatabaseHelper DB = DatabaseHelper.getInstance(this);
 //
@@ -33,25 +48,23 @@ import java.io.IOException;
 //          + 'true' if userName exists and the password matches
 //          + 'false' otherwise
 //
-//      - DB.insertUserData( user );
 //
 //      - User oldUser = DB.getUser( userName );
 //          + return a user from the database with the name userName
 //
-//      - User oldUser = DB.getUser( userName, password );
-//          + return a user from the database if userName and password exists
 //
-//      - DB.insertUserData( user );
-//          + The UserData from the user has been stored in database alongside the user
-//          + ALSO....
-//          - DB.insertUserData( userName, userData );
+//      - DB.insertUserData( username, userdata );
+//          + The userdata has been stored in database alongside the user
+//          + SAME WORK IN....
 //          - DB.insertUserData( userName, userDataJOSN );
+//              - userDataJSON is a String
 //
 //      - Boolean isName = DB.userNameExists( userName );
 //          + 'true' if userName exists in the loacaldatabase
 //          + 'false' otherwise
 //
-//
+//      - DB.clearTable();
+//          + Removes all data from the SQLite database
 //
 /**
  * Created by Lenovo on 11.2.2016.
@@ -63,7 +76,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private Security security = new Security();
 
-    public static final int DATABASE_VERSION = 4;
+    public static final int DATABASE_VERSION = 5;
     public static final String DATABASE_NAME = "idlIsland.db";
     private Gson gson = new Gson();
 
@@ -77,7 +90,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return sInstance;
     }
 
-    public DatabaseHelper(Context context/*, String name, SQLiteDatabase.CursorFactory factory, int version*/) {
+    public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -99,16 +112,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public User createNewUser(String userName, String password) throws IOException {
+    public void createNewUser(String userName, String password)  {
 
         if( !userNameExists(userName) ){
 
             Long newRowId;
 
             //create new userData for user
-            User newUser = new User( userName );
-            UserData userData = newUser.getUserData();
-            String userDataJSON = userDataToJSON( userData );
+            //User newUser = new User( userName );
+            UserData userData = UserData.getInstance( userName );// newUser.getUserData();
+            String userDataJSON = userData.toJSONString(); //userDataToJSON( userData );
 
             String hashPassword = security.hashPassword( password );
 
@@ -131,15 +144,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         SQL.entry.TABLE_NAME+", when it is supposed to change only one row";
                 Log.d("-ERROR-DATABASE-", errMessage);
             }
-            return newUser;
         } else {
-            String errorMessage =
-                    "The error is probobly " +
-                            "With the username!\n" +
-
-                    "";
             Log.d("ERROR: CREATE USER", "Something went wrong, ");
-            throw new IOException();
         }
     }
 
@@ -152,7 +158,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     public void insertUserData(String userName, UserData userData) throws IOException {
-        String userDataJSON = userDataToJSON(userData);
+        String userDataJSON = userData.toJSONString(); //userDataToJSON(userData);
         insertUserData( userName, userDataJSON );
     }
 
@@ -198,31 +204,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         insertUserData(userName, userData);
     }
 
-    //return false if another user has same name (ég veit þetta er local)
-    //return true if user dosen't exists
-    /*public Boolean insertUser( User user ){
 
-        if( userNameExists( user.getUserName() ) ){
-            return false;
-        } else {
-            SQLiteDatabase db = this.getWritableDatabase();
-
-            ContentValues values = new ContentValues();
-            values.put(SQL.entry.USER_NAME, user.getUserName());
-            values.put(SQL.entry.USERDATA, userDataToJSON(user.getUserData()));
-
-            Long newRowId = db.insert(
-                    SQL.entry.TABLE_NAME,
-                    null,
-                    values);
-
-            db.close();
-            return true;
-        }
-    }*/
-
-
-    private Boolean userNameExists( String userName ){
+    public Boolean userNameExists( String userName ){
         SQLiteDatabase db = this.getReadableDatabase();
 
         //query variables
@@ -247,8 +230,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    //TODO: thing this is useless
-    public UserData getUserData(User user){
+    //TODO: useless ?
+   /* public UserData getUserData(User user){
 
         String[] projection =  new String[]{
                 SQL.entry.USERDATA
@@ -259,6 +242,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
         if( userNameExists(user.getUserName()) ){
+            SQLiteDatabase db = this.getReadableDatabase();
+
+
+            Cursor cursor = db.query(SQL.entry.TABLE_NAME,
+                    projection,         // The columns to return (if null -> all columns)
+                    whereClause,        // The columns for the WHERE clause
+                    whereArgs,          // The values for the WHERE clause
+                    null,               // don't group the rows
+                    null,               // don't filter by row groups
+                    null                // The sort order
+            );
+
+            String[] data = retriveDataFromCursor(cursor, projection);
+
+            cursor.close();
+            this.close();
+
+            return getUserDataFromJSON(data[0]);
+        }else{
+            Log.d("GET USERDATA", "User doen't exists, name-> "+user.getUserName());
+            return UserData.getInstance("Villumadurinn");
+        }
+    }*/
+
+
+    public UserData getUserData(String userName){
+
+        String[] projection =  new String[]{
+                SQL.entry.USERDATA
+        };
+
+        String whereClause   = SQL.entry.USER_NAME +" = ?";
+        String[] whereArgs   = new String[]{ userName };
+
+
+        if( userNameExists(userName) ){
             SQLiteDatabase db = this.getReadableDatabase();
 
 
@@ -278,11 +297,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             return getUserDataFromJSON(data[0]);
         }else{
-            Log.d("GET USERDATA", "User doen't exists, name-> "+user.getUserName());
+            Log.d("GET USERDATA", "User doen't exists, name-> "+userName);
             return UserData.getInstance("Villumadurinn");
         }
     }
-
 
     public void clearTable(){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -300,7 +318,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             for(int i=0;i<columns.length;i++){
                 do{
                     data[i] = cursor.getString(cursor.getColumnIndex(columns[i]));
-                    Log.d("RETRIEVE DATA FROM CURSOR",data[i]);
+                    Log.d("RETRIEVE DATA",data[i]);
                     // do what ever you want here
                 }while(cursor.moveToNext());
             }
@@ -337,7 +355,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Boolean isValid(String userName, String password){
         String pw = getPassword(userName);
         String hashedPassword = security.hashPassword( password );
-        return (pw == hashedPassword);
+        Log.i("IS VALID USER","pass-> " + pw);
+        Log.i("IS VALID USER","hassPass-> " + hashedPassword);
+        if( hashedPassword==null || pw==null){
+            return false;
+        } else{
+            return (pw.equals(hashedPassword) );
+        }
     }
 
 
@@ -368,7 +392,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //Recommended to user 'isValid(userName,password)' to check if user exists
     // If this userName exists in database, that User is returned
     // otherwise it will return and store a new user in the database
-    public User getUser( String userName ) throws IOException {
+   /* public User getUser( String userName ) {
 
         if( userNameExists(userName) ) {
             SQLiteDatabase db = this.getReadableDatabase();
@@ -393,15 +417,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return createUser( data );
         } else {
             Log.d("ERROR: DATABASE","The user "+userName+" doesn't exists!");
-            throw new IOException();
+            return null;
+            //throw new IOException();
         }
-    }
+    }*/
 
     // data contains user name and UserData
-    private User createUser(String[] data){
+    /*private User createUser(String[] data){
         Log.d("CREATE USER","data[0]->"+data[0]+" and data[1]->"+data[1]);
         return new User(data[0], data[1]);
-    }
+    }*/
 
 
     // Converts UserData userD to JSON String
@@ -412,7 +437,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public UserData getUserDataFromJSON(String json) {
-        Log.d("CONVERT JSON TO USERDATA","Taking the string \""+json+"\"");
+        Log.d("CONVERT","Taking the string \""+json+"\"");
         UserData newData = this.gson.fromJson(json , UserData.class);
         return newData;
     }

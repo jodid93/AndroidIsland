@@ -22,11 +22,11 @@ public class gainedAnimation {
     private double x,y; // current x, y pos of the animated String
     private double deltaX; //difference in x movement for each iteration
     private double deltaY = -0.2; //difference in y movement for each iteration
-    private double gravity = 0;
+    private double gravity = 0; //gravity pulls the y coord down
 
-    private int sizeDiff;
+    private int sizeDiff;   //used to render the text and image in sync
 
-    private Bitmap coconut;
+    private Bitmap coconut; //image of a coconut that is the background for the String gained
 
     //constructor
     public gainedAnimation(String gained, Bitmap coconut){
@@ -58,7 +58,7 @@ public class gainedAnimation {
         this.y += deltaY*dt + dt*gravity;
         gravity += 0.07;
 
-        //check if the text has left the screen
+        //if the lifetime is over
         lifetime += dt;
         if(lifetime > 2000){
             //kill me
@@ -74,26 +74,37 @@ public class gainedAnimation {
     public void draw(Canvas canvas){
         Paint paint = new Paint();
         paint.setColor(Color.WHITE);
+
+        //scale factor for the image and text
         int scale = (int)(this.lifetime * 0.035);
-        getScaledBitmap(30+(int)(scale/1.8));
+
+        getScaledBitmap(30+(int)(scale/1.8)); // scale the image
         paint.setTextSize(20+scale);
 
+        // let the letters fade away after ones econd
         if(this.lifetime>1000){
             double alphaFactor = (((double)(this.lifetime - 1000.0) / 10.0) / 100.0);
             paint.setAlpha(250 - (int)(alphaFactor* 250));
         }
-        //use the latest x,y to draw
+
+        //use the latest x,y to draw with the scaled values
         canvas.drawBitmap(this.coconut, (int)x+(sizeDiff/3), (int) y-37-sizeDiff, null);
         canvas.drawText(this.gained, (int) this.x, (int)this.y, paint);
 
     }
 
+    /*
+        method to scale the coconut image
+
+        after this method is over the image has been scaled and sizeDiff has accumulated
+        from the last size to the new size
+     */
     private void getScaledBitmap(int scale)
     {
-        int sizePrev = coconut.getWidth();
+        int sizePrev = coconut.getWidth(); //get old size
         Matrix m = new Matrix();
         m.setRectToRect(new RectF(0, 0, coconut.getWidth(), coconut.getHeight()), new RectF(0, 0, scale, scale), Matrix.ScaleToFit.CENTER);
         this.coconut =  Bitmap.createBitmap(coconut, 0, 0, coconut.getWidth(), coconut.getHeight(), m, true);
-        this.sizeDiff += coconut.getWidth() - sizePrev;
+        this.sizeDiff += coconut.getWidth() - sizePrev; //find the sizeDiff from the new size and old size
     }
 }
