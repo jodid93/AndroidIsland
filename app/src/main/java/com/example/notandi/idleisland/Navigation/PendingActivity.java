@@ -9,7 +9,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.notandi.idleisland.Database.ServerDatabaseAccess;
 import com.example.notandi.idleisland.R;
+import com.example.notandi.idleisland.User.UserData;
 
 /**
  * Created by thorkellmani on 05/03/16.
@@ -19,7 +21,6 @@ import com.example.notandi.idleisland.R;
  */
 public class PendingActivity extends AppCompatActivity {
 
-    private String UserData;
 
     private static final String UsrDat = "fokkÞorgeir";
     Button mAcceptButton;
@@ -40,6 +41,14 @@ public class PendingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(PendingActivity.this, "Accepted friend request", Toast.LENGTH_SHORT ).show();
+
+                ServerDatabaseAccess sDB = ServerDatabaseAccess.getInstance();
+
+                //The current user
+                String accepter = UserData.getInstance(null).getUserName();
+                String requester = getIntent().getStringExtra(UsrDat);
+                sDB.addFriendAsync(accepter, requester);
+
                 PendingActivity.this.finish();
             }
         });
@@ -49,13 +58,21 @@ public class PendingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(PendingActivity.this, "Rejected friend request", Toast.LENGTH_SHORT ).show();
+
+                ServerDatabaseAccess sDB = ServerDatabaseAccess.getInstance();
+
+                //The current user
+                String rejecter = UserData.getInstance(null).getUserName();
+                String requester = getIntent().getStringExtra(UsrDat);
+                sDB.rejectFriendRequestAsync(rejecter, requester);
+
                 PendingActivity.this.finish();
             }
         });
 
-        UserData = getIntent().getStringExtra(UsrDat);
+        String receiver = getIntent().getStringExtra(UsrDat);
         TextView friend = (TextView) findViewById(R.id.pending_text);
-        friend.setText(UserData + "'s");
+        friend.setText(receiver + "'s");
     }
 
     public static Intent newIntent(Context packageContext, String usrData) {

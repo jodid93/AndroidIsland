@@ -7,5 +7,9 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <style name="EditTextCustomHolo" parent="android:Widget.EditText">
+        <item name="android:background">#afafaf</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
 
 </resources>

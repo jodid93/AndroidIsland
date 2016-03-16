@@ -103,7 +103,8 @@ public class ServerDatabaseAccess {
 
     public enum Action {
         AUTH("auth/"), REGISTER("register/"), USERDATA("userdata/"),
-        USEREXIST("userexist/"), ADD_PENDING("addpending/"),
+        USEREXIST("userexist/"), ADD_PENDING("addpending/"), ADD_FRIEND("addfriend/"),
+        REJECT_FRIEND_REQUEST("rejectrequest/"), PENDINGLIST("pendinglist/"),
         GET("GET"), POST("POST"),ASYNC("async"), SYNC("sync");
         private final String pos;
         Action( String position ){
@@ -157,6 +158,42 @@ public class ServerDatabaseAccess {
             e.printStackTrace();
         }
         String res = exe(Action.ASYNC, Action.GET, restURI);
+    }
+
+    public void addFriendAsync(String accepter, String requester){
+        addFriend(Action.ASYNC, accepter, requester);
+    }
+
+    public String[] getPendingListSync( String userName ){
+        String[] res = getPendingList(Action.SYNC, userName);
+        return res;
+    }
+
+    private String[] getPendingList(Action runMethod, String userName){
+        String restURI = Action.PENDINGLIST.toStr()+userName;
+        String res = exe(runMethod,Action.GET,restURI);
+        String[] result = null;
+
+        Log.i("GET PENDING LIST","Result is " + res);
+
+        if( res!= null ){
+            result = res.split(",");
+        }
+        return result;
+    }
+
+    public void addFriend(Action runMethod, String accepter, String requester){
+        String restURI = Action.ADD_FRIEND.toStr()+accepter+SP+requester;
+        String res = exe(runMethod,Action.POST, restURI);
+    }
+
+    public void rejectFriendRequestAsync( String rejecter, String requester ){
+        rejectFriendRequest(Action.ASYNC, rejecter, requester);
+    }
+
+    private void rejectFriendRequest(Action runMethod, String rejecter, String requester){
+        String restURI = Action.REJECT_FRIEND_REQUEST.toStr()+rejecter+SP+requester;
+        String res = exe(runMethod,Action.POST, restURI);
     }
 
     public void addPendingAsync(String requester, String receiver){

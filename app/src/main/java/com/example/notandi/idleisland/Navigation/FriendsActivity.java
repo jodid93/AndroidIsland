@@ -9,12 +9,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
 
+import com.example.notandi.idleisland.Database.ServerDatabaseAccess;
+import com.example.notandi.idleisland.User.UserData;
 import com.example.notandi.idleisland.Utils.ExpandableListAdapter;
 import com.example.notandi.idleisland.R;
 
@@ -27,7 +30,7 @@ import com.example.notandi.idleisland.R;
  */
 public class FriendsActivity extends AppCompatActivity{
 
-    private String UserData;
+    //private String UserData;
 
     private static final String UsrDat = "fokkJósúa";
     private static final int GIFT = 69;
@@ -43,7 +46,7 @@ public class FriendsActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
 
-        UserData = getIntent().getStringExtra(UsrDat);
+        String rejecter = getIntent().getStringExtra(UsrDat);
 
         // get the listview
         expListView = (ExpandableListView) findViewById(R.id.friendExp);
@@ -78,6 +81,9 @@ public class FriendsActivity extends AppCompatActivity{
             }
         });
 
+
+
+
         // Listview Group expanded listener
         expListView.setOnGroupExpandListener(new OnGroupExpandListener() {
 
@@ -108,10 +114,23 @@ public class FriendsActivity extends AppCompatActivity{
 
         // Adding child data
         List<String> Pending = new ArrayList<String>();
+        //TODO: get pending list
+        String currUser = UserData.getInstance(null).getUserName();
+        ServerDatabaseAccess sDB = ServerDatabaseAccess.getInstance();
+
+        String[] list = sDB.getPendingListSync( currUser );
+        if( list!=null){
+            for(Object o : list){
+                Log.d("PENDING LIST", "Friend -> "+o.toString());
+            }
+        }
+
         Pending.add("Þorgeir");
         Pending.add("Algjör Pedo");
 
         List<String> Friends = new ArrayList<String>();
+        //TODO: get friends
+
         Friends.add("Jósúa");
         Friends.add("Annar Pedo");
         Friends.add("Þunglyndi");
