@@ -1,15 +1,9 @@
-package com.example.notandi.idleisland;
+package com.example.notandi.idleisland.User;
 
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.example.notandi.idleisland.Database.SQL;
 import com.google.gson.Gson;
-
-import org.json.JSONException;
-
-import java.util.Objects;
 
 //
 // User CONTAINS

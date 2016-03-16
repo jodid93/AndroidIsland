@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">IdleIsland</string>
+    <string name="no_money">You dont have enough coconuts</string>
     <string name="LogIn_button">Log In</string>
+    <string name="already_bought">You already own this upgrade</string>
+    <string name="upgrade_purchased">Upgrade bought</string>
+    <string name="upgrade_unavailable">This upgrade is locked</string>
     <string name="Register_button">Register</string>
     <string name="Back_button">Back</string>
     <string name="message">Veiiii skilabod</string>
@@ -27,4 +31,8 @@
     <string name="reject_button">Reject</string>
     <string name="gift_button">Gift</string>
     <string name="delete_button">Delete</string>
+    <string name="pending">Pending</string>
+    <string name="confirm_gift">CONFIRM</string>
+    <string name="pending_response1">Respond to</string>
+    <string name="pending_response2">friend request</string>
 </resources>

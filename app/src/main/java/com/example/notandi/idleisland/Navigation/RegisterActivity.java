@@ -1,17 +1,20 @@
-package com.example.notandi.idleisland;
+package com.example.notandi.idleisland.Navigation;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
+
+import com.example.notandi.idleisland.Database.DatabaseHelper;
+import com.example.notandi.idleisland.Database.ServerDatabaseAccess;
+import com.example.notandi.idleisland.R;
+import com.example.notandi.idleisland.User.UserData;
+import com.example.notandi.idleisland.Util;
 
 /**
  * Created by thorgeir on 15.3.2016.

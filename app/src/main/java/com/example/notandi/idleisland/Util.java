@@ -22,5 +22,4 @@ public class Util {
             return netInfo != null && netInfo.isConnectedOrConnecting();
         } else return false;
     }
-
 }

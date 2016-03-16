@@ -1,13 +1,9 @@
-package com.example.notandi.idleisland;
+package com.example.notandi.idleisland.Navigation;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
-import android.renderscript.ScriptGroup;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,12 +13,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
+import java.sql.Timestamp;
+
+//import com.google.gson.Gson;
 
 import org.w3c.dom.Text;
 
+import com.example.notandi.idleisland.Database.DatabaseHelper;
+import com.example.notandi.idleisland.Database.ServerDatabaseAccess;
+import com.example.notandi.idleisland.R;
+import com.example.notandi.idleisland.User.User;
+import com.example.notandi.idleisland.User.UserData;
+import com.example.notandi.idleisland.Util;
+
 import java.io.IOException;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.concurrent.ExecutionException;
 
@@ -38,7 +42,7 @@ public class Main extends AppCompatActivity {
     private static final int ENTER_REGISTER = 1;
 
     //private ServerDatabaseAccess sDB = new ServerDatabaseAccess();
-    private Gson gson = new Gson();
+    //private Gson gson = new Gson();
 
     //private User user; //TODO:remove the user when it is possible
 
@@ -203,7 +207,7 @@ public class Main extends AppCompatActivity {
 
     // Converts UserData userD to JSON String
     // and returns it
-    public String userDataToJSON(UserData userData){
+    /*public String userDataToJSON(UserData userData){
         Log.d("-- DFSJKLDSFKJL---",userData.getUserName());
         return this.gson.toJson(userData);
     }
@@ -212,7 +216,7 @@ public class Main extends AppCompatActivity {
         Log.d("CONVERT","Taking the string \""+json+"\"");
         UserData newData = this.gson.fromJson(json, UserData.class);
         return newData;
-    }
+    }*/
 
     public static Intent newIntent(Context packageContext) {
         Intent i = new Intent(packageContext, Main.class);

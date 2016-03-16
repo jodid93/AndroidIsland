@@ -1,4 +1,4 @@
-package com.example.notandi.idleisland;
+package com.example.notandi.idleisland.Database;
 
 import android.annotation.TargetApi;
 import android.content.Context;

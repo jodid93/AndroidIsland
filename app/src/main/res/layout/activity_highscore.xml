@@ -3,7 +3,8 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:showDividers="middle"
-    android:divider="?android:dividerHorizontal">
+    android:divider="?android:dividerHorizontal"
+    android:background="@color/colorPrimary">
 
     <TextView
         android:layout_width="wrap_content"
@@ -22,6 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/high_friends"
+            android:background="@drawable/button_cool"
             android:id="@+id/high_friends"
             android:layout_marginLeft="76dp"
             android:layout_marginStart="76dp" />
@@ -30,6 +32,7 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_cool"
             android:text="@string/high_global"
             android:id="@+id/high_global" />
 
