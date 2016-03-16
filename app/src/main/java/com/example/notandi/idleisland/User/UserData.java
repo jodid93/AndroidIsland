@@ -15,6 +15,18 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 
+//
+//  IN GENERAL
+//      Contains all information and resources for
+//      one user. This class uses Singleton pattern.
+//      Meaning that only one instance of userdata
+//      is available in run time.
+//      UserData has a two public static methods,
+//      convertStringToUserData and toJSONString,
+//      that converts the class UserData to JSON
+//      string and visa versa (to store in database).
+
+
 /**
  * Created by thorgeir on 18.2.2016.
  */
@@ -75,16 +87,31 @@ public class UserData {
         printUpgrades();
     }
 
+
+    private void fetchFromDefaultUserData(DefaultUserData dUserData){
+        this.numItems = dUserData.xGrid + dUserData.xGrid;
+        this.unreachable = dUserData.unreachableID;
+        this.currFactor = dUserData.currFactor;
+        this.treeFactor = dUserData.treeFactor;
+        this.available = dUserData.availableID;
+        this.currency = dUserData.currency;
+        this.settings = dUserData.settings;
+        this.bought = dUserData.boughtID;
+        this.score = dUserData.score;
+    }
+
     public static UserData getInstance(String userName) {
         if (instance == null) {
-            System.out.println("userdata var null..........");
             synchronized (UserData.class) {
                 if (instance == null)
-                    System.out.println("bua til nytt userdata thi thad var null..........");
                     instance = new UserData (userName);
             }
         }
         return instance;
+    }
+
+    public static void clearUserData(){
+        instance = null;
     }
 
 
@@ -101,31 +128,7 @@ public class UserData {
     }
 
 
-    private void fetchFromDefaultUserData(DefaultUserData dUserData){
-        this.numItems = dUserData.xGrid + dUserData.xGrid;
-        this.unreachable = dUserData.unreachableID;
-        this.currFactor = dUserData.currFactor;
-        this.treeFactor = dUserData.treeFactor;
-        this.available = dUserData.availableID;
-        this.currency = dUserData.currency;
-        this.settings = dUserData.settings;
-        this.bought = dUserData.boughtID;
-        this.score = dUserData.score;
-      }
 
-    // Converts UserData userD to JSON String
-    // and returns it
-    public String toJSONString(){
-        Gson gson = new Gson();
-        return gson.toJson(this);
-    }
-
-    public static void convertStringToUserData(String json) {
-        Log.d("CONVERT","Taking the string \""+json+"\"");
-        Gson gson = new Gson();
-        UserData newData = gson.fromJson(json , UserData.class);
-        instance = newData;
-    }
 
     public void updateTime(){
         this.timestamp  = System.nanoTime();
@@ -134,6 +137,25 @@ public class UserData {
     public Upgrades getUpgrades(int level ){
         return this.upgrades[level];
     }
+
+    // Converts UserData userD to JSON String
+    // and returns it
+    public String toJSONString(){
+        Gson gson = new Gson();
+        return gson.toJson(this);
+    }
+
+
+    //Creates a UserData class from json string
+    public static void convertStringToUserData(String json) {
+        Log.d("CONVERT","Taking the string \""+json+"\"");
+        Gson gson = new Gson();
+        UserData newData = gson.fromJson(json , UserData.class);
+        instance = newData;
+    }
+
+
+
 
     //
     // GETTERS AND SETTERS (straight forward)

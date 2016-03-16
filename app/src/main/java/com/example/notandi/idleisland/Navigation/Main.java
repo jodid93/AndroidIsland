@@ -43,11 +43,7 @@ public class Main extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //final DatabaseHelper DB = DatabaseHelper.getInstance(this);
-
-        //Create temporarily user named "hannes"
-        //String userName = "hannes";
-        //final User tmpUser = new User( userName );
+        UserData.clearUserData();
 
         mLogInInputName = (EditText) findViewById(R.id.log_in_name);
         mLogInInputPassword = (EditText) findViewById(R.id.log_in_password);
@@ -66,8 +62,16 @@ public class Main extends AppCompatActivity {
 
                 UserData userData = null;
 
+                Log.i("REGISTER", "username ->" + userName);
+                Log.i("REGISTER", "password ->" + password);
+
+                if( userName.equals("") || password.equals("")  ){
+                    Toast.makeText(Main.this,
+                            R.string.register_error_message_2,
+                            Toast.LENGTH_SHORT).show();
+                }
                 // Check if user exist in local database
-                if( lDB.isValid(userName, password) ){
+                else if( lDB.isValid(userName, password) ){
                     //userData = lDB.getUserData(userName);
                     toMenu(userName);
                 } else if( NetworkUtil.isOnline(Main.this) ){
@@ -123,17 +127,11 @@ public class Main extends AppCompatActivity {
     }
 
 
-    public String getUserdataString(User user){
-        return user.userDataToJSON();
-    }
-
-
     public void getServerUserData( String userName ){
         ServerDatabaseAccess sDB = ServerDatabaseAccess.getInstance();
         String userData = sDB.getUserDataSync(userName);// UserData.getInstance("Mani");
         Log.i("GET SERVER USER",userData);
         UserData.convertStringToUserData(userData); //getUserDataFromJSON(userData);
-
     }
 
     public UserData getUserdata(String userName){
@@ -188,30 +186,5 @@ public class Main extends AppCompatActivity {
             lUserData = UserData.getInstance(userName);
         }
         return lUserData;
-    }
-
-    /*public boolean isOnline() {
-        ConnectivityManager cm =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
-    }*/
-
-    // Converts UserData userD to JSON String
-    // and returns it
-    /*public String userDataToJSON(UserData userData){
-        Log.d("-- DFSJKLDSFKJL---",userData.getUserName());
-        return this.gson.toJson(userData);
-    }
-
-    public UserData getUserDataFromJSON(String json) {
-        Log.d("CONVERT","Taking the string \""+json+"\"");
-        UserData newData = this.gson.fromJson(json, UserData.class);
-        return newData;
-    }*/
-
-    public static Intent newIntent(Context packageContext) {
-        Intent i = new Intent(packageContext, Main.class);
-        return i;
     }
 }

@@ -62,6 +62,12 @@ public class FriendsActivity extends AppCompatActivity{
             public void onClick(View v) {
                 String userName = mAddFriendUsername.getText().toString();
                 Toast.makeText(FriendsActivity.this, "Friend request sent to " + userName, Toast.LENGTH_SHORT).show();
+
+                String currUser = UserData.getInstance(null).getUserName();
+                String receiver = mAddFriendUsername.getText().toString();
+
+                ServerDatabaseAccess sDB = ServerDatabaseAccess.getInstance();
+                sDB.addPendingAsync(currUser, receiver);
             }
         });
         // get the listview
@@ -99,7 +105,6 @@ public class FriendsActivity extends AppCompatActivity{
 
 
 
-
         // Listview Group expanded listener
         expListView.setOnGroupExpandListener(new OnGroupExpandListener() {
 
@@ -130,23 +135,32 @@ public class FriendsActivity extends AppCompatActivity{
 
         // Adding child data
         List<String> Pending = new ArrayList<String>();
-        //TODO: get pending list
-        String currUser = UserData.getInstance(null).getUserName();
+
+        //SERVER STUFF
+        /*String currUser = UserData.getInstance(null).getUserName();
         ServerDatabaseAccess sDB = ServerDatabaseAccess.getInstance();
-
         String[] list = sDB.getPendingListSync( currUser );
-        if( list!=null){
-            for(Object o : list){
-                Log.d("PENDING LIST", "Friend -> "+o.toString());
+        if( list!=null ){
+            for(int i=0; i<list.length; i++){
+                Pending.add(list[i]);
             }
-        }
+        }*/
 
+        //dummy
         Pending.add("Þorgeir");
         Pending.add("Algjör Pedo");
 
         List<String> Friends = new ArrayList<String>();
-        //TODO: get friends
 
+        //SERVER STUFF
+        /*String[] friendList = sDB.getFriendListSync( currUser );
+        if( list!=null ){
+            for(int i=0; i<list.length; i++){
+                Friends.add(list[i]);
+            }
+        }*/
+
+        //dummy
         Friends.add("Jósúa");
         Friends.add("Annar Pedo");
         Friends.add("Þunglyndi");

@@ -23,6 +23,7 @@
     <string name="login_error_message_1">Your user name or password is incorrect! :/</string>
     <string name="login_error_message_2">No internet connection !</string>
     <string name="register_error_message_1">Username already exists</string>
+    <string name="register_error_message_2">Emtpy user name or password is not allowed</string>
     <string name="gift_header">GIFT TO</string>
     <string name="radio_button1">10%</string>
     <string name="radio_button2">25%</string>

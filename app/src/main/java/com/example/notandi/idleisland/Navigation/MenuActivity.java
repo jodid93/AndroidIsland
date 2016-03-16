@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.example.notandi.idleisland.Game.GameEngine;
 import com.example.notandi.idleisland.R;
+import com.example.notandi.idleisland.User.UserData;
 
 /**
  * Created by Notandi on 16.2.2016.
@@ -18,8 +19,8 @@ public class MenuActivity extends AppCompatActivity {
     private Button mPlayButton;
     private Button mHighscoreButton;
     private Button mFriendsButton;
-    private Button LogOut;
-    private String UserData;
+    private Button mLogOutButton;
+
     private com.example.notandi.idleisland.User.UserData dummyUD = com.example.notandi.idleisland.User.UserData.getInstance("hannes");
 
     private static final int PLAY_GAME = 666;
@@ -39,8 +40,7 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
-                Intent i = GameEngine.newIntent(MenuActivity.this, UserData);
+                Intent i = GameEngine.newIntent(MenuActivity.this, null);
                 startActivityForResult(i, PLAY_GAME);
 
 
@@ -53,9 +53,18 @@ public class MenuActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-
-                Intent i = HighscoreActivity.newIntent(MenuActivity.this, UserData);
+                Intent i = HighscoreActivity.newIntent(MenuActivity.this, null);
                 startActivityForResult(i, HIGHSCORE);
+            }
+        });
+
+        mLogOutButton = (Button) findViewById(R.id.logout_button);
+        mLogOutButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                UserData.clearUserData();
+                MenuActivity.this.finish();
             }
         });
 
@@ -64,13 +73,10 @@ public class MenuActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-
-                Intent i = FriendsActivity.newIntent(MenuActivity.this, UserData);
+                Intent i = FriendsActivity.newIntent(MenuActivity.this, null);
                 startActivityForResult(i, FRIENDS);
             }
         });
-
-        UserData = getIntent().getStringExtra(UsrDat);
     }
 
     public static Intent newIntent(Context packageContext, String usrData){

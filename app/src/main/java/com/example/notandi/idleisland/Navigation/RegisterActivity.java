@@ -60,7 +60,11 @@ public class RegisterActivity extends AppCompatActivity{
                 String userName = mRegisterInputName.getText().toString();
                 String password = mRegisterInputPass.getText().toString();
 
-                if (NetworkUtil.isOnline(RegisterActivity.this)) {
+                if( userName.equals("") || password.equals("")  ){
+                    Toast.makeText(RegisterActivity.this,
+                            R.string.register_error_message_2,
+                            Toast.LENGTH_SHORT).show();
+                } else if (NetworkUtil.isOnline(RegisterActivity.this)) {
                     if (!sDB.userNameExistsSync(userName)) {
                         Log.i("REGISTER", "Server: the user name " + userName + "is not taken ");
 

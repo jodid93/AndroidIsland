@@ -41,12 +41,19 @@ import java.io.IOException;
 //
 //
 // [methods]
-//      - User newUser = DB.createNewUser(userName,password);
-//          + newUser has been stored in localDatabase
+//      - DB.createNewUser(userName,password);
+//          +   newUser has been stored in localDatabase and
+//              his UserData is now on the running device.
 //
 //      - Boolean valid = DB.isValid( userName, password );
 //          + 'true' if userName exists and the password matches
 //          + 'false' otherwise
+//
+//
+//      - DB.getUserData( userName );
+//          +   If the userName exists in local database,
+//              now is the UserData from user userName
+//              on the running device.
 //
 //
 //      - User oldUser = DB.getUser( userName );
@@ -76,7 +83,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private Security security = new Security();
 
-    public static final int DATABASE_VERSION = 5;
+    public static final int DATABASE_VERSION = 6;
     public static final String DATABASE_NAME = "idlIsland.db";
     private Gson gson = new Gson();
 
@@ -203,11 +210,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         this.close();
     }
 
-    /*public void insertUserData(User user) throws IOException {
-        String userName = user.getUserName();
-        UserData userData = user.getUserData();
-        insertUserData(userName, userData);
-    }*/
 
 
     public Boolean userNameExists( String userName ){
@@ -235,41 +237,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    //TODO: useless ?
-   /* public UserData getUserData(User user){
-
-        String[] projection =  new String[]{
-                SQL.entry.USERDATA
-        };
-
-        String whereClause   = SQL.entry.USER_NAME +" = ?";
-        String[] whereArgs   = new String[]{ user.getUserName() };
-
-
-        if( userNameExists(user.getUserName()) ){
-            SQLiteDatabase db = this.getReadableDatabase();
-
-
-            Cursor cursor = db.query(SQL.entry.TABLE_NAME,
-                    projection,         // The columns to return (if null -> all columns)
-                    whereClause,        // The columns for the WHERE clause
-                    whereArgs,          // The values for the WHERE clause
-                    null,               // don't group the rows
-                    null,               // don't filter by row groups
-                    null                // The sort order
-            );
-
-            String[] data = retriveDataFromCursor(cursor, projection);
-
-            cursor.close();
-            this.close();
-
-            return getUserDataFromJSON(data[0]);
-        }else{
-            Log.d("GET USERDATA", "User doen't exists, name-> "+user.getUserName());
-            return UserData.getInstance("Villumadurinn");
-        }
-    }*/
 
 
     public void getUserData(String userName){
@@ -300,12 +267,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             cursor.close();
             this.close();
 
-            getUserDataFromJSON(data[0]);
+            UserData.convertStringToUserData(data[0]);
         }else{
             Log.d("GET USERDATA", "User doen't exists, name-> "+userName);
             return;
         }
     }
+
 
     public void clearTable(){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -314,6 +282,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d("DATABASE CLEAR TALBE",message);
         db.close();
     }
+
 
     private String[] retriveDataFromCursor( Cursor cursor, String[] columns ){
         String[] data = new String[ columns.length ];
@@ -331,7 +300,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
-
+    // If user userName exist, it will return hashed
+    // password from the local database
     private String getPassword(String userName){
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -367,82 +337,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } else{
             return (pw.equals(hashedPassword) );
         }
-    }
-
-
-    /*public User getUser( String userName ){
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        //query variables
-        String[] projection = new String[]{SQL.entry.USER_NAME, SQL.entry.USERDATA};
-        String whereClause = SQL.entry.USER_NAME + " = ?";
-        String[] whereArgs = new String[]{userName};
-
-        //Check if user exist in the table
-        Cursor cursor = db.query(SQL.entry.TABLE_NAME,
-                projection,       // The columns to return (if null -> all columns)
-                whereClause,       // The columns for the WHERE clause
-                whereArgs,       // The values for the WHERE clause
-                null, null, null
-        );
-
-        String[] data = retriveDataFromCursor(cursor, projection);
-        cursor.close();
-        db.close();
-
-        return createUser( data );
-    }*/
-
-    //precondition: the user have to exists.
-    //Recommended to user 'isValid(userName,password)' to check if user exists
-    // If this userName exists in database, that User is returned
-    // otherwise it will return and store a new user in the database
-   /* public User getUser( String userName ) {
-
-        if( userNameExists(userName) ) {
-            SQLiteDatabase db = this.getReadableDatabase();
-
-            //query variables
-            String[] projection = new String[]{SQL.entry.USER_NAME, SQL.entry.USERDATA};
-            String whereClause = SQL.entry.USER_NAME + " = ?";
-            String[] whereArgs = new String[]{userName};
-
-            //Check if user exist in the table
-            Cursor cursor = db.query(SQL.entry.TABLE_NAME,
-                    projection,       // The columns to return (if null -> all columns)
-                    whereClause,       // The columns for the WHERE clause
-                    whereArgs,       // The values for the WHERE clause
-                    null, null, null
-            );
-
-            String[] data = retriveDataFromCursor(cursor, projection);
-            cursor.close();
-            db.close();
-
-            return createUser( data );
-        } else {
-            Log.d("ERROR: DATABASE","The user "+userName+" doesn't exists!");
-            return null;
-            //throw new IOException();
-        }
-    }*/
-
-    // data contains user name and UserData
-    /*private User createUser(String[] data){
-        Log.d("CREATE USER","data[0]->"+data[0]+" and data[1]->"+data[1]);
-        return new User(data[0], data[1]);
-    }*/
-
-
-    // Converts UserData userD to JSON String
-    // and returns it
-    public String userDataToJSON(UserData userData){
-        Log.d("-- DFSJKLDSFKJL---",userData.getUserName());
-        return this.gson.toJson(userData);
-    }
-
-    public void getUserDataFromJSON(String json) {
-        Log.d("CONVERT","Taking the string \""+json+"\"");
-        UserData.convertStringToUserData(json);
     }
 }

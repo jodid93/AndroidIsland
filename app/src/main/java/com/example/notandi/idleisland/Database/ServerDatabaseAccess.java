@@ -25,7 +25,7 @@ import java.util.concurrent.ExecutionException;
 // IN GENERAL ...
 //  this is a connector to the server database
 //  via http protocol using  AsyncTask technique.
-//
+//  All these methods use the same logic.
 
 //
 // DRAWBACK =
@@ -65,13 +65,7 @@ import java.util.concurrent.ExecutionException;
 //  NOTE. this will stop main UI thread and complete
 //  the server request.
 
-//
-//
-//
-//[method] =
-//
-//
-//
+
 
 
 
@@ -93,8 +87,7 @@ public class ServerDatabaseAccess {
 
     public static synchronized ServerDatabaseAccess getInstance() {
         // Use the application context, which will ensure that you
-        // don't accidentally leak an Activity's context.w w w
-        // See this article for more information: http://bit.ly/6LRzfx
+        // don't accidentally leak an Activity's context.
         if (sInstance == null) {
             sInstance = new ServerDatabaseAccess();
         }
@@ -104,7 +97,7 @@ public class ServerDatabaseAccess {
     public enum Action {
         AUTH("auth/"), REGISTER("register/"), USERDATA("userdata/"),
         USEREXIST("userexist/"), ADD_PENDING("addpending/"), ADD_FRIEND("addfriend/"),
-        REJECT_FRIEND_REQUEST("rejectrequest/"), PENDINGLIST("pendinglist/"),
+        REJECT_FRIEND_REQUEST("rejectrequest/"), PENDINGLIST("pendinglist/"), FRIENDLIST("friendlist/"),
         GET("GET"), POST("POST"),ASYNC("async"), SYNC("sync");
         private final String pos;
         Action( String position ){
@@ -182,6 +175,27 @@ public class ServerDatabaseAccess {
         return result;
     }
 
+
+    public String[] getFriendListSync( String userName ){
+        String[] res = getFriendList(Action.SYNC, userName);
+        return res;
+    }
+
+    private String[] getFriendList(Action runMethod, String userName){
+        String restURI = Action.FRIENDLIST.toStr()+userName;
+        String res = exe(runMethod,Action.GET,restURI);
+        String[] result = null;
+
+        Log.i("GET PENDING LIST","Result is " + res);
+
+        if( res!= null ){
+            result = res.split(",");
+        }
+        return result;
+    }
+
+
+
     public void addFriend(Action runMethod, String accepter, String requester){
         String restURI = Action.ADD_FRIEND.toStr()+accepter+SP+requester;
         String res = exe(runMethod,Action.POST, restURI);
@@ -201,8 +215,10 @@ public class ServerDatabaseAccess {
     }
 
     private void addPending(Action runMethod, String requester, String receiver){
-        String restURI = Action.ADD_PENDING.toStr()+requester+SP+receiver;
-        String res = exe(runMethod,Action.POST, restURI);
+        if( requester!=null || receiver!=null ){
+            String restURI = Action.ADD_PENDING.toStr()+requester+SP+receiver;
+            String res = exe(runMethod,Action.POST, restURI);
+        }
     }
 
     public void createNewUserSync(String userData){
