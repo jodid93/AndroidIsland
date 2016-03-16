@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.example.notandi.idleisland.Database.DatabaseHelper;
 import com.example.notandi.idleisland.R;
 import com.example.notandi.idleisland.User.UserData;
 
@@ -43,12 +44,15 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
     private Background background;  //the background image
     private Sprite[][] sprites;     //sprites that are used in this level
 
+    private GameEngine context;
+
     private Bitmap coconut; //coconut image used with the gainedAnimation
 
     public IdleIsland(Context context, GameEngine engine, Calculator calculator, UserData userData, int level, Sprite[][] sprites)
     {
         super(context);
 
+        this.context = engine;
         //basic
         this.sprites = sprites;
         this.level = level;
@@ -163,6 +167,8 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
     private int gainedInSec = 0; // currency counter that accumulates each iteration of the gameloop
                                 // and holds the amount gained from second to second
 
+    private double autoSaveCounter = 0.0;
+
     /*
         method to update the game
 
@@ -172,6 +178,11 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
     {
         //update secCounter
         secCounter += dt;
+        autoSaveCounter += dt;
+        if(autoSaveCounter > 10000){
+            autoSave();
+            autoSaveCounter = 0.0;
+        }
 
         //update the players currency and score
         int currentCurrency = this.userData.getCurrency();
@@ -249,6 +260,11 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
         }
     }
 
+    private void autoSave(){
+        DatabaseHelper lDB = DatabaseHelper.getInstance(context);
+        this.userData.updateTime();
+        lDB.insertUserData(this.userData.getUserName(), this.userData);
+    }
 
     /*
         method to draw all the elements on the screen

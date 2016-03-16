@@ -128,7 +128,7 @@ public class Calculator {
     public double calculateOfflineCurrency(long date, int currency, Double factor){
 
         //get the time in nanoseconds since the last time the player logged off
-        double timeElapsedInSecs = (System.nanoTime() - date);
+        double timeElapsedInSecs = (System.nanoTime() - date)/1000000.0;
         double curr = this.calculateCurrency(timeElapsedInSecs,currency, factor);
 
         return curr;
@@ -139,7 +139,9 @@ public class Calculator {
     really the same as the method calculateOfflineCurrency since score has a linear relationship to currency
      */
     public double calculateOfflineScore(long date, int currency, Double factor){
-        double timeElapsedInSecs = (System.nanoTime() - date);
+
+        double timeElapsedInSecs = (System.nanoTime() - date)/1000000.0;
+
         double curr = this.calculateCurrencyOffline(timeElapsedInSecs,currency, factor);
 
         return curr;

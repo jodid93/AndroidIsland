@@ -29,7 +29,7 @@ public class UserData {
     private int score;
     private JSONObject settings;
     //private java.sql.Timestamp timestamp;
-    private Timestamp timestamp;
+    private long timestamp;
     private Double currFactor;
     private Double treeFactor;
     private Integer bought;
@@ -72,7 +72,6 @@ public class UserData {
                             available
                     );
         }
-        System.out.println("ad koma................");
         printUpgrades();
     }
 
@@ -121,17 +120,15 @@ public class UserData {
         return gson.toJson(this);
     }
 
-    public static UserData convertStringToUserData(String json) {
+    public static void convertStringToUserData(String json) {
         Log.d("CONVERT","Taking the string \""+json+"\"");
         Gson gson = new Gson();
         UserData newData = gson.fromJson(json , UserData.class);
-        return newData;
+        instance = newData;
     }
 
     public void updateTime(){
-        Calendar calendar = Calendar.getInstance();
-        Date now = calendar.getTime();
-        this.timestamp = new Timestamp(now.getTime());
+        this.timestamp  = System.nanoTime();
     }
 
     public Upgrades getUpgrades(int level ){
@@ -157,7 +154,7 @@ public class UserData {
         return settings;
     }
 
-    public Timestamp getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
@@ -186,7 +183,7 @@ public class UserData {
 
     public void setScore(int score){ this.score = score; }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 

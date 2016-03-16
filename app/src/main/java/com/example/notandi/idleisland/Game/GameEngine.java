@@ -18,8 +18,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
+import com.example.notandi.idleisland.Database.DatabaseHelper;
 import com.example.notandi.idleisland.R;
 import com.example.notandi.idleisland.User.UserData;
+
+import java.security.spec.ECField;
 
 /*
     class that contains the activity for the game itself
@@ -33,7 +36,6 @@ import com.example.notandi.idleisland.User.UserData;
             Further more we have two buttons on this display that are hardcoded here, but that is
             because we are drawing them onto a canvas and not a onto a view so this was the only way
             I could find to do it :/
-            Lastly, all database connections are missing. They will be implemented later
 
  */
 public class GameEngine extends AppCompatActivity {
@@ -83,6 +85,7 @@ public class GameEngine extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+
         //make fullscreen and take the title away
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -92,8 +95,15 @@ public class GameEngine extends AppCompatActivity {
         s_UserData = getIntent().getStringExtra(UsrDat);
         this.userData = UserData.getInstance(s_UserData);
 
-        //initialize the calculator and levels
         this.calculator = new Calculator();
+
+        System.out.println("---------fyrir reikning--------------: "+this.userData.getTimestamp());
+
+        this.userData.setCurrency((int)this.calculator.calculateOfflineCurrency(this.userData.getTimestamp(), this.userData.getCurrency(), this.userData.getCurrFactor()));
+        this.userData.setScore(this.userData.getScore()+(int)this.calculator.calculateOfflineScore(this.userData.getTimestamp(), this.userData.getCurrency(), this.userData.getCurrFactor()));
+
+        //initialize the calculator and levels
+
         this.idleIsland = new IdleIsland[]{new IdleIsland(this, this, this.calculator, this.userData, 0, createSprites(0)),
                                            new IdleIsland(this, this, this.calculator, this.userData, 1, createSprites(1))};
         this.game = new FrameLayout(this);
@@ -129,6 +139,8 @@ public class GameEngine extends AppCompatActivity {
         Button exit = new Button(this);
         exit.setText("Exit");
         exit.setId(R.id.upgradeButton);
+        final UserData ud = this.userData;
+        final String uName = this.userData.getUserName();
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,6 +148,11 @@ public class GameEngine extends AppCompatActivity {
                 //kill the game loop so it doesn't run in the background when the game shouldn't be running
                 idleIsland[level].kill();
                 idleIsland[level+1].kill();
+
+                DatabaseHelper lDB = DatabaseHelper.getInstance(GameEngine.this);
+                ud.updateTime();
+                System.out.println("-----------------------: "+ud.getTimestamp());
+                lDB.insertUserData(uName, ud);
 
                 GameEngine.this.finish();
 
