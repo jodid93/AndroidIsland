@@ -20,6 +20,10 @@ import com.example.notandi.idleisland.R;
 
 /**
  * Created by thorkellmani on 26/02/16.
+ * This activity is responsible for showing the friends list and the pending requests list. It uses
+ * a custom ExpandableListAdapter to inflate the ExpandableListView, creating an expandable
+ * drop-down list for pending, friends or both.
+ *
  */
 public class FriendsActivity extends AppCompatActivity{
 
@@ -91,7 +95,9 @@ public class FriendsActivity extends AppCompatActivity{
             }
         });
     }
-
+     //For now the list only contains some dummy data.
+    //The listDataHeader is the name of the list, either pending or friends.
+    //listDataChild contains the entries in the lists.
     private void prepareListData() {
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();

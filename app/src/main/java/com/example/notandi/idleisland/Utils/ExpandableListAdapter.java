@@ -9,12 +9,10 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.notandi.idleisland.R;
@@ -55,9 +53,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
             convertView = JInflater.inflate(R.layout.friend_list_item, null);
         }
-
-        /*convertView.setClickable(true);
-        convertView.setFocusable(true);*/
 
         TextView txtListChild = (TextView) convertView
                 .findViewById(R.id.fListItem);

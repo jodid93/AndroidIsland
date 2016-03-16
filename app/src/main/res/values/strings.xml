@@ -30,4 +30,6 @@
     <string name="delete_button">Delete</string>
     <string name="pending">Pending</string>
     <string name="confirm_gift">CONFIRM</string>
+    <string name="pending_response1">Respond to</string>
+    <string name="pending_response2">friend request</string>
 </resources>

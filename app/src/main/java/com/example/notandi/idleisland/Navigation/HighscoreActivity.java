@@ -16,6 +16,8 @@ import java.util.ArrayList;
 
 /**
  * Created by thorkellmani on 25/02/16.
+ * This activity is responsible for enabling users to view the high scores table, either displaying
+ * only their friends or the global high score table.
  */
 public class HighscoreActivity extends AppCompatActivity{
 
@@ -41,14 +43,12 @@ public class HighscoreActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
 
-                //Intent i = GameEngine.newIntent(MenuActivity.this, UserData);
-                //startActivityForResult(i, PLAY_GAME);
-
+                //Dummy high scores for testing purposes.
                 ArrayList<String> highScoreList = new ArrayList<String>();
                 highScoreList.add("Bob");
                 highScoreList.add("Jim");
                 highScoreList.add("JimBob");
-                listView.setAdapter(new ArrayAdapter<String>(HighscoreActivity.this, android.R.layout.simple_list_item_1, highScoreList));
+                listView.setAdapter(new ArrayAdapter<>(HighscoreActivity.this, android.R.layout.simple_list_item_1, highScoreList));
 
 
                 Toast.makeText(HighscoreActivity.this, "Load Global", Toast.LENGTH_SHORT ).show();
@@ -61,11 +61,12 @@ public class HighscoreActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
 
+                //Dummy high scores for testing purposes.
                 ArrayList<String> highScoreList = new ArrayList<String>();
                 highScoreList.add("Þorgeir");
                 highScoreList.add("Jósúa");
                 highScoreList.add("Máni");
-                listView.setAdapter(new ArrayAdapter<String>(HighscoreActivity.this, android.R.layout.simple_list_item_1, highScoreList));
+                listView.setAdapter(new ArrayAdapter<>(HighscoreActivity.this, android.R.layout.simple_list_item_1, highScoreList));
 
                 Toast.makeText(HighscoreActivity.this, "Load Friends", Toast.LENGTH_SHORT).show();
             }

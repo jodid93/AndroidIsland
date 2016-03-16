@@ -2,7 +2,6 @@ package com.example.notandi.idleisland.User;
 
 
 import com.example.notandi.idleisland.Game.Upgrades;
-import com.example.notandi.idleisland.Mocks.DefaultUserData;
 
 import org.json.JSONObject;
 

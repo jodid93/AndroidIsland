@@ -14,6 +14,8 @@ import com.example.notandi.idleisland.R;
 
 /**
  * Created by thorkellmani on 05/03/16.
+ * This activity is responsible for enabling users to send their friends a portion of their coconuts
+ * As of now it only displays a toast for how much you want to send your friend.
  */
 public class GiftActivity extends AppCompatActivity {
 
@@ -23,9 +25,9 @@ public class GiftActivity extends AppCompatActivity {
     private static final int FRIENDS = 4;
     Button mGiftButton;
     private RadioGroup radioGroup;
-    private static final int RB1 = 2131492954;
-    private static final int RB2 = 2131492955;
-    private static final int RB3 = 2131492956;
+    private static final int RB1 = 2131492954; //These are the id's which are retrieved by using the
+    private static final int RB2 = 2131492955; //.getCheckedRadioButtonId(); to know which radio
+    private static final int RB3 = 2131492956; // button is currently checked.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,4 +1,4 @@
-package com.example.notandi.idleisland.Mocks;
+package com.example.notandi.idleisland.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;

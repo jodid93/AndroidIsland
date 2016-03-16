@@ -3,7 +3,6 @@ package com.example.notandi.idleisland.User;
 import android.util.Log;
 
 import com.example.notandi.idleisland.Database.SQL;
-import com.example.notandi.idleisland.Mocks.DefaultUserData;
 import com.google.gson.Gson;
 
 //

@@ -13,6 +13,9 @@ import com.example.notandi.idleisland.R;
 
 /**
  * Created by thorkellmani on 05/03/16.
+ * This Activity handles the pending friend requests from other users. When you have a pending
+ * friend request (the database part is yet to be implemented) the user has a choice to either
+ * reject he request or accept it. For now the code only shows which button the user has pressed.
  */
 public class PendingActivity extends AppCompatActivity {
 
@@ -29,6 +32,8 @@ public class PendingActivity extends AppCompatActivity {
 
         mAcceptButton = (Button) findViewById(R.id.accept);
         mRejectButton = (Button) findViewById(R.id.reject);
+
+        //When a user either accepts or rejects a request the activity is closed by using .finish();
 
         mAcceptButton.setOnClickListener(new View.OnClickListener() {
 
@@ -50,7 +55,7 @@ public class PendingActivity extends AppCompatActivity {
 
         UserData = getIntent().getStringExtra(UsrDat);
         TextView friend = (TextView) findViewById(R.id.pending_text);
-        friend.setText(UserData);
+        friend.setText(UserData + "'s");
     }
 
     public static Intent newIntent(Context packageContext, String usrData) {
