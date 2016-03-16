@@ -13,6 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView2" />
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -23,8 +24,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Login"
-            android:id="@+id/textView5"
+            android:text="Register"
+            android:id="@+id/textView4"
             android:layout_gravity="center_horizontal" />
     </LinearLayout>
 
@@ -40,22 +41,22 @@
             android:gravity="center">
 
             <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="Name"
-            android:ems="10"
-            android:id="@+id/log_in_name"
-            android:layout_marginTop="97dp"
-            android:layout_below="@+id/linearLayout2"
-            android:layout_centerHorizontal="true"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:text="Name"
+                android:ems="10"
+                android:id="@+id/register_name"
+                android:layout_marginTop="97dp"
+                android:layout_below="@+id/linearLayout2"
+                android:layout_centerHorizontal="true"/>
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:ems="10"
-                android:id="@+id/log_in_password"
+                android:id="@+id/register_password"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
                 android:text="Password" />
@@ -69,21 +70,22 @@
             android:gravity="center">
 
             <Button
-                android:id="@+id/LogIn_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/LogIn_button"/>
-
-            <Button
-                android:id="@+id/Register_button"
+                android:id="@+id/register_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/Register_button"/>
+
+            <Button
+                android:id="@+id/mBackToLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Back_button"/>
 
         </LinearLayout>
 
 
 
     </LinearLayout>
+
 
 </RelativeLayout>

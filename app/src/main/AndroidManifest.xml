@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.notandi.idleisland">
-    <!--
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
@@ -24,6 +24,7 @@
         <activity android:name=".FriendsActivity"></activity>
         <activity android:name=".GiftActivity"></activity>
         <activity android:name=".UpgradeMenu"></activity>
+        <activity android:name=".RegisterActivity"></activity>
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
         <meta-data

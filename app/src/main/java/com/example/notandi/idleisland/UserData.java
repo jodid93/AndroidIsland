@@ -1,6 +1,10 @@
 package com.example.notandi.idleisland;
 
 
+import android.util.Log;
+
+import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,6 +35,7 @@ public class UserData {
     private Upgrades[] upgrades;
 
     private Integer numLevel;
+
 
     private UserData(String userName){
         DefaultUserData dUserData = new DefaultUserData();
@@ -90,8 +95,8 @@ public class UserData {
             }
             System.out.println("");
         }
-
     }
+
 
     private void fetchFromDefaultUserData(DefaultUserData dUserData){
         this.numItems = dUserData.xGrid + dUserData.xGrid;
@@ -102,6 +107,22 @@ public class UserData {
         this.currency = dUserData.currency;
         this.settings = dUserData.settings;
         this.bought = dUserData.boughtID;
+
+
+      }
+
+    // Converts UserData userD to JSON String
+    // and returns it
+    public String toJSONString(){
+        Gson gson = new Gson();
+        return gson.toJson(this);
+    }
+
+    public static UserData convertStringToUserData(String json) {
+        Log.d("CONVERT","Taking the string \""+json+"\"");
+        Gson gson = new Gson();
+        UserData newData = gson.fromJson(json , UserData.class);
+        return newData;
     }
 
     public void updateTime(){
@@ -191,6 +212,7 @@ public class UserData {
     public void setUpgrades(Upgrades[] newUpgrades) {
         this.upgrades = newUpgrades;
     }
+
 }
 /*
 
