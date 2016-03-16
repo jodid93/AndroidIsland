@@ -133,7 +133,7 @@ public class GameEngine extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                //kill the game loop so it dosn't run in the background when the game shouldn't be running
+                //kill the game loop so it doesn't run in the background when the game shouldn't be running
                 idleIsland[level].kill();
                 idleIsland[level+1].kill();
 

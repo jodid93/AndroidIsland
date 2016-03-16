@@ -13,10 +13,11 @@
         android:id="@+id/message"
         android:layout_gravity="center_horizontal" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:id="@+id/relativeLayout">
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -25,8 +26,17 @@
             android:text="@string/high_friends"
             android:background="@drawable/button_cool"
             android:id="@+id/high_friends"
-            android:layout_marginLeft="76dp"
-            android:layout_marginStart="76dp" />
+            android:textStyle = "bold"
+            android:textColor="#FFFFFF"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/centerPoint"
+            android:layout_marginLeft="10dip" />
+
+        <TextView
+            android:id="@+id/centerPoint"
+            android:layout_width="5dip"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -34,9 +44,15 @@
             android:layout_height="wrap_content"
             android:background="@drawable/button_cool"
             android:text="@string/high_global"
-            android:id="@+id/high_global" />
+            android:id="@+id/high_global"
+            android:textStyle = "bold"
+            android:textColor="#FFFFFF"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/centerPoint"
+            android:layout_marginRight="10dip"/>
 
-    </LinearLayout>
+
+    </RelativeLayout>
 
     <ListView
         android:layout_width="match_parent"

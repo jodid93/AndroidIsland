@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.notandi.idleisland.R;
@@ -24,6 +25,7 @@ public class HighscoreActivity extends AppCompatActivity{
     Button mGlobalScoreButton;
     Button mFriendsScoreButton;
     ListView listView;
+    TextView listItem;
 
     private String UserData;
 
@@ -37,7 +39,6 @@ public class HighscoreActivity extends AppCompatActivity{
         mGlobalScoreButton = (Button) findViewById(R.id.high_global);
         listView = (ListView) findViewById(R.id.listview1);
 
-
         mGlobalScoreButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -48,7 +49,7 @@ public class HighscoreActivity extends AppCompatActivity{
                 highScoreList.add("Bob");
                 highScoreList.add("Jim");
                 highScoreList.add("JimBob");
-                listView.setAdapter(new ArrayAdapter<>(HighscoreActivity.this, android.R.layout.simple_list_item_1, highScoreList));
+                listView.setAdapter(new ArrayAdapter<>(HighscoreActivity.this, R.layout.list_item, highScoreList));
 
 
                 Toast.makeText(HighscoreActivity.this, "Load Global", Toast.LENGTH_SHORT ).show();
@@ -66,7 +67,7 @@ public class HighscoreActivity extends AppCompatActivity{
                 highScoreList.add("Þorgeir");
                 highScoreList.add("Jósúa");
                 highScoreList.add("Máni");
-                listView.setAdapter(new ArrayAdapter<>(HighscoreActivity.this, android.R.layout.simple_list_item_1, highScoreList));
+                listView.setAdapter(new ArrayAdapter<>(HighscoreActivity.this, R.layout.list_item, highScoreList));
 
                 Toast.makeText(HighscoreActivity.this, "Load Friends", Toast.LENGTH_SHORT).show();
             }

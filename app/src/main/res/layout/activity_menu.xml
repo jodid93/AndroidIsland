@@ -10,43 +10,59 @@
     tools:context=".Navigation.MenuActivity"
     android:background="@color/colorPrimary">
 
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/menu_text"
+        android:id="@+id/menuTextView"
+        android:textColor="#FFFFFF"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/linearLayout">
+        android:layout_below="@+id/menuTextView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <Button
+            android:id="@+id/Friends_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Friends_button"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/button_cool"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip" />
+
+        <Button
+            android:id="@+id/Highscore_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Highscore_button"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/button_cool"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dip" />
 
         <Button
             android:id="@+id/Play_button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/button_cool"
-            android:text="@string/Play_button"/>
+            android:textColor="#FFFFFF"
+            android:text="@string/Play_button"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip" />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/Highscore_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Highscore_button"
-        android:background="@drawable/button_cool"
-        android:layout_below="@+id/linearLayout"
-        android:layout_toRightOf="@+id/textView"
-        android:layout_toEndOf="@+id/textView" />
-
-    <Button
-        android:id="@+id/Friends_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Friends_button"
-        android:background="@drawable/button_cool"
-        android:layout_below="@+id/Highscore_button"
-        android:layout_toRightOf="@+id/textView"
-        android:layout_toEndOf="@+id/textView" />
 
 </RelativeLayout>
