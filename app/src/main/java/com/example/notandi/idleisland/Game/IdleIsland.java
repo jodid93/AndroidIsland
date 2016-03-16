@@ -5,6 +5,7 @@ package com.example.notandi.idleisland.Game;
  */
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -42,6 +43,8 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
     private Background background;  //the background image
     private Sprite[][] sprites;     //sprites that are used in this level
 
+    private Bitmap coconut; //coconut image used with the gainedAnimation
+
     public IdleIsland(Context context, GameEngine engine, Calculator calculator, UserData userData, int level, Sprite[][] sprites)
     {
         super(context);
@@ -52,6 +55,7 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
         this.calculator = calculator;
         this.userData = userData;
         this.upgrades = this.userData.getUpgrades(level).getUpgrades();
+        this.coconut = BitmapFactory.decodeResource(getResources(), R.drawable.game_coconut_money);
 
         //add the callback to the surfaceholder to intercept events
         getHolder().addCallback(this);
@@ -142,7 +146,8 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
             }
 
             //add a new gainedAnimation to the gainedCocos vector so we can animate the amount gained
-            gainedCocos.add(new gainedAnimation(Integer.toString((int)(1 * this.userData.getTreeFactor()))));
+
+            gainedCocos.add(new gainedAnimation(Integer.toString((int)(1 * this.userData.getTreeFactor())), coconut));
 
             //update the players currency and score
             userData.setCurrency(this.userData.getCurrency() + (int) (1 * this.userData.getTreeFactor()));
@@ -184,7 +189,7 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
             if(gainedInSec >= 1){
                 //if so then we create a new gainedAnimation object with the amount we gained
                 //and add it to our vector of gainedAnimation to animate the Text later
-                gainedCocos.add(new gainedAnimation(Integer.toString(gainedInSec)));
+                gainedCocos.add(new gainedAnimation(Integer.toString(gainedInSec), coconut));
             }
 
             //reset the sec counter and gained counter
