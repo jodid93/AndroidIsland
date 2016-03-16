@@ -111,8 +111,8 @@ public class GameEngine extends AppCompatActivity {
 
         //initialize the upgrade Menu button
         Button upgradeMenu = new Button(this);
-        upgradeMenu.setText("Upgrade menu");
         upgradeMenu.setId(R.id.upgradeButton);
+        upgradeMenu.setBackgroundResource(R.drawable.game_button_upgrade);
         upgradeMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,7 +137,7 @@ public class GameEngine extends AppCompatActivity {
 
         //initialize the exit button
         Button exit = new Button(this);
-        exit.setText("Exit");
+        exit.setBackgroundResource(R.drawable.game_button_exit);
         exit.setId(R.id.upgradeButton);
         final UserData ud = this.userData;
         final String uName = this.userData.getUserName();
