@@ -5,29 +5,31 @@ import android.graphics.Canvas;
 
 /**
  * Created by Notandi on 3.3.2016.
+ * this class is responsible for rendering and updating the sprite
+ * as well as creating a sprite from a static image
  */
 public class Sprite {
 
-    private Bitmap[] frames;
-    private int numberOfFrames;
-    private int frameWidth;
-    private int frameHeight;
-    private int x,y;
-    private double animationSpeed;
-    private double currentAnimationTime = 0.0;
-    private int displayFrame;
-    private boolean shouldAnimate;
-    private boolean animateOnce;
-    private boolean stopflag;
-    private Bitmap map;
+    private Bitmap[] frames;                    //each frame of the animation as a bitmap
+    private int numberOfFrames;                 //basic
+    private int frameWidth;                     //basic
+    private int frameHeight;                    //basic
+    private int x,y;                            //the top left position of each frame in frames
+    private double animationSpeed;              //the time in milliseconds each frame should take
+    private double currentAnimationTime = 0.0;  //variable used to select the correct frame for each moment
+    private int displayFrame;                   //reference into the frames array
 
-    public Bitmap getBitmap(){
-        return this.map;
-    }
+    private boolean shouldAnimate;              //boolean to allow the loopOnce method in IdleIsland
+    private boolean animateOnce;                //boolean to allow the loopOnce method in IdleIsland
+    private boolean stopflag;                   //boolean to allow the loopOnce method in IdleIsland
+    private Bitmap map;                         //a reference to the sprite sheet itself
 
     public Sprite(Bitmap spriteSheet, int numFrames, int frameWidth, int frameHeight, int x, int y, int animationSpeed, boolean shouldAnimate){
 
-        //this.animationSpeed er tími í millisec hvað hver rammi á að vera lengi
+        //animationSpeed = the time in milliseconds it should take the sprite to loop
+        //this.animationSpeed = see above
+
+        //initialize the variables
         this.map = spriteSheet;
         numberOfFrames = numFrames;
         this.frameWidth = frameWidth;
@@ -36,8 +38,13 @@ public class Sprite {
         this.y = y;
         this.animationSpeed = ((double)animationSpeed)/((double)numFrames);
         this.shouldAnimate = shouldAnimate;
+
+        //segment to create each frame from sprite sheet
+
+        //initialize frames[]
         frames = new Bitmap[numFrames];
 
+        //for each frame create that frame with the appropriate size
         for (int i = 0; i < frames.length; i++)
         {
             if(i*frameWidth >= spriteSheet.getWidth()-frameWidth-1){
@@ -48,22 +55,41 @@ public class Sprite {
         }
     }
 
+    /*
+        method to update the sprite if it should animate at all
+
+        dt is the time in millisecond since the last iteration of the gameloop
+     */
     public void update(double dt){
+
+        //if this sprite should animate...
         if(this.shouldAnimate){
 
+            //...then we update the current time
             this.currentAnimationTime += dt;
+
+            //if the time is indicates that the sprite should have looped...
             if(this.currentAnimationTime > (this.animationSpeed * this.numberOfFrames)){
+
+                //then we reset the time counter
                 this.currentAnimationTime = 0;
             }
 
-            double percentageDone = (this.currentAnimationTime/(this.animationSpeed*this.numberOfFrames));
-            this.displayFrame = (int)( percentageDone * this.numberOfFrames);
-            //System.out.println("% = "+percentageDone);
+            //find out what frame to display
+            double percentageDone = (this.currentAnimationTime/(this.animationSpeed*this.numberOfFrames)); //pretty straight forward
+            this.displayFrame = (int)( percentageDone * this.numberOfFrames); //get the reference to the right frame in frames[]
+
+            //if the sprite has looped once...
             if(displayFrame == numberOfFrames-1){
+
+                //...then activate the stopflag (if the sprite was only supposed to animate once this will stop it)
                 this.stopflag = true;
             }
+
+            //the stopping condition for the loopOnce animations
             if( this.stopflag && displayFrame == 0 && animateOnce){
-                //System.out.println("slokkva");
+
+                //reset the sprite to be lifeless
                 this.displayFrame = 0;
                 this.currentAnimationTime = 0.0;
                 this.shouldAnimate = false;
@@ -74,11 +100,19 @@ public class Sprite {
 
     }
 
+    /*
+        method to draw the current frame of the animation cycle for the sprite
+     */
     public void draw(Canvas canvas){
 
+        //basic
         canvas.drawBitmap(frames[this.displayFrame], this.x, this.y,null);
     }
 
+    /*
+        method to activate the loop once feature. this method is called upon by IdleIsland when
+        we only want to animate the base sprite for one cycle
+     */
     public void loopOnce(){
 
         this.shouldAnimate = true;
