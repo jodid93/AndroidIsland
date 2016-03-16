@@ -1,17 +1,17 @@
-package com.example.notandi.idleisland;
+package com.example.notandi.idleisland.Utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 // IN GENERAL ...
-//  Util contains global and reusable variables/methods
-//  for the hole app.
+//  NetworkUtil contains global and reusable variables/methods
+//  for the whole app.
 
 /**
  * Created by thorgeir on 15.3.2016.
  */
-public class Util {
+public class NetworkUtil {
     public static Boolean offlineMode = true;
 
     public static boolean isOnline( Context context ) {

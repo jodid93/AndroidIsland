@@ -2,8 +2,6 @@ package com.example.notandi.idleisland.Navigation;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,18 +15,12 @@ import java.sql.Timestamp;
 
 //import com.google.gson.Gson;
 
-import org.w3c.dom.Text;
-
 import com.example.notandi.idleisland.Database.DatabaseHelper;
 import com.example.notandi.idleisland.Database.ServerDatabaseAccess;
 import com.example.notandi.idleisland.R;
 import com.example.notandi.idleisland.User.User;
 import com.example.notandi.idleisland.User.UserData;
-import com.example.notandi.idleisland.Util;
-
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.concurrent.ExecutionException;
+import com.example.notandi.idleisland.Utils.NetworkUtil;
 
 
 public class Main extends AppCompatActivity {
@@ -78,7 +70,7 @@ public class Main extends AppCompatActivity {
                 if( lDB.isValid(userName, password) ){
                     //userData = lDB.getUserData(userName);
                     toMenu(userName);
-                } else if( Util.isOnline(Main.this) ){
+                } else if( NetworkUtil.isOnline(Main.this) ){
                     String validUser = sDB.authorizationSync(userName, password);
                     if( validUser.equals("true") ) {
                         //UserData userData = sDB.getUserData();
@@ -90,7 +82,7 @@ public class Main extends AppCompatActivity {
                         Toast.makeText(Main.this, R.string.login_error_message_1, Toast.LENGTH_SHORT).show();
                     }
                 }  else {
-                    if( Util.offlineMode == false ){
+                    if( NetworkUtil.offlineMode == false ){
                         Toast.makeText(Main.this, R.string.login_error_message_2, Toast.LENGTH_SHORT).show();
                         Toast.makeText(Main.this, R.string.login_error_message_1, Toast.LENGTH_SHORT).show();
                     } else {
@@ -162,7 +154,7 @@ public class Main extends AppCompatActivity {
 
         UserData lUserData;
 
-        if( Util.isOnline(this) ){
+        if( NetworkUtil.isOnline(this) ){
             Log.d("INTENET CONNECTION", "CONNECTION: TRUE");
 
             lUserData = DB.getUserData(userName);

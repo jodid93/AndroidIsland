@@ -14,7 +14,7 @@ import com.example.notandi.idleisland.Database.DatabaseHelper;
 import com.example.notandi.idleisland.Database.ServerDatabaseAccess;
 import com.example.notandi.idleisland.R;
 import com.example.notandi.idleisland.User.UserData;
-import com.example.notandi.idleisland.Util;
+import com.example.notandi.idleisland.Utils.NetworkUtil;
 
 /**
  * Created by thorgeir on 15.3.2016.
@@ -54,13 +54,13 @@ public class RegisterActivity extends AppCompatActivity{
         mRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseHelper lDB=DatabaseHelper.getInstance(RegisterActivity.this);
-                ServerDatabaseAccess sDB=ServerDatabaseAccess.getInstance();
+                DatabaseHelper lDB = DatabaseHelper.getInstance(RegisterActivity.this);
+                ServerDatabaseAccess sDB = ServerDatabaseAccess.getInstance();
 
                 String userName = mRegisterInputName.getText().toString();
                 String password = mRegisterInputPass.getText().toString();
 
-                if( Util.isOnline(RegisterActivity.this) ) {
+                if (NetworkUtil.isOnline(RegisterActivity.this)) {
                     if (!sDB.userNameExistsSync(userName)) {
                         Log.i("REGISTER", "Server: the user name " + userName + "is not taken ");
 
@@ -68,8 +68,8 @@ public class RegisterActivity extends AppCompatActivity{
                         String sUserData = userData.toJSONString();
                         sDB.registerAsync(userName, password, sUserData);
                         Log.i("REGISTER", "User should now benn stored in server");
-                        String d = sDB.getUserDataSync( userName );
-                        Log.i("REGISTER", "Get userdata from user "+userName+" -> "+d);
+                        String d = sDB.getUserDataSync(userName);
+                        Log.i("REGISTER", "Get userdata from user " + userName + " -> " + d);
 
                         toMenu(sUserData);
                     } else {
@@ -78,9 +78,8 @@ public class RegisterActivity extends AppCompatActivity{
                                 R.string.register_error_message_1,
                                 Toast.LENGTH_SHORT).show();
                     }
-                }
-                else if( !lDB.userNameExists(userName) ){
-                    Log.i("REGISTER A USER","Trying to create New User "+userName+" with password "+password);
+                } else if (!lDB.userNameExists(userName)) {
+                    Log.i("REGISTER A USER", "Trying to create New User " + userName + " with password " + password);
                     lDB.createNewUser(userName, password);
                     toLogin();
                     //TODO: create new column in localdatabase,
@@ -91,9 +90,9 @@ public class RegisterActivity extends AppCompatActivity{
                     //      REAL  ->represents that user is okay, still
                     //              need to check if this user in the server
                     //              has change
-                } else{
-                    Log.i("REGISTER","The user name doesn't exist in local database"+
-                    " and your device is not connect to the internet");
+                } else {
+                    Log.i("REGISTER", "The user name doesn't exist in local database" +
+                            " and your device is not connect to the internet");
                     toLogin();
                     Toast.makeText(RegisterActivity.this,
                             R.string.register_error_message_1,
@@ -115,8 +114,7 @@ public class RegisterActivity extends AppCompatActivity{
     }
 
     private void toLogin(){
-        Intent i = Main.newIntent(RegisterActivity.this);
-        startActivityForResult(i, ENTER_LOGIN);
+        RegisterActivity.this.finish();
     }
 
     private void toMenu(String userData){
