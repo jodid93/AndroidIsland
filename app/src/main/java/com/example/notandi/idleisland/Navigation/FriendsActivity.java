@@ -52,13 +52,13 @@ public class FriendsActivity extends AppCompatActivity{
 
         mAddFriend = (Button) findViewById(R.id.add_friend_button);
         mAddFriendUsername = (EditText) findViewById(R.id.add_friend);
-        String userName = mAddFriendUsername.getText().toString();
 
         mAddFriend.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(FriendsActivity.this, "Friend added", Toast.LENGTH_SHORT).show();
+                String userName = mAddFriendUsername.getText().toString();
+                Toast.makeText(FriendsActivity.this, "Friend request sent to " + userName, Toast.LENGTH_SHORT).show();
             }
         });
         // get the listview
