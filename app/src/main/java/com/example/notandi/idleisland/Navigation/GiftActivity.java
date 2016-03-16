@@ -58,8 +58,8 @@ public class GiftActivity extends AppCompatActivity {
         });
 
         UserData = getIntent().getStringExtra(UsrDat);
-        TextView friend = (TextView) findViewById(R.id.textView3);
-        friend.setText(UserData);
+        TextView friend = (TextView) findViewById(R.id.textView2);
+        friend.setText("GIFT COCONUTS TO " + UserData);
     }
 
     public static Intent newIntent(Context packageContext, String usrData) {

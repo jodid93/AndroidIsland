@@ -30,18 +30,22 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/menuTextView"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout3"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp">
 
         <Button
-            android:id="@+id/Friends_button"
+            android:id="@+id/Play_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/Friends_button"
+            android:text="@string/Play_button"
             android:textColor="#FFFFFF"
             android:background="@drawable/button_cool"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip" />
+            android:layout_marginRight="10dip"
+            android:layout_marginBottom="15dip" />
 
         <Button
             android:id="@+id/Highscore_button"
@@ -54,15 +58,36 @@
             android:layout_margin="10dip" />
 
         <Button
-            android:id="@+id/Play_button"
+            android:id="@+id/Friends_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/button_cool"
             android:textColor="#FFFFFF"
-            android:text="@string/Play_button"
+            android:text="@string/Friends_button"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip" />
+            android:layout_marginRight="10dip"
+            android:layout_marginTop="15dip" />
     </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/logout_button"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button_cool"
+        android:textColor="#FFFFFF"
+        android:text="Log Out"
+        android:layout_marginTop="5dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:background="@drawable/iisland"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/linearLayout3"
+        android:layout_marginBottom="5dip" />
 
 </RelativeLayout>

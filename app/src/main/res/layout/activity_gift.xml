@@ -10,47 +10,90 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/gift_header"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:textSize="50sp"
         android:id="@+id/textView2"
-        android:layout_gravity="center_horizontal" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/textView3"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="141dp"
         android:layout_height="150dp"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.36">
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="64dp">
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/radio_button1"
-            android:id="@+id/radioButton" />
+            android:id="@+id/radioButton"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:checked="false"
+            android:layout_gravity="center_horizontal"
+            android:textSize="25sp"
+            android:layout_marginBottom="10dip" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/radio_button2"
-            android:id="@+id/radioButton2" />
+            android:id="@+id/radioButton2"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:textSize="25sp"
+            android:layout_marginTop="10dip"
+            android:layout_marginBottom="10dip" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/radio_button3"
-            android:id="@+id/radioButton3" />
+            android:id="@+id/radioButton3"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:layout_gravity="center_horizontal"
+            android:textSize="25sp"
+            android:layout_marginTop="10dip" />
     </RadioGroup>
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/confirm_gift"
-        android:id="@+id/gift_button"
-        android:layout_gravity="center_horizontal" />
+        android:orientation="vertical"
+        android:id="@+id/linearLayout2"
+        android:gravity="center"
+        android:layout_below="@+id/radioGroup"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="98dp"
+        android:layout_marginLeft="30dip"
+        android:layout_marginRight="30dip">
+
+        <Button
+                android:id="@+id/gift_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_cool"
+                android:textColor="#FFFFFF"
+                android:text="@string/confirm_gift"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dip" />
+
+        <Button
+            android:id="@+id/cancel_gift"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_cool"
+            android:textColor="#FFFFFF"
+            android:text="Cancel"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dip" />
+    </LinearLayout>
 
 </RelativeLayout>
