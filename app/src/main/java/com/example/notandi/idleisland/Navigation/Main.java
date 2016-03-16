@@ -2,8 +2,6 @@ package com.example.notandi.idleisland.Navigation;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,18 +15,12 @@ import java.sql.Timestamp;
 
 //import com.google.gson.Gson;
 
-import org.w3c.dom.Text;
-
 import com.example.notandi.idleisland.Database.DatabaseHelper;
 import com.example.notandi.idleisland.Database.ServerDatabaseAccess;
 import com.example.notandi.idleisland.R;
 import com.example.notandi.idleisland.User.User;
 import com.example.notandi.idleisland.User.UserData;
-import com.example.notandi.idleisland.Util;
-
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.concurrent.ExecutionException;
+import com.example.notandi.idleisland.Utils.NetworkUtil;
 
 
 public class Main extends AppCompatActivity {
@@ -78,7 +70,7 @@ public class Main extends AppCompatActivity {
                 if( lDB.isValid(userName, password) ){
                     //userData = lDB.getUserData(userName);
                     toMenu(userName);
-                } else if( Util.isOnline(Main.this) ){
+                } else if( NetworkUtil.isOnline(Main.this) ){
                     String validUser = sDB.authorizationSync(userName, password);
                     if( validUser.equals("true") ) {
                         //UserData userData = sDB.getUserData();
@@ -90,7 +82,7 @@ public class Main extends AppCompatActivity {
                         Toast.makeText(Main.this, R.string.login_error_message_1, Toast.LENGTH_SHORT).show();
                     }
                 }  else {
-                    if( Util.offlineMode == false ){
+                    if( NetworkUtil.offlineMode == false ){
                         Toast.makeText(Main.this, R.string.login_error_message_2, Toast.LENGTH_SHORT).show();
                         Toast.makeText(Main.this, R.string.login_error_message_1, Toast.LENGTH_SHORT).show();
                     } else {
@@ -136,12 +128,12 @@ public class Main extends AppCompatActivity {
     }
 
 
-    public UserData getServerUserData( String userName ){
+    public void getServerUserData( String userName ){
         ServerDatabaseAccess sDB = ServerDatabaseAccess.getInstance();
         String userData = sDB.getUserDataSync(userName);// UserData.getInstance("Mani");
         Log.i("GET SERVER USER",userData);
-        UserData oUserData =  UserData.convertStringToUserData(userData); //getUserDataFromJSON(userData);
-        return oUserData;
+        UserData.convertStringToUserData(userData); //getUserDataFromJSON(userData);
+
     }
 
     public UserData getUserdata(String userName){
@@ -162,10 +154,11 @@ public class Main extends AppCompatActivity {
 
         UserData lUserData;
 
-        if( Util.isOnline(this) ){
+        if( NetworkUtil.isOnline(this) ){
             Log.d("INTENET CONNECTION", "CONNECTION: TRUE");
 
-            lUserData = DB.getUserData(userName);
+            DB.getUserData(userName);
+            lUserData = UserData.getInstance(userName);
 
             if( lUserData==null ){
                 return UserData.getInstance("Mani");
@@ -173,15 +166,13 @@ public class Main extends AppCompatActivity {
                 //TODO: get UserData from the server.
                 //UserData onlineUserData = UserData.getInstance("Mani");
 
-                UserData oUserData = getServerUserData( userName );
+                getServerUserData( userName );
+                UserData oUserData = UserData.getInstance(userName);
 
-                Timestamp localTimes = lUserData.getTimestamp();
-                Timestamp onlineTimes = oUserData.getTimestamp();
+                long localTimes = lUserData.getTimestamp();
+                long onlineTimes = oUserData.getTimestamp();
 
-                Log.d("TIMESTAMP COMPARE", String.valueOf(localTimes.getTime()) );
-                Log.d("TIMESTAMP COMPARE", String.valueOf(onlineTimes.getTime()));
-
-                if( localTimes.after(onlineTimes) ){
+                if( localTimes > onlineTimes ){
                     // If online timestamp is older than local timestamp
                     // TODO: replace the local userdata instead of online UserData
                     Log.d("TIMESTAMP COMPARE", "local time is after onlineTimes");
@@ -193,7 +184,8 @@ public class Main extends AppCompatActivity {
             }
         } else {
             Log.d("INTENET CONNECTION","CONNECTION:FALSE");
-            lUserData = DB.getUserData(userName);
+            DB.getUserData(userName);
+            lUserData = UserData.getInstance(userName);
         }
         return lUserData;
     }

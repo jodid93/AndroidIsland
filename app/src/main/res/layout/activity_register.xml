@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
-                android:text="Name"
+                android:hint="Name"
                 android:ems="10"
                 android:id="@+id/register_name"
                 android:layout_marginTop="97dp"
@@ -59,7 +59,7 @@
                 android:id="@+id/register_password"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
-                android:text="Password" />
+                android:hint="Password" />
         </LinearLayout>
 
         <LinearLayout

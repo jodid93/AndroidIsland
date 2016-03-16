@@ -11,7 +11,10 @@
         android:layout_height="wrap_content"
         android:text="@string/high_scores"
         android:id="@+id/message"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:textStyle="bold"
+        android:textSize="25sp"
+        android:textColor="#FFFFFF" />
 
     <RelativeLayout
         android:layout_width="match_parent"

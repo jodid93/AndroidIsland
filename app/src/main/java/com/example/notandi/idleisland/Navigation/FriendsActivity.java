@@ -11,10 +11,13 @@ import java.util.List;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
+import android.widget.Toast;
 
 import com.example.notandi.idleisland.Database.ServerDatabaseAccess;
 import com.example.notandi.idleisland.User.UserData;
@@ -36,10 +39,12 @@ public class FriendsActivity extends AppCompatActivity{
     private static final int GIFT = 69;
     private static final int PENDING = 70;
 
-    ExpandableListAdapter listAdapter;
-    ExpandableListView expListView;
-    List<String> listDataHeader;
-    HashMap<String, List<String>> listDataChild;
+    private ExpandableListAdapter listAdapter;
+    private ExpandableListView expListView;
+    private List<String> listDataHeader;
+    private HashMap<String, List<String>> listDataChild;
+    private Button mAddFriend;
+    private EditText mAddFriendUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +53,17 @@ public class FriendsActivity extends AppCompatActivity{
 
         String rejecter = getIntent().getStringExtra(UsrDat);
 
+        mAddFriend = (Button) findViewById(R.id.add_friend_button);
+        mAddFriendUsername = (EditText) findViewById(R.id.add_friend);
+
+        mAddFriend.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                String userName = mAddFriendUsername.getText().toString();
+                Toast.makeText(FriendsActivity.this, "Friend request sent to " + userName, Toast.LENGTH_SHORT).show();
+            }
+        });
         // get the listview
         expListView = (ExpandableListView) findViewById(R.id.friendExp);
 

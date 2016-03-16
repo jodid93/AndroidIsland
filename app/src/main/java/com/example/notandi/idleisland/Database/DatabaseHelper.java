@@ -157,9 +157,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public void insertUserData(String userName, UserData userData) throws IOException {
+    public void insertUserData(String userName, UserData userData) {
+
         String userDataJSON = userData.toJSONString(); //userDataToJSON(userData);
-        insertUserData( userName, userDataJSON );
+        try {
+            insertUserData( userName, userDataJSON );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void insertUserData( String userName, String userDataJSON ) throws IOException {
@@ -198,11 +203,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         this.close();
     }
 
-    public void insertUserData(User user) throws IOException {
+    /*public void insertUserData(User user) throws IOException {
         String userName = user.getUserName();
         UserData userData = user.getUserData();
         insertUserData(userName, userData);
-    }
+    }*/
 
 
     public Boolean userNameExists( String userName ){
@@ -267,7 +272,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }*/
 
 
-    public UserData getUserData(String userName){
+    public void getUserData(String userName){
 
         String[] projection =  new String[]{
                 SQL.entry.USERDATA
@@ -295,10 +300,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             cursor.close();
             this.close();
 
-            return getUserDataFromJSON(data[0]);
+            getUserDataFromJSON(data[0]);
         }else{
             Log.d("GET USERDATA", "User doen't exists, name-> "+userName);
-            return UserData.getInstance("Villumadurinn");
+            return;
         }
     }
 
@@ -436,9 +441,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return this.gson.toJson(userData);
     }
 
-    public UserData getUserDataFromJSON(String json) {
+    public void getUserDataFromJSON(String json) {
         Log.d("CONVERT","Taking the string \""+json+"\"");
-        UserData newData = this.gson.fromJson(json , UserData.class);
-        return newData;
+        UserData.convertStringToUserData(json);
     }
 }

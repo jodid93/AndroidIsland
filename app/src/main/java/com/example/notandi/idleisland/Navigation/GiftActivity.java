@@ -23,7 +23,7 @@ public class GiftActivity extends AppCompatActivity {
 
     private static final String UsrDat = "fokkJósúa";
     private static final int FRIENDS = 4;
-    Button mGiftButton;
+    private Button mGiftButton;
     private RadioGroup radioGroup;
     private static final int RB1 = 2131492954; //These are the id's which are retrieved by using the
     private static final int RB2 = 2131492955; //.getCheckedRadioButtonId(); to know which radio
@@ -58,8 +58,8 @@ public class GiftActivity extends AppCompatActivity {
         });
 
         UserData = getIntent().getStringExtra(UsrDat);
-        TextView friend = (TextView) findViewById(R.id.textView3);
-        friend.setText(UserData);
+        TextView friend = (TextView) findViewById(R.id.textView2);
+        friend.setText("GIFT COCONUTS TO " + UserData);
     }
 
     public static Intent newIntent(Context packageContext, String usrData) {
