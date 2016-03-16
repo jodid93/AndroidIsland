@@ -5,7 +5,7 @@ package com.example.notandi.idleisland.Game;
  * class that contains methods concerning the upgrades
  *
  * DRAWBACK:
- *          A lot of the getters and setters shouldn't be there. they are only for development purposes 
+ *          A lot of the getters and setters shouldn't be there. they are only for development purposes
  */
 public class Upgrades {
     private Integer level;      //the level these upgrades are to be assigned to
