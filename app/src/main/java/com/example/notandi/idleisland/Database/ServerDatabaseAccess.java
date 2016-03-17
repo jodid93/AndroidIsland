@@ -186,7 +186,7 @@ public class ServerDatabaseAccess {
         String res = exe(runMethod,Action.GET,restURI);
         String[] result = null;
 
-        Log.i("GET PENDING LIST","Result is " + res);
+        Log.i("GET FRIEND LIST","Result is " + res);
 
         if( res!= null ){
             result = res.split(",");

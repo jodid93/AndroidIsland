@@ -12,7 +12,7 @@ import android.net.NetworkInfo;
  * Created by thorgeir on 15.3.2016.
  */
 public class NetworkUtil {
-    public static Boolean offlineMode = true;
+    public static Boolean offlineMode = false;
 
     public static boolean isOnline( Context context ) {
         if( !offlineMode ){
