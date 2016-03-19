@@ -1,0 +1,6 @@
+it happened once that when we started the game again after a long while, the 
+currency had dropped to -600542. we think it's due to an error in the calculator 
+methods calculateOfflineCurrency that gets called upon by the GameEngine.class
+right before starting the game in the onCreated method. we tried to recreate the 
+bug but it seemed to have vanished. we have no idea what caused this freak
+accident

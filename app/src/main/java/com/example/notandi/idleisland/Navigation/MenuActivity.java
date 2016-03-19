@@ -2,6 +2,7 @@ package com.example.notandi.idleisland.Navigation;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -63,6 +64,13 @@ public class MenuActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+
+                SharedPreferences sp=getSharedPreferences("Login", 0);
+                SharedPreferences.Editor Ed=sp.edit();
+                Ed.putString("userName", "");
+                Ed.putString("Password", "");
+                Ed.commit();
+
                 UserData.clearUserData();
                 MenuActivity.this.finish();
             }

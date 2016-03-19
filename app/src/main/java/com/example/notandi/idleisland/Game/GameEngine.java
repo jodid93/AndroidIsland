@@ -97,10 +97,10 @@ public class GameEngine extends AppCompatActivity {
 
         this.calculator = new Calculator();
 
-        System.out.println("---------fyrir reikning--------------: "+this.userData.getTimestamp());
-
-        this.userData.setCurrency((int)this.calculator.calculateOfflineCurrency(this.userData.getTimestamp(), this.userData.getCurrency(), this.userData.getCurrFactor()));
-        this.userData.setScore(this.userData.getScore()+(int)this.calculator.calculateOfflineScore(this.userData.getTimestamp(), this.userData.getCurrency(), this.userData.getCurrFactor()));
+        System.out.println("---------fyrir reikning--------------: " + this.userData.getTimestamp());
+        int currentiCurr = this.userData.getCurrency();
+        this.userData.setCurrency((int)this.calculator.calculateOfflineCurrency(this.userData.getTimestamp(), currentiCurr, this.userData.getCurrFactor()));
+        this.userData.setScore(this.userData.getScore()+(int)this.calculator.calculateOfflineScore(this.userData.getTimestamp(), currentiCurr, this.userData.getCurrFactor()));
 
         //initialize the calculator and levels
 
