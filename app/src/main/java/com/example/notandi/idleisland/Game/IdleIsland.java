@@ -319,13 +319,13 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
             }
 
             //draw the formatted version of the players currency
-            canvas.drawText(curr, 20,  (int)(getHeight()/scaleFactorY)-10, paint);
+            canvas.drawText(curr, 20,  (int)(getHeight()/scaleFactorY)-40, paint);
 
             //segment to draw the score
             paint.setColor(Color.WHITE);
             paint.setTextSize(20);
             String score = "Score: "+this.userData.getScore()+"";
-            canvas.drawText(score, 20, (int) (getHeight() / scaleFactorY) - 40, paint);
+            canvas.drawText(score, 20, (int) (getHeight() / scaleFactorY) - 10, paint);
 
             //segment to draw all the sprites
 
