@@ -2,6 +2,8 @@ package com.example.notandi.idleisland.Game;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Point;
+import android.view.Display;
 
 /**
  * Created by Notandi on 3.3.2016.
@@ -24,7 +26,10 @@ public class Sprite {
     private boolean stopflag;                   //boolean to allow the loopOnce method in IdleIsland
     private Bitmap map;                         //a reference to the sprite sheet itself
 
-    public Sprite(Bitmap spriteSheet, int numFrames, int frameWidth, int frameHeight, int x, int y, int animationSpeed, boolean shouldAnimate){
+    private double xSize;
+    private double ySize;
+
+    public Sprite(Bitmap spriteSheet, int numFrames, int frameWidth, int frameHeight, int x, int y, int animationSpeed, boolean shouldAnimate, double xSize, double ySize){
 
         //animationSpeed = the time in milliseconds it should take the sprite to loop
         //this.animationSpeed = see above
@@ -39,6 +44,8 @@ public class Sprite {
         this.animationSpeed = ((double)animationSpeed)/((double)numFrames);
         this.shouldAnimate = shouldAnimate;
 
+        this.xSize = xSize;
+        this.ySize = ySize;
         //segment to create each frame from sprite sheet
 
         //initialize frames[]
@@ -103,10 +110,31 @@ public class Sprite {
     /*
         method to draw the current frame of the animation cycle for the sprite
      */
-    public void draw(Canvas canvas){
+    public void draw(Canvas canvas,float scaleX,float scaleY){
 
         //basic
-        canvas.drawBitmap(frames[this.displayFrame], this.x, this.y,null);
+        canvas.drawBitmap(frames[this.displayFrame], (int)(this.x/scaleX), (int)(this.y/scaleY),null);
+
+    }
+
+    public void scaleDraw(Canvas canvas){
+
+
+        final float scaleFactorX = (float) ((canvas.getWidth()*this.xSize)/(this.frameWidth));//this.xSize);
+        final float scaleFactorY = (float) ((canvas.getHeight()*this.ySize)/(this.frameHeight));//*this.ySize);
+
+
+        //make sure the canvas exists
+        if(canvas!=null) {
+
+            //save the state for scaling...
+            final int savedState = canvas.save();
+            canvas.scale(scaleFactorX, scaleFactorY);
+
+            //draw the background image
+            this.draw(canvas,scaleFactorX,scaleFactorY);
+            canvas.restoreToCount(savedState);
+        }
     }
 
     /*

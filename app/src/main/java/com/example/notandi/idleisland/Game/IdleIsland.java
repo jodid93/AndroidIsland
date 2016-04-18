@@ -10,6 +10,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -112,7 +114,7 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
     public void surfaceCreated(SurfaceHolder holder){
 
         //create the background
-        background = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.main_background));
+        background = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.sky1));
 
         //get the upgrades for this level from the userdata
         Upgrades upgradesT = this.userData.getUpgrades(this.level);
@@ -275,8 +277,9 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
         super.draw(canvas);
 
         //scale factor for the screen according to the background image size
-        final float scaleFactorX = getWidth()/540;
-        final float scaleFactorY = getHeight()/584;
+        final float scaleFactorX = ((float)getWidth())/((float)352);//getWidth()/540;
+        final float scaleFactorY = ((float)getHeight())/((float)416);
+
 
         //make sure the canvas exists
         if(canvas!=null) {
@@ -287,88 +290,126 @@ public class IdleIsland extends SurfaceView implements SurfaceHolder.Callback
 
             //draw the background image
             background.draw(canvas);
+            canvas.restoreToCount(savedState);
+        }
 
-            //stuff to draw text onto the canvas
-            Paint paint = new Paint();
-            paint.setColor(Color.WHITE);
-            paint.setTextSize(20);
+        //drawElement takes the arguments, canvas, Bitmap image, the image with, image Height, width in % of the screen, Height in % of the
+        // screen, x position in % of the screen and finally y position in % of the screen
+        drawElement(canvas,BitmapFactory.decodeResource(getResources(), R.drawable.ocean), 178.0, 183.0, 1.0, 0.4, 0.0, 0.6);
+        drawElement(canvas,BitmapFactory.decodeResource(getResources(), R.drawable.game_sand_3_01), 677.0, 136.0, 0.7, 0.1, 0.15, 0.65);
+        drawElement(canvas,BitmapFactory.decodeResource(getResources(), R.drawable.game_coconut_tree), 383.0, 396.0, 0.3, 0.3, 0.15, 0.40);
 
-            //a segment to format the onscreen score and currency to a format of for example 10.25M instead of 10250000
-            String curr;
+        drawText(canvas);
 
-            //our string format
-            DecimalFormat df = new DecimalFormat("#.##");
 
-            //check if currency is between 1000 and 1.000.000
-            if(this.userData.getCurrency() >= 1000 && this.userData.getCurrency() < 1000000){
+        //segment to draw all the sprites
 
-                //if so then give the give the currency string the suffix "K"
-                String currency = df.format(((double)this.userData.getCurrency() /(double) 1000));
-                curr = "Coconuts: "+currency+" K";
+        //if no upgrades have been purchased then we only draw the base animation...
+        if(upgrades[0][0] == 1){
+            sprites[3][0].scaleDraw(canvas);
+        }else{
 
-            }else if(this.userData.getCurrency() >= 1000000){
-
-                //else if the currency is larger than 1.000.000
-                //then give the give the currency string the suffix "M"
-                String currency = df.format(((double)this.userData.getCurrency() /(double) 1000000));
-                curr = "Coconuts: "+currency+" M";
-            }else{
-
-                //if the currency is smaller than 1.000 then we do nothing
-                curr = "Coconuts: "+this.userData.getCurrency()+"";
-            }
-
-            //draw the formatted version of the players currency
-            canvas.drawText(curr, 20,  (int)(getHeight()/scaleFactorY)-40, paint);
-
-            //segment to draw the score
-            paint.setColor(Color.WHITE);
-            paint.setTextSize(20);
-            String score = "Score: "+this.userData.getScore()+"";
-            canvas.drawText(score, 20, (int) (getHeight() / scaleFactorY) - 10, paint);
-
-            //segment to draw all the sprites
-
-            //if no upgrades have been purchased then we only draw the base animation...
-            if(upgrades[0][0] == 1){
-                sprites[3][0].draw(canvas);
-            }else{
-
-                //if any upgrades have been bought
-                //then we iterate through the sprite array and find the latest update for each item
-                //that was bought and only draw that items' upgrade. (thats why j runs from 2 -> 0)
-                for(int i = 0; i<3; i++){
-                    for(int j = 2; j >= 0; j-- ){
-                        if(upgrades[i][j] == 2 ){
-                            sprites[i][j].draw(canvas);
-
-                            //so we don't draw any items' upgrade that has a newer upgrade on it
-                            break;
-                        }
+            //if any upgrades have been bought
+            //then we iterate through the sprite array and find the latest update for each item
+            //that was bought and only draw that items' upgrade. (thats why j runs from 2 -> 0)
+            for(int i = 0; i<3; i++){
+                for(int j = 2; j >= 0; j-- ){
+                    if(upgrades[i][j] == 2 ){
+                        sprites[i][j].scaleDraw(canvas);
+                     //so we don't draw any items' upgrade that has a newer upgrade on it
+                        break;
                     }
                 }
             }
+        }
 
-            //little mess to get the gainedAnimation objects into a gainedAnimation array
-            Object[] temp = (Object[]) this.gainedCocos.toArray();
-            gainedAnimation[] gainedFylki = new gainedAnimation[temp.length];
-            if(temp.length != 0){
-                for(int i = 0; i<temp.length; i++){
-                    gainedFylki[i]= (gainedAnimation) temp[i];
-                }
+        //little mess to get the gainedAnimation objects into a gainedAnimation array
+        Object[] temp = (Object[]) this.gainedCocos.toArray();
+        gainedAnimation[] gainedFylki = new gainedAnimation[temp.length];
+        if(temp.length != 0){
+            for(int i = 0; i<temp.length; i++){
+                gainedFylki[i]= (gainedAnimation) temp[i];
             }
+        }
 
-            //check if the gainedAnimation array is empty
-            if(gainedFylki.length != 0){
-
-                //if not then we iterate through it and draw each gainedAnimation object
-                for(int i = 0; i<gainedFylki.length; i++){
-                    gainedFylki[i].draw(canvas);
-                }
+        //check if the gainedAnimation array is empty
+        if(gainedFylki.length != 0){
+         //if not then we iterate through it and draw each gainedAnimation object
+            for(int i = 0; i<gainedFylki.length; i++){
+                gainedFylki[i].draw(canvas);
             }
+        }
+        //...and then we restore the state. this is done so the screen doesn't scale infinitely
 
-            //...and then we restore the state. this is done so the screen doesn't scale infinitely
+
+    }
+
+    public void drawText(Canvas canvas){
+        //stuff to draw text onto the canvas
+        Paint paint = new Paint();
+        paint.setColor(Color.WHITE);
+        paint.setTextSize((int)((canvas.getWidth()*0.4)/(7.0)));
+
+        //a segment to format the onscreen score and currency to a format of for example 10.25M instead of 10250000
+        String curr;
+
+        //our string format
+        DecimalFormat df = new DecimalFormat("#.##");
+
+        //check if currency is between 1000 and 1.000.000
+        if(this.userData.getCurrency() >= 1000 && this.userData.getCurrency() < 1000000){
+
+            //if so then give the give the currency string the suffix "K"
+            String currency = df.format(((double)this.userData.getCurrency() /(double) 1000));
+            curr = "Coconuts: "+currency+" K";
+
+        }else if(this.userData.getCurrency() >= 1000000){
+
+            //else if the currency is larger than 1.000.000
+            //then give the give the currency string the suffix "M"
+            String currency = df.format(((double)this.userData.getCurrency() /(double) 1000000));
+            curr = "Coconuts: "+currency+" M";
+        }else{
+
+            //if the currency is smaller than 1.000 then we do nothing
+            curr = "Coconuts: "+this.userData.getCurrency()+"";
+        }
+
+        int relocate = ((int)((canvas.getWidth()*0.4)/(10.0))/20);
+
+        //draw the formatted version of the players currency
+        canvas.drawText(curr, 20, getHeight()-(40*relocate), paint);
+
+        //segment to draw the score
+        paint.setColor(Color.WHITE);
+        String score = "Score: "+this.userData.getScore()+"";
+        canvas.drawText(score, 20, getHeight() - 10, paint);
+    }
+
+
+
+    public void drawElement(Canvas canvas, Bitmap img, double imgWidth, double imgHeight, double xSize, double ySize, double xPos, double yPos) {
+
+        //Draw the ocean
+        float scaleFactorX = (float) ((canvas.getWidth() * xSize) / (imgWidth));
+        float scaleFactorY = (float) ((canvas.getHeight() * ySize) / (imgHeight));
+
+        double elementPosX = (canvas.getWidth() * xPos) / scaleFactorX;
+        double elementPosY = (canvas.getHeight() * yPos) / scaleFactorY;
+
+        //make sure the canvas exists
+        if (canvas != null) {
+
+            //save the state for scaling...
+            int savedState = canvas.save();
+            canvas.scale(scaleFactorX, scaleFactorY);
+
+            //draw the background image
+
+
+            canvas.drawBitmap(img, (int) elementPosX, (int) elementPosY + 1, null);
             canvas.restoreToCount(savedState);
         }
     }
+
 }
