@@ -75,7 +75,7 @@ public class RegisterActivity extends AppCompatActivity{
                         Log.i("REGISTER", "User should now benn stored in server");
                         String d = sDB.getUserDataSync(userName);
                         Log.i("REGISTER", "Get userdata from user " + userName + " -> " + d);
-
+                        lDB.createNewUser(userName, password);
                         toMenu(sUserData);
                     } else {
                         Log.i("REGISTER", "Server: the user name " + userName + "is taken");

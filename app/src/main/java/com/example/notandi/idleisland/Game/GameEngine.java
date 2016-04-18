@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.example.notandi.idleisland.Database.DatabaseHelper;
+import com.example.notandi.idleisland.Database.ServerDatabaseAccess;
 import com.example.notandi.idleisland.R;
 import com.example.notandi.idleisland.User.UserData;
 
@@ -151,10 +152,12 @@ public class GameEngine extends AppCompatActivity {
                 idleIsland[level].kill();
                 idleIsland[level+1].kill();
 
+                ServerDatabaseAccess sDB = ServerDatabaseAccess.getInstance();
                 DatabaseHelper lDB = DatabaseHelper.getInstance(GameEngine.this);
                 ud.updateTime();
-                System.out.println("-----------------------: "+ud.getTimestamp());
+                System.out.println("-----------------------: " + ud.getTimestamp());
                 lDB.insertUserData(uName, ud);
+                sDB.setUserDataAsync(uName, ud);
 
                 GameEngine.this.finish();
 

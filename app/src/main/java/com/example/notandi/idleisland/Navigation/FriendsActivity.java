@@ -23,6 +23,7 @@ import com.example.notandi.idleisland.Database.ServerDatabaseAccess;
 import com.example.notandi.idleisland.User.UserData;
 import com.example.notandi.idleisland.Utils.ExpandableListAdapter;
 import com.example.notandi.idleisland.R;
+import com.example.notandi.idleisland.Utils.display;
 
 /**
  * Created by thorkellmani on 26/02/16.
@@ -39,6 +40,10 @@ public class FriendsActivity extends AppCompatActivity{
     private static final int GIFT = 69;
     private static final int PENDING = 70;
 
+    private String receiver;
+
+    private List<String> Pending;
+    private List<String> Friends;
     private ExpandableListAdapter listAdapter;
     private ExpandableListView expListView;
     private List<String> listDataHeader;
@@ -51,7 +56,7 @@ public class FriendsActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
 
-        String rejecter = getIntent().getStringExtra(UsrDat);
+        final String rejecter = getIntent().getStringExtra(UsrDat);
 
         mAddFriend = (Button) findViewById(R.id.add_friend_button);
         mAddFriendUsername = (EditText) findViewById(R.id.add_friend);
@@ -61,20 +66,32 @@ public class FriendsActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 String userName = mAddFriendUsername.getText().toString();
-                Toast.makeText(FriendsActivity.this, "Friend request sent to " + userName, Toast.LENGTH_SHORT).show();
 
                 String currUser = UserData.getInstance(null).getUserName();
                 String receiver = mAddFriendUsername.getText().toString();
 
-                ServerDatabaseAccess sDB = ServerDatabaseAccess.getInstance();
-                sDB.addPendingAsync(currUser, receiver);
+                //TODO: test these conditions
+                if( currUser.equals(receiver) || receiver.matches("")){
+                    Toast.makeText(FriendsActivity.this, "Not valid input", Toast.LENGTH_SHORT).show();
+                }else {
+                    ServerDatabaseAccess sDB = ServerDatabaseAccess.getInstance();
+                    if( sDB.userNameExistsSync( receiver ) ){
+                        String msg= "Friend request sent to " + receiver;
+                        display.info(FriendsActivity.this, msg);
+                        sDB.addPendingAsync(currUser, receiver);
+                    } else {
+                        String msg="The user doesn't exists";
+                        display.info(FriendsActivity.this, msg);
+                    }
+                }
             }
         });
         // get the listview
         expListView = (ExpandableListView) findViewById(R.id.friendExp);
 
+        Boolean getLocalData = false;
         // preparing list data
-        prepareListData();
+        prepareListData( getLocalData );
 
         listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
 
@@ -89,12 +106,14 @@ public class FriendsActivity extends AppCompatActivity{
                                         int groupPosition, int childPosition, long id) {
 
                 String childText = (String) listAdapter.getChild(groupPosition, childPosition);
-                System.out.println(groupPosition);
+                //System.out.println(groupPosition);
                 if (groupPosition == 1 ) {
+                    receiver = childText;
                     Intent i = GiftActivity.newIntent(FriendsActivity.this, childText);
                     startActivityForResult(i, GIFT);
                 }
                 else {
+                    receiver = childText;
                     Intent i = PendingActivity.newIntent(FriendsActivity.this, childText);
                     startActivityForResult(i, PENDING);
                 }
@@ -102,7 +121,6 @@ public class FriendsActivity extends AppCompatActivity{
                 return false;
             }
         });
-
 
 
         // Listview Group expanded listener
@@ -125,48 +143,79 @@ public class FriendsActivity extends AppCompatActivity{
      //For now the list only contains some dummy data.
     //The listDataHeader is the name of the list, either pending or friends.
     //listDataChild contains the entries in the lists.
-    private void prepareListData() {
-        listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String, List<String>>();
+    private void prepareListData( Boolean getFromLocal ) {
+        if( getFromLocal ){
+            Pending.remove(receiver);
+        } else {
 
-        // Adding child data
-        listDataHeader.add("Pending Friend Requests");
-        listDataHeader.add("Friend List");
+            listDataHeader = new ArrayList<String>();
+            listDataChild = new HashMap<String, List<String>>();
 
-        // Adding child data
-        List<String> Pending = new ArrayList<String>();
+            // Adding child data
+            listDataHeader.add("Pending Friend Requests");
+            listDataHeader.add("Friend List");
 
-        //SERVER STUFF
-        /*String currUser = UserData.getInstance(null).getUserName();
-        ServerDatabaseAccess sDB = ServerDatabaseAccess.getInstance();
-        String[] list = sDB.getPendingListSync( currUser );
-        if( list!=null ){
-            for(int i=0; i<list.length; i++){
-                Pending.add(list[i]);
+
+            // Adding child data
+            Pending = new ArrayList<String>();
+
+            //SERVER STUFF
+            String currUser = UserData.getInstance(null).getUserName();
+            ServerDatabaseAccess sDB = ServerDatabaseAccess.getInstance();
+            String[] pendingArray = sDB.getPendingListSync(currUser);
+            if( pendingArray.length > 0 && !pendingArray[0].matches("") ){
+                insertToList(Pending,pendingArray);
+                //for(int i=0; i<pendingList.length; i++){
+                //    Log.i("i", String.valueOf(i));
+                //    Pending.add(pendingList[i]);
+                //}
+            } else {
+                //TODO: create dummy pending that is disable for clicking
+                Pending.add("No friend request's");
             }
-        }*/
 
-        //dummy
-        Pending.add("Þorgeir");
-        Pending.add("Algjör Pedo");
+            //dummy
+            //Pending.add("Þorgeir");
+            //Pending.add("Algjör Pedo");
 
-        List<String> Friends = new ArrayList<String>();
+            Friends = new ArrayList<String>();
 
-        //SERVER STUFF
-        /*String[] friendList = sDB.getFriendListSync( currUser );
-        if( list!=null ){
-            for(int i=0; i<list.length; i++){
-                Friends.add(list[i]);
+            //SERVER STUFF
+            String[] friendList = sDB.getFriendListSync( currUser );
+
+            if( friendList.length > 0 && !friendList[0].matches("") ){
+                for(int i=0; i<friendList.length; i++){
+                    Friends.add(friendList[i]);
+                }
+            } else{
+                Friends.add("You have no friend's");
             }
-        }*/
 
-        //dummy
-        Friends.add("Jósúa");
-        Friends.add("Annar Pedo");
-        Friends.add("Þunglyndi");
+            //dummy
+            //Friends.add("Jósúa");
+            //Friends.add("Annar Pedo");
+            //Friends.add("Þunglyndi");
 
+        }
         listDataChild.put(listDataHeader.get(0), Pending); // Header, Child data
         listDataChild.put(listDataHeader.get(1), Friends);
+    }
+
+    private void insertToList(List<String> list, String[] str){
+        for(int i=0; i<str.length; i++){
+            Log.i("i", String.valueOf(i));
+            list.add(str[i]);
+        }
+    }
+
+
+    protected void onRestart(){
+        super.onRestart();
+        Log.d("FRIENDS ONRESTART", "print out data");
+        for(String a : listDataHeader){
+            Log.d("LIST DATA HEADER",a);
+        }
+        //prepareListData();
     }
 
     public static Intent newIntent(Context packageContext, String usrData){
