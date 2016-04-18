@@ -228,6 +228,7 @@ public class GameEngine extends AppCompatActivity {
 
         double[] Size1 = new double[]{0.20,0.15};
         double[] Size2 = new double[]{0.15,0.15};
+        double[] Size22 = new double[]{0.15,0.075};
         double[] Size3 = new double[]{0.3,0.3};
 
         //initialize the sprites for level 1
@@ -236,6 +237,7 @@ public class GameEngine extends AppCompatActivity {
             //get the relative positions for each item that can come on to the screen
             int[] pos1 = getRelPos(0.32,0.55);
             int[] pos2 = getRelPos(0.72, 0.62);
+            int[] pos22 = getRelPos(0.72, 0.65);
             int[] pos3 = getRelPos(0.42,0.4);
 
 
@@ -274,7 +276,7 @@ public class GameEngine extends AppCompatActivity {
                         18, 128, 200,pos2[0],pos2[1]-100, 800, true,Size2[0],Size2[1]);
             }else if(upgrades1[1][0] == 2){
                 sprites[1][0] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.veidistong_animation_upgrade_1),
-                        18, 128, 104, pos2[0],pos2[1], 1000, true,Size2[0],Size2[1]);
+                        18, 128, 104, pos22[0],pos22[1], 1000, true,Size22[0],Size22[1]);
             }
 
             if(upgrades1[2][2] == 2){

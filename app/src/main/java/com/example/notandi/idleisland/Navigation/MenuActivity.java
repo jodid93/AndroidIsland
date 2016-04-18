@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.notandi.idleisland.Database.ServerDatabaseAccess;
 import com.example.notandi.idleisland.Game.GameEngine;
 import com.example.notandi.idleisland.R;
 import com.example.notandi.idleisland.User.UserData;
@@ -31,15 +32,48 @@ public class MenuActivity extends AppCompatActivity {
     private static final String UsrDat = "idleisland.userdata";
 
     @Override
+    protected void onRestart(){
+        super.onRestart();
+
+        UserData currentUser = UserData.getInstance(null);
+
+        System.out.println("Currency then --------   "+currentUser.getCurrency());
+
+        String uName = currentUser.getUserName();
+
+        ServerDatabaseAccess sDB = ServerDatabaseAccess.getInstance();
+        currentUser.convertStringToUserData(sDB.getUserDataSync(uName));
+        System.out.println("Currency now --------   " + currentUser.getCurrency());
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        UserData currentUser = UserData.getInstance(null);
+
+        System.out.println("Currency then --------   "+currentUser.getCurrency());
+
+        String uName = currentUser.getUserName();
+
+        ServerDatabaseAccess sDB = ServerDatabaseAccess.getInstance();
+        currentUser.convertStringToUserData(sDB.getUserDataSync(uName));
+        System.out.println("Currency now --------   " + currentUser.getCurrency());
+
 
         mPlayButton = (Button) findViewById(R.id.Play_button);
         mPlayButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                UserData currentUser = UserData.getInstance(null);
+                System.out.println("Currency then --------   "+currentUser.getCurrency());
+
+                String uName = currentUser.getUserName();
+
+                ServerDatabaseAccess sDB = ServerDatabaseAccess.getInstance();
+                currentUser.convertStringToUserData(sDB.getUserDataSync(uName));
+                System.out.println("Currency now --------   " + currentUser.getCurrency());
 
                 Intent i = GameEngine.newIntent(MenuActivity.this, null);
                 startActivityForResult(i, PLAY_GAME);
