@@ -85,7 +85,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
-        android:background="@drawable/iisland"
+        android:background="@drawable/island_1"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/linearLayout3"
         android:layout_marginBottom="5dip" />
