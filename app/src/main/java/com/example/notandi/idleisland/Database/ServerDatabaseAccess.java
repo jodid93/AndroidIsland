@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
 
+import com.example.notandi.idleisland.User.UserData;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -82,7 +84,7 @@ public class ServerDatabaseAccess {
 
     //TODO: add the connection string to ENV file or as a parameter
     public ServerDatabaseAccess(){
-        httpConnectString = "http://10.0.3.2:8094/";
+        httpConnectString = "https://safe-ravine-76203.herokuapp.com/";
     }
 
     public static synchronized ServerDatabaseAccess getInstance() {
@@ -95,10 +97,10 @@ public class ServerDatabaseAccess {
     }
 
     public enum Action {
-        AUTH("auth/"), REGISTER("register/"), USERDATA("userdata/"),
+        AUTH("auth/"), REGISTER("register/"), USERDATA("userdata/"),SETUSERDATA("setuserdata/"),
         USEREXIST("userexist/"), ADD_PENDING("addpending/"), ADD_FRIEND("addfriend/"),
         REJECT_FRIEND_REQUEST("rejectrequest/"), PENDINGLIST("pendinglist/"), FRIENDLIST("friendlist/"),
-        GET("GET"), POST("POST"),ASYNC("async"), SYNC("sync");
+        GIVE_GIFT_TO_FRIEND("gift/"),GET("GET"), POST("POST"),ASYNC("async"), SYNC("sync");
         private final String pos;
         Action( String position ){
             pos = position;
@@ -153,9 +155,20 @@ public class ServerDatabaseAccess {
         String res = exe(Action.ASYNC, Action.GET, restURI);
     }
 
-    public void addFriendAsync(String accepter, String requester){
+    public void addFriendAsync(String accepter, String requester) {
         addFriend(Action.ASYNC, accepter, requester);
     }
+
+    public void addGiftAsync( String userName, String receiver, int gift ){
+        addGift(Action.ASYNC, userName, receiver, gift);
+    }
+
+    private void addGift(Action runMethod, String userName, String receiver, int gift){
+        String restURI = Action.GIVE_GIFT_TO_FRIEND.toStr()+userName+SP+receiver+SP+gift;
+        String res = exe(runMethod, Action.POST, restURI);
+    }
+
+
 
     public String[] getPendingListSync( String userName ){
         String[] res = getPendingList(Action.SYNC, userName);
@@ -243,9 +256,24 @@ public class ServerDatabaseAccess {
         return getUserData(Action.ASYNC, username);
     }
 
-    public void setUserDataAsync( String data ){
-        postUserData(Action.ASYNC, data);
+    public void setUserDataAsync( String userName, UserData data ){
+        int score = data.getScore();
+        String userData = data.toJSONString();
+        postUserData(Action.ASYNC, userName, score, userData);
     }
+    private void postUserData(Action runAction, String userName, int score, String userData){
+        String restURI = null;
+        String changedUserData = userData.replace(".","%2E");
+        try {
+            String encodedUserData=URLEncoder.encode(changedUserData,"UTF-8");
+            restURI=Action.SETUSERDATA.toStr()+userName+SP+score+SP+encodedUserData;
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String res = exe(runAction, Action.POST, restURI);
+    }
+
+
 
     private String getUserData(Action runAction, String username){
         Action uriAction = Action.USERDATA;
@@ -255,10 +283,6 @@ public class ServerDatabaseAccess {
         return execute(httpURI, runAction, Action.GET);
     }
 
-    private void postUserData(Action runAction, String data){
-        String restURI = Action.USERDATA.toStr()+data;
-        String res = exe(runAction, Action.POST, restURI);
-    }
 
 
     private String exe(Action runAction, Action method, String restURI){

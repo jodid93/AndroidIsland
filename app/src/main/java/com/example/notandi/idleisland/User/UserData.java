@@ -27,6 +27,12 @@ import java.util.Date;
 //      string and visa versa (to store in database).
 
 
+//      - userData.setCurrencyGift(user,gift);
+//          +   Post: User has give a gift to a user friend.
+//              This will update the local currency for the
+//              current user for a giving gift value (represented
+//              in percent(%)).
+
 /**
  * Created by thorgeir on 18.2.2016.
  */
@@ -154,6 +160,21 @@ public class UserData {
         instance = newData;
     }
 
+
+    // gift is percent value (e.g gift:25 -> 25%)
+    public void setCurrencyGift( Integer gift ){
+        Integer userCurrency = this.getCurrency();
+
+        Log.i("CHANGE CURRENCY","Current value is " + userCurrency);
+
+        Double giftFactor = gift.doubleValue() / 100;
+        Double giftValue = userCurrency.doubleValue() * giftFactor;
+        Integer newUserCurrency = userCurrency - giftValue.intValue();
+
+        Log.i("CHANGE CURRENCY","New value is " + newUserCurrency);
+
+        this.setCurrency( newUserCurrency );
+    }
 
 
 

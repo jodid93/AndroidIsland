@@ -73,6 +73,7 @@ import java.io.IOException;
 //      - DB.clearTable();
 //          + Removes all data from the SQLite database
 //
+//
 /**
  * Created by Lenovo on 11.2.2016.
  */
@@ -209,7 +210,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         this.close();
     }
-
 
 
     public Boolean userNameExists( String userName ){

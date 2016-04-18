@@ -10,7 +10,11 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.notandi.idleisland.Database.DatabaseHelper;
+import com.example.notandi.idleisland.Database.ServerDatabaseAccess;
 import com.example.notandi.idleisland.R;
+import com.example.notandi.idleisland.User.UserData;
+import com.example.notandi.idleisland.User.UserData;
 
 /**
  * Created by thorkellmani on 05/03/16.
@@ -19,15 +23,20 @@ import com.example.notandi.idleisland.R;
  */
 public class GiftActivity extends AppCompatActivity {
 
-    private String UserData;
+    private String receiver;
 
     private static final String UsrDat = "fokkJósúa";
     private static final int FRIENDS = 4;
     private Button mGiftButton;
     private RadioGroup radioGroup;
-    private static final int RB1 = 2131492954; //These are the id's which are retrieved by using the
-    private static final int RB2 = 2131492955; //.getCheckedRadioButtonId(); to know which radio
-    private static final int RB3 = 2131492956; // button is currently checked.
+    private static final int RB1 = 2131492953; //These are the id's which are retrieved by using the
+    private static final int RB2 = 2131492954; //.getCheckedRadioButtonId(); to know which radio
+    private static final int RB3 = 2131492955; // button is currently checked.
+
+    // gift represented in percent (%)
+    private static final int gift1 = 10;
+    private static final int gift2 = 25;
+    private static final int gift3 = 50;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,29 +46,45 @@ public class GiftActivity extends AppCompatActivity {
         mGiftButton = (Button) findViewById(R.id.gift_button);
         radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
 
+        receiver = getIntent().getStringExtra(UsrDat);
+
         mGiftButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                int percent = radioGroup.getCheckedRadioButtonId();
-                switch (percent) {
+                int radioID = radioGroup.getCheckedRadioButtonId();
+                int gift = 0;
+                switch (radioID) {
                     case RB1:
+                        gift = gift1;
                         Toast.makeText(GiftActivity.this, "Gifted 10%", Toast.LENGTH_SHORT).show();
                         break;
                     case RB2:
+                        gift = gift2;
                         Toast.makeText(GiftActivity.this, "Gifted 25%", Toast.LENGTH_SHORT).show();
                         break;
                     case RB3:
+                        gift = gift3;
                         Toast.makeText(GiftActivity.this, "Gifted 50%", Toast.LENGTH_SHORT).show();
                         break;
                 }
+                String currUser = UserData.getInstance(null).getUserName();
+
+                // get Database access instance
+                ServerDatabaseAccess sDB = ServerDatabaseAccess.getInstance();
+                DatabaseHelper lDB = DatabaseHelper.getInstance(GiftActivity.this);
+                // Calculate and store the gift for the receiver user
+                // and the current user
+                sDB.addGiftAsync(currUser, receiver, gift);
+                UserData currentUserData = UserData.getInstance( currUser );
+                currentUserData.setCurrencyGift( gift );
+                lDB.insertUserData(currUser, currentUserData);
                 GiftActivity.this.finish();
             }
         });
 
-        UserData = getIntent().getStringExtra(UsrDat);
         TextView friend = (TextView) findViewById(R.id.textView2);
-        friend.setText("GIFT COCONUTS TO " + UserData);
+        friend.setText("GIFT COCONUTS TO " + receiver);
     }
 
     public static Intent newIntent(Context packageContext, String usrData) {

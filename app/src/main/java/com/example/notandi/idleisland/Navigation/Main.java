@@ -115,6 +115,12 @@ public class Main extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        UserData.clearUserData();
+    }
+
     private void toRegister(){
         Intent i = RegisterActivity.newIntent(Main.this );
         startActivityForResult(i, ENTER_REGISTER);
