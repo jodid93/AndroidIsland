@@ -101,7 +101,7 @@ public class GameEngine extends AppCompatActivity {
 
         System.out.println("---------fyrir reikning--------------: " + this.userData.getTimestamp());
         int currentiCurr = this.userData.getCurrency();
-        this.userData.setCurrency((int)this.calculator.calculateOfflineCurrency(this.userData.getTimestamp(), currentiCurr, this.userData.getCurrFactor()));
+        this.userData.setCurrency((int) this.calculator.calculateOfflineCurrency(this.userData.getTimestamp(), currentiCurr, this.userData.getCurrFactor()));
         this.userData.setScore(this.userData.getScore()+(int)this.calculator.calculateOfflineScore(this.userData.getTimestamp(), currentiCurr, this.userData.getCurrFactor()));
 
         //initialize the calculator and levels
@@ -110,6 +110,14 @@ public class GameEngine extends AppCompatActivity {
                                            new IdleIsland(this, this, this.calculator, this.userData, 1, createSprites(1))};
         this.game = new FrameLayout(this);
         this.GameButtons = new RelativeLayout(this);
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+
+        int buttonSize = (int)(width*0.15);
+        int buttonMargin = (int)(width*0.03);
 
         //initialize the upgrade Menu button
         Button upgradeMenu = new Button(this);
@@ -127,14 +135,14 @@ public class GameEngine extends AppCompatActivity {
         });
 
         //Define the layout parameter for the button to wrap the content for both width and height
-        RelativeLayout.LayoutParams b1 = new RelativeLayout.LayoutParams(180, 180);
+        RelativeLayout.LayoutParams b1 = new RelativeLayout.LayoutParams(buttonSize, buttonSize);
 
 
         GameButtons.addView(upgradeMenu);
         b1.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
         b1.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-        b1.topMargin = 30;
-        b1.rightMargin = 30;
+        b1.topMargin = buttonMargin;
+        b1.rightMargin = buttonMargin;
 
         upgradeMenu.setLayoutParams(b1);
 
@@ -166,15 +174,15 @@ public class GameEngine extends AppCompatActivity {
 
 
         //Define the layout parameter for the button to wrap the content for both width and height
-        RelativeLayout.LayoutParams b2 = new RelativeLayout.LayoutParams(180,180);
+        RelativeLayout.LayoutParams b2 = new RelativeLayout.LayoutParams(buttonSize,buttonSize);
 
 
         GameButtons.addView(exit);
         b2.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
         b2.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
 
-        b2.topMargin = 30;
-        b2.leftMargin = 30;
+        b2.topMargin = buttonMargin;
+        b2.leftMargin = buttonMargin;
         exit.setLayoutParams(b2);
 
         game.addView(idleIsland[0]);
@@ -236,7 +244,7 @@ public class GameEngine extends AppCompatActivity {
 
             //get the relative positions for each item that can come on to the screen
             int[] pos1 = getRelPos(0.32,0.55);
-            int[] pos2 = getRelPos(0.72, 0.62);
+            int[] pos2 = getRelPos(0.72, 0.57);
             int[] pos22 = getRelPos(0.72, 0.65);
             int[] pos3 = getRelPos(0.42,0.4);
 
@@ -270,10 +278,10 @@ public class GameEngine extends AppCompatActivity {
 
             if(upgrades1[1][2] == 2){
                 sprites[1][2] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.veidistong_animation_upgrade_3),
-                        18, 128, 200, pos2[0],pos2[1]-100, 600, true,Size2[0],Size2[1]);
+                        18, 128, 200, pos2[0],pos2[1], 600, true,Size2[0],Size2[1]);
             }else if(upgrades1[1][1] == 2){
                 sprites[1][1] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.veidistong_animation_upgrade_2),
-                        18, 128, 200,pos2[0],pos2[1]-100, 800, true,Size2[0],Size2[1]);
+                        18, 128, 200,pos2[0],pos2[1], 800, true,Size2[0],Size2[1]);
             }else if(upgrades1[1][0] == 2){
                 sprites[1][0] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.veidistong_animation_upgrade_1),
                         18, 128, 104, pos22[0],pos22[1], 1000, true,Size22[0],Size22[1]);
