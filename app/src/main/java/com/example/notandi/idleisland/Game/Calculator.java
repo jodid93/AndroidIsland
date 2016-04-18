@@ -36,7 +36,7 @@ public class Calculator {
 
         //start by getting the amount gained in this iteration
         // from the time for this iteration * the factor
-        double tala = (time/1000.0)*(double)currFactor;
+        double tala = (time/1000.0)*currFactor;
         //get the integer amount of that number
         int intTala = (int)(tala);
 
@@ -71,12 +71,12 @@ public class Calculator {
         see inner workings from the method above
      */
     public int calculateCurrencyOffline(double time, int currency, Double currFactor){
-        double tala = (time/1000)*currFactor;
+        double tala = (time/1000.0)*currFactor;
         int intTala = (int)(tala);
-        double difference = tala - intTala;
+        double difference = tala - (double)intTala;
         this.difference += difference;
-        if(this.difference >= 1){
-            this.difference -= 1;
+        if(this.difference >= 1.0){
+            this.difference -= 1.0;
             intTala += 1;
         }
 
@@ -130,6 +130,7 @@ public class Calculator {
         //get the time in nanoseconds since the last time the player logged off
         double timeElapsedInSecs = (System.nanoTime() - date)/1000000.0;
         double curr = this.calculateCurrency(timeElapsedInSecs,currency, factor);
+        System.out.println("time: "+timeElapsedInSecs+"  currency: "+curr+"  --------------");
 
         return curr;
 

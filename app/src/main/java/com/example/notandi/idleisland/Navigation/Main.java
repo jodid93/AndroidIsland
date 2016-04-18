@@ -1,7 +1,7 @@
 package com.example.notandi.idleisland.Navigation;
 
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,14 +11,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.sql.Timestamp;
-
 //import com.google.gson.Gson;
 
 import com.example.notandi.idleisland.Database.DatabaseHelper;
 import com.example.notandi.idleisland.Database.ServerDatabaseAccess;
 import com.example.notandi.idleisland.R;
-import com.example.notandi.idleisland.User.User;
 import com.example.notandi.idleisland.User.UserData;
 import com.example.notandi.idleisland.Utils.NetworkUtil;
 
@@ -37,13 +34,40 @@ public class Main extends AppCompatActivity {
     //private Gson gson = new Gson();
 
     //private User user; //TODO:remove the user when it is possible
+    public SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        sp = getSharedPreferences("Login", 0);
+
         UserData.clearUserData();
+
+        //check for the persistant login
+
+        SharedPreferences sp1=this.getSharedPreferences("Login",0);
+        String userName1 = "";
+        String password = "";
+        if(sp1 != null){
+            userName1= sp1.getString("userName", null);
+            password = sp1.getString("Password", null);
+        }
+
+        DatabaseHelper lDB = DatabaseHelper.getInstance(Main.this);
+        ServerDatabaseAccess sDB = ServerDatabaseAccess.getInstance();
+
+        System.out.println("Username = "+userName1);
+        String validUser = "";
+        if(userName1 != null){
+            if(!userName1.equals("")){
+                toMenu(userName1);
+            }
+        }
+
+
+        //end of persistant login
 
         mLogInInputName = (EditText) findViewById(R.id.log_in_name);
         mLogInInputPassword = (EditText) findViewById(R.id.log_in_password);
@@ -73,6 +97,12 @@ public class Main extends AppCompatActivity {
                 // Check if user exist in local database
                 else if( lDB.isValid(userName, password) ){
                     //userData = lDB.getUserData(userName);
+
+                    SharedPreferences.Editor Ed=sp.edit();
+                    Ed.putString("userName", userName);
+                    Ed.putString("Password", password);
+                    Ed.commit();
+
                     toMenu(userName);
                 } else if( NetworkUtil.isOnline(Main.this) ){
                     String validUser = sDB.authorizationSync(userName, password);
@@ -80,6 +110,12 @@ public class Main extends AppCompatActivity {
                         //UserData userData = sDB.getUserData();
                         String userdata = sDB.getUserDataSync(userName);
                         Log.d("VALID USER","User data is -> "+userdata);
+
+
+                        SharedPreferences.Editor Ed=sp.edit();
+                        Ed.putString("userName", userName);
+                        Ed.putString("Password", password);
+                        Ed.commit();
 
                         toMenu(userName); //startMenu(userData);
                     } else {

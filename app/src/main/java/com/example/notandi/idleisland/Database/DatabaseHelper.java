@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.example.notandi.idleisland.Utils.Security;
-import com.example.notandi.idleisland.User.User;
 import com.example.notandi.idleisland.User.UserData;
 import com.google.gson.Gson;
 
