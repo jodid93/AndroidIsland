@@ -28,6 +28,7 @@ public class GiftActivity extends AppCompatActivity {
     private static final String UsrDat = "fokkJósúa";
     private static final int FRIENDS = 4;
     private Button mGiftButton;
+    private Button mBackButton;
     private RadioGroup radioGroup;
     private static final int RB1 = 2131492953; //These are the id's which are retrieved by using the
     private static final int RB2 = 2131492954; //.getCheckedRadioButtonId(); to know which radio
@@ -44,9 +45,19 @@ public class GiftActivity extends AppCompatActivity {
         setContentView(R.layout.activity_gift);
 
         mGiftButton = (Button) findViewById(R.id.gift_button);
+        mBackButton = (Button) findViewById(R.id.cancel_gift);
         radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
 
         receiver = getIntent().getStringExtra(UsrDat);
+
+
+        mBackButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                GiftActivity.this.finish();
+            }
+        });
 
         mGiftButton.setOnClickListener(new View.OnClickListener() {
 

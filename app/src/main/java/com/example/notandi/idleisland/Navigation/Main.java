@@ -46,8 +46,7 @@ public class Main extends AppCompatActivity {
         UserData.clearUserData();
 
         //check for the persistant login
-
-        SharedPreferences sp1=this.getSharedPreferences("Login",0);
+        /*SharedPreferences sp1=this.getSharedPreferences("Login",0);
         String userName1 = "";
         String password = "";
         if(sp1 != null){
@@ -64,9 +63,7 @@ public class Main extends AppCompatActivity {
             if(!userName1.equals("")){
                 toMenu(userName1);
             }
-        }
-
-
+        }*/
         //end of persistant login
 
         mLogInInputName = (EditText) findViewById(R.id.log_in_name);

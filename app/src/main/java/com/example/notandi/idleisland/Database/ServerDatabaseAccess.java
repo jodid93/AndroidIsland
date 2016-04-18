@@ -85,6 +85,7 @@ public class ServerDatabaseAccess {
     //TODO: add the connection string to ENV file or as a parameter
     public ServerDatabaseAccess(){
         httpConnectString = "https://safe-ravine-76203.herokuapp.com/";
+        //httpConnectString = "http://10.0.3.2:8094/";
     }
 
     public static synchronized ServerDatabaseAccess getInstance() {
@@ -97,9 +98,18 @@ public class ServerDatabaseAccess {
     }
 
     public enum Action {
-        AUTH("auth/"), REGISTER("register/"), USERDATA("userdata/"),SETUSERDATA("setuserdata/"),
-        USEREXIST("userexist/"), ADD_PENDING("addpending/"), ADD_FRIEND("addfriend/"),
-        REJECT_FRIEND_REQUEST("rejectrequest/"), PENDINGLIST("pendinglist/"), FRIENDLIST("friendlist/"),
+        AUTH("auth/"),
+        REGISTER("register/"),
+        USERDATA("userdata/"),
+        SETUSERDATA("setuserdata/"),
+        USEREXIST("userexist/"),
+        ADD_PENDING("addpending/"),
+        ADD_FRIEND("addfriend/"),
+        REJECT_FRIEND_REQUEST("rejectrequest/"),
+        PENDINGLIST("pendinglist/"),
+        FRIENDLIST("friendlist/"),
+        HIGHSCORES("highscores/"),
+        FRIEND_HIGHSCORES("friendhighScores/"),
         GIVE_GIFT_TO_FRIEND("gift/"),GET("GET"), POST("POST"),ASYNC("async"), SYNC("sync");
         private final String pos;
         Action( String position ){
@@ -211,7 +221,7 @@ public class ServerDatabaseAccess {
 
     public void addFriend(Action runMethod, String accepter, String requester){
         String restURI = Action.ADD_FRIEND.toStr()+accepter+SP+requester;
-        String res = exe(runMethod,Action.POST, restURI);
+        String res = exe(runMethod, Action.POST, restURI);
     }
 
     public void rejectFriendRequestAsync( String rejecter, String requester ){
@@ -263,7 +273,7 @@ public class ServerDatabaseAccess {
     }
     private void postUserData(Action runAction, String userName, int score, String userData){
         String restURI = null;
-        String changedUserData = userData.replace(".","%2E");
+        String changedUserData = userData.replace(".", "%2E");
         try {
             String encodedUserData=URLEncoder.encode(changedUserData,"UTF-8");
             restURI=Action.SETUSERDATA.toStr()+userName+SP+score+SP+encodedUserData;
@@ -273,8 +283,6 @@ public class ServerDatabaseAccess {
         String res = exe(runAction, Action.POST, restURI);
     }
 
-
-
     private String getUserData(Action runAction, String username){
         Action uriAction = Action.USERDATA;
         String httpURI=httpConnectString+uriAction.toStr()+username;
@@ -282,6 +290,41 @@ public class ServerDatabaseAccess {
         Log.i("VALUE", httpURI);
         return execute(httpURI, runAction, Action.GET);
     }
+
+    //
+    // HIGHSCORES
+    //
+    public String[] getHighScoresSync(){
+        return getHighScores(Action.SYNC);
+    }
+    private String[] getHighScores(Action runAction){
+        String restURI=Action.HIGHSCORES.toStr();
+        String res = exe(runAction, Action.GET, restURI);
+        String[] result = null;
+
+        Log.i("GET GL HIGHSC LIST","Result is " + res);
+
+        if( res!= null ){
+            result = res.split(",");
+        }
+        return result;
+    }
+    public String[] getFriendHighScoresSync(String username){
+        return getFriendHighScores(Action.SYNC, username);
+    }
+    private String[] getFriendHighScores(Action runAction, String username){
+        String restURI=Action.FRIEND_HIGHSCORES.toStr()+username;
+        String res = exe(runAction, Action.GET, restURI);
+        String[] result = null;
+
+        Log.i("GET FR HIGHSC LIST","Result is " + res);
+
+        if( res!= null ){
+            result = res.split(",");
+        }
+        return result;
+    }
+
 
 
 

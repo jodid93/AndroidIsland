@@ -140,7 +140,7 @@ public class FriendsActivity extends AppCompatActivity{
             }
         });
     }
-     //For now the list only contains some dummy data.
+
     //The listDataHeader is the name of the list, either pending or friends.
     //listDataChild contains the entries in the lists.
     private void prepareListData( Boolean getFromLocal ) {
@@ -215,7 +215,7 @@ public class FriendsActivity extends AppCompatActivity{
         for(String a : listDataHeader){
             Log.d("LIST DATA HEADER",a);
         }
-        //prepareListData();
+        prepareListData( false );
     }
 
     public static Intent newIntent(Context packageContext, String usrData){
