@@ -123,6 +123,7 @@ public class RegisterActivity extends AppCompatActivity{
     }
 
     private void toMenu(String userData){
+        RegisterActivity.this.finish();
         Intent i = MenuActivity.newIntent(RegisterActivity.this, userData );
         startActivityForResult(i, ENTER_GAME);
     }

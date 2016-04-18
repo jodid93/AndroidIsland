@@ -79,8 +79,9 @@ public class FriendsActivity extends AppCompatActivity{
                         String msg= "Friend request sent to " + receiver;
                         display.info(FriendsActivity.this, msg);
                         sDB.addPendingAsync(currUser, receiver);
+                        mAddFriendUsername.getText().clear();
                     } else {
-                        String msg="The user doesn't exists";
+                        String msg="The user doesn't exist";
                         display.info(FriendsActivity.this, msg);
                     }
                 }
@@ -112,7 +113,7 @@ public class FriendsActivity extends AppCompatActivity{
                     Intent i = GiftActivity.newIntent(FriendsActivity.this, childText);
                     startActivityForResult(i, GIFT);
                 }
-                else {
+                else if (childText != "No friend requests"){
                     receiver = childText;
                     Intent i = PendingActivity.newIntent(FriendsActivity.this, childText);
                     startActivityForResult(i, PENDING);
@@ -148,6 +149,8 @@ public class FriendsActivity extends AppCompatActivity{
             Pending.remove(receiver);
         } else {
 
+            Log.d("kjamon", "jee sön");
+
             listDataHeader = new ArrayList<String>();
             listDataChild = new HashMap<String, List<String>>();
 
@@ -171,7 +174,8 @@ public class FriendsActivity extends AppCompatActivity{
                 //}
             } else {
                 //TODO: create dummy pending that is disable for clicking
-                Pending.add("No friend request's");
+                Pending.add("No friend requests");
+
             }
 
             //dummy
@@ -188,7 +192,7 @@ public class FriendsActivity extends AppCompatActivity{
                     Friends.add(friendList[i]);
                 }
             } else{
-                Friends.add("You have no friend's");
+                Friends.add("You have no friends");
             }
 
             //dummy
@@ -209,13 +213,16 @@ public class FriendsActivity extends AppCompatActivity{
     }
 
 
-    protected void onRestart(){
-        super.onRestart();
+    protected void onStart(){
+        super.onStart();
         Log.d("FRIENDS ONRESTART", "print out data");
         for(String a : listDataHeader){
             Log.d("LIST DATA HEADER",a);
         }
         prepareListData( false );
+        listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
+        expListView.setAdapter(listAdapter);
+        listAdapter.notifyDataSetChanged();
     }
 
     public static Intent newIntent(Context packageContext, String usrData){
