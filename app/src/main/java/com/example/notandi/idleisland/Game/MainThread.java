@@ -43,7 +43,7 @@ public class MainThread extends Thread
 
             //try locking the canvas for pixel editing
             try {
-                canvas = this.surfaceHolder.lockCanvas();;
+                canvas = this.surfaceHolder.lockCanvas();
                 synchronized (surfaceHolder) {
 
                     //call for the updates and draw methods of the game itself

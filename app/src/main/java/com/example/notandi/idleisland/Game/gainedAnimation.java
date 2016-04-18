@@ -23,6 +23,7 @@ public class gainedAnimation {
     private double deltaX; //difference in x movement for each iteration
     private double deltaY = -0.2; //difference in y movement for each iteration
     private double gravity = 0; //gravity pulls the y coord down
+    private boolean set = false;
 
     private int sizeDiff;   //used to render the text and image in sync
 
@@ -31,10 +32,6 @@ public class gainedAnimation {
     //constructor
     public gainedAnimation(String gained, Bitmap coconut){
         this.gained = gained;
-
-        //initial coordinates for the animation (Top of Tree)
-        x = 120.0;
-        y = 140.0;
 
         //get a random direction for the animation
         if(Math.random() < 0.5){
@@ -72,6 +69,18 @@ public class gainedAnimation {
         method to draw the this.gained Text onto the canvas
      */
     public void draw(Canvas canvas){
+
+        //to get the initial position as a ratio of the screen size
+        if(!set){
+
+            int startPosX = (int) ((canvas.getWidth()*0.27));
+            int startPosY = (int) ((canvas.getHeight()*0.48));
+
+            this.x = startPosX;
+            this.y = startPosY;
+            set = true;
+        }
+
         Paint paint = new Paint();
         paint.setColor(Color.WHITE);
 

@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
@@ -125,14 +126,15 @@ public class GameEngine extends AppCompatActivity {
         });
 
         //Define the layout parameter for the button to wrap the content for both width and height
-        RelativeLayout.LayoutParams b1 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams b1 = new RelativeLayout.LayoutParams(180, 180);
 
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT,RelativeLayout.LayoutParams.FILL_PARENT);
-        GameButtons.setLayoutParams(params);
 
         GameButtons.addView(upgradeMenu);
         b1.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
         b1.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+        b1.topMargin = 30;
+        b1.rightMargin = 30;
+
         upgradeMenu.setLayoutParams(b1);
 
         //initialize the exit button
@@ -161,14 +163,15 @@ public class GameEngine extends AppCompatActivity {
 
 
         //Define the layout parameter for the button to wrap the content for both width and height
-        RelativeLayout.LayoutParams b2 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams b2 = new RelativeLayout.LayoutParams(180,180);
 
-        RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT,RelativeLayout.LayoutParams.FILL_PARENT);
-        GameButtons.setLayoutParams(params2);
 
         GameButtons.addView(exit);
         b2.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
         b2.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+
+        b2.topMargin = 30;
+        b2.leftMargin = 30;
         exit.setLayoutParams(b2);
 
         game.addView(idleIsland[0]);
@@ -195,11 +198,9 @@ public class GameEngine extends AppCompatActivity {
         int width = size.x;
         int height = size.y;
 
-        //get a scale factor for the screen according to the background image size
-        final float scaleFactorX = width/540;
-        final float scaleFactorY = height/584;
+        //width: 1080   height: 1920
 
-        return new int[] {(int)((width/scaleFactorX)*xPos) , (int)((width/scaleFactorY)*yPos)};
+        return new int[] {(int)(width*xPos) , (int)((height)*yPos)};
     }
 
     /*
@@ -222,13 +223,19 @@ public class GameEngine extends AppCompatActivity {
         int [][] upgrades1 = this.userData.getUpgrades(0).getUpgrades();
         int [][] upgrades2 = this.userData.getUpgrades(1).getUpgrades();
 
+        double[] Size1 = new double[]{0.20,0.15};
+        double[] Size2 = new double[]{0.15,0.15};
+        double[] Size3 = new double[]{0.3,0.3};
+
         //initialize the sprites for level 1
         if (level == 0) {
 
             //get the relative positions for each item that can come on to the screen
-            int[] pos1 = getRelPos(0.3,0.7);
-            int[] pos2 = getRelPos(0.7, 0.95);
-            int[] pos3 = getRelPos(0.1,0.2);
+            int[] pos1 = getRelPos(0.32,0.55);
+            int[] pos2 = getRelPos(0.72, 0.62);
+            int[] pos3 = getRelPos(0.42,0.4);
+
+
 
             //the nested if loop is used to load only the latest upgrade from the item.
             //if upgrades[x][y] == 2 the upgrade has been bought and we load that sprite.
@@ -236,46 +243,46 @@ public class GameEngine extends AppCompatActivity {
             // for more info on sprites See class Sprites
             if(upgrades1[0][2] == 2){
                 sprites[0][2] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.kall_animation_upgrade_3),
-                        5, 246, 244,pos1[0],pos1[1], 600, true);
+                        5, 246, 244,pos1[0],pos1[1], 600, true,Size1[0],Size1[1]);
             }else if(upgrades1[0][1] == 2){
                 sprites[0][1] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.kall_animation_upgrade_2),
-                        5, 246, 244, pos1[0],pos1[1], 800, true);
+                        5, 246, 244, pos1[0],pos1[1], 800, true,Size1[0],Size1[1]);
             }else if(upgrades1[0][0] == 2){
                 sprites[0][0] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.kall_animation_upgrade_1),
-                        5, 246, 244, pos1[0],pos1[1], 1000, true);
+                        5, 246, 244, pos1[0],pos1[1], 1000, true,Size1[0],Size1[1]);
             }else if(upgrades1[0][0] == 1){
 
                 //if no upgrades have been bought then we load the base animations
                 sprites[3][0] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.kall_animation),
-                        5, 248, 242,pos1[0],pos1[1], 1000, false );
+                        5, 248, 242,pos1[0],pos1[1], 1000, false ,Size1[0],Size1[1]);
 
                 sprites[3][1] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.kall_animation),
-                        5, 248, 242, pos1[0],pos1[1], 1000 , false);
+                        5, 248, 242, pos1[0],pos1[1], 1000 , false,Size1[0],Size1[1]);
 
                 sprites[3][2] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.kall_animation),
-                        5, 248, 242, pos1[0],pos1[1], 1000 , false);
+                        5, 248, 242, pos1[0],pos1[1], 1000 , false,Size1[0],Size1[1]);
             }
 
             if(upgrades1[1][2] == 2){
                 sprites[1][2] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.veidistong_animation_upgrade_3),
-                        18, 128, 200, pos2[0],pos2[1]-100, 600, true);
+                        18, 128, 200, pos2[0],pos2[1]-100, 600, true,Size2[0],Size2[1]);
             }else if(upgrades1[1][1] == 2){
                 sprites[1][1] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.veidistong_animation_upgrade_2),
-                        18, 128, 200,pos2[0],pos2[1]-100, 800, true);
+                        18, 128, 200,pos2[0],pos2[1]-100, 800, true,Size2[0],Size2[1]);
             }else if(upgrades1[1][0] == 2){
                 sprites[1][0] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.veidistong_animation_upgrade_1),
-                        18, 128, 104, pos2[0],pos2[1], 1000, true);
+                        18, 128, 104, pos2[0],pos2[1], 1000, true,Size2[0],Size2[1]);
             }
 
             if(upgrades1[2][2] == 2){
                 sprites[2][2] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.bird_animation_upgrade_3),
-                        22, 200, 400, pos3[0],pos3[1], 1000, true);
+                        22, 200, 400, pos3[0],pos3[1], 1000, true,Size3[0],Size3[1]);
             }else if(upgrades1[2][1] == 2){
                 sprites[2][1] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.bird_animation_upgrade_2),
-                        22, 200, 400, pos3[0],pos3[1], 1500, true);
+                        22, 200, 400, pos3[0],pos3[1], 1500, true,Size3[0],Size3[1]);
             }else if(upgrades1[2][0] == 2){
                 sprites[2][0] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.bird_animation_upgrade_1),
-                        22, 200, 400, pos3[0],pos3[1], 2000, true);
+                        22, 200, 400, pos3[0],pos3[1], 2000, true,Size3[0],Size3[1]);
             }
 
         //initialize the sprites for level 2
@@ -284,13 +291,13 @@ public class GameEngine extends AppCompatActivity {
 
             if(upgrades2[0][2] == 2){
                 sprites[0][2] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.molekall_animation_upgrade_3),
-                        5, 245, 243, 50, 50, 600, true);
+                        5, 245, 243, 50, 50, 600, true,Size3[0],Size3[1]);
             }else if(upgrades2[0][1] == 2){
                 sprites[0][1] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.molekall_animation_upgrade_2),
-                        5, 246, 243, 50, 50, 800, true);
+                        5, 246, 243, 50, 50, 800, true,Size3[0],Size3[1]);
             }else if(upgrades2[0][0] == 2){
                 sprites[0][0] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.molekall_animation_upgrade_1),
-                        5, 246, 243, 50, 50, 1000, true);
+                        5, 246, 243, 50, 50, 1000, true,Size3[0],Size3[1]);
             }else if(upgrades2[0][0] == 1){
                 /*
                 sprites[3][0] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.molekall_animation),
@@ -305,24 +312,24 @@ public class GameEngine extends AppCompatActivity {
 
             if(upgrades2[1][2] == 2){
                 sprites[1][2] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.mole_animation_upgrade_3),
-                        20, 38, 44, 50, 50, 600, true);
+                        20, 38, 44, 50, 50, 600, true,Size3[0],Size3[1]);
             }else if(upgrades2[1][1] == 2){
                 sprites[1][1] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.mole_animation_upgrade_2),
-                        20, 38, 46, 50, 50, 800, true);
+                        20, 38, 46, 50, 50, 800, true,Size3[0],Size3[1]);
             }else if(upgrades2[1][0] == 2){
                 sprites[1][0] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.mole_animation_upgrade_1),
-                        20, 38, 46, 50, 50, 1000, true);
+                        20, 38, 46, 50, 50, 1000, true,Size3[0],Size3[1]);
             }
 
             if(upgrades2[2][2] == 2){
                 sprites[2][2] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.miner_animation_upgrade_3),
-                        10, 69, 63, 50, 50, 600, true);
+                        10, 69, 63, 50, 50, 600, true,Size3[0],Size3[1]);
             }else if(upgrades2[2][1] == 2){
                 sprites[2][1] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.miner_animation_upgrade_2),
-                        10, 69, 63, 50, 50, 800, true);
+                        10, 69, 63, 50, 50, 800, true,Size3[0],Size3[1]);
             }else if(upgrades2[2][0] == 2){
                 sprites[2][0] = new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.miner_animation_upgrade_1),
-                        10, 70, 65, 50, 50, 1000, true);
+                        10, 70, 65, 50, 50, 1000, true,Size3[0],Size3[1]);
             }
         }
 
